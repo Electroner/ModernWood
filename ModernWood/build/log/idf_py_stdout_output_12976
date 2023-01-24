@@ -1,0 +1,5 @@
+[1/4] cmd.exe /C "cd /D B:\Proyectos\ModernWood\build\esp-idf\esptool_py && B:\Programas\Espressif\python_env\idf5.0_py3.8_env\Scripts\python.exe B:/Programas/Espressif/frameworks/esp-idf-v5.0/components/partition_table/check_sizes.py --offset 0x8000 partition --type app B:/Proyectos/ModernWood/build/partition_table/partition-table.bin B:/Proyectos/ModernWood/build/ModernWood.bin"
+ModernWood.bin binary size 0x40790 bytes. Smallest app partition is 0x100000 bytes. 0xbf870 bytes (75%) free.
+[2/4] Performing build step for 'bootloader'
+[1/1] cmd.exe /C "cd /D B:\Proyectos\ModernWood\build\bootloader\esp-idf\esptool_py && B:\Programas\Espressif\python_env\idf5.0_py3.8_env\Scripts\python.exe B:/Programas/Espressif/frameworks/esp-idf-v5.0/components/partition_table/check_sizes.py --offset 0x8000 bootloader 0x0 B:/Proyectos/ModernWood/build/bootloader/bootloader.bin"
+Bootloader binary size 0x5160 bytes. 0x2ea0 bytes (36%) free.

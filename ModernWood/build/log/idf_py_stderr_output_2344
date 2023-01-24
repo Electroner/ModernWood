@@ -1,0 +1,9 @@
+CMake Error at B:/Programas/Espressif/frameworks/esp-idf-v5.0/tools/cmake/build.cmake:519 (message):
+  ERROR: Cannot find versions of "espressif/git" with version satisfying "*"
+  for the current target "esp32s3"
+
+Call Stack (most recent call first):
+  B:/Programas/Espressif/frameworks/esp-idf-v5.0/tools/cmake/project.cmake:440 (idf_build_process)
+  CMakeLists.txt:8 (project)
+
+

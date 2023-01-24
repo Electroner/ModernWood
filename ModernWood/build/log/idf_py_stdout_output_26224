@@ -1,0 +1,50 @@
+-- Found Git: B:/Programas/Espressif/tools/idf-git/2.34.2/cmd/git.exe (found version "2.34.1.windows.1") 
+-- ccache will be used for faster recompilation
+-- The C compiler identification is GNU 11.2.0
+-- The CXX compiler identification is GNU 11.2.0
+-- The ASM compiler identification is GNU
+-- Found assembler: B:/Programas/Espressif/tools/xtensa-esp32s3-elf/esp-2022r1-11.2.0/xtensa-esp32s3-elf/bin/xtensa-esp32s3-elf-gcc.exe
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Check for working C compiler: B:/Programas/Espressif/tools/xtensa-esp32s3-elf/esp-2022r1-11.2.0/xtensa-esp32s3-elf/bin/xtensa-esp32s3-elf-gcc.exe - skipped
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: B:/Programas/Espressif/tools/xtensa-esp32s3-elf/esp-2022r1-11.2.0/xtensa-esp32s3-elf/bin/xtensa-esp32s3-elf-g++.exe - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Project is not inside a git repository, or git repository has no commits; will not use 'git describe' to determine PROJECT_VER.
+-- Building ESP-IDF components for target esp32s3
+Solving dependencies requirements
+...................Updating lock file at B:/Proyectos/ModernWood\dependencies.lock
+Processing 3 dependencies:
+[1/3] espressif/esp_tinyusb (1.0.3)
+[2/3] espressif/tinyusb (0.14.1)
+[3/3] idf (5.0.0)
+-- Project sdkconfig file B:/Proyectos/ModernWood/sdkconfig
+-- Looking for sys/types.h
+-- Looking for sys/types.h - found
+-- Looking for stdint.h
+-- Looking for stdint.h - found
+-- Looking for stddef.h
+-- Looking for stddef.h - found
+-- Check size of time_t
+-- Check size of time_t - done
+-- Found Python3: B:/Programas/Espressif/python_env/idf5.0_py3.8_env/Scripts/python.exe (found version "3.8.7") found components: Interpreter 
+-- Performing Test C_COMPILER_SUPPORTS_WFORMAT_SIGNEDNESS
+-- Performing Test C_COMPILER_SUPPORTS_WFORMAT_SIGNEDNESS - Success
+-- App "ModernWood" version: 1
+-- Adding linker script B:/Proyectos/ModernWood/build/esp-idf/esp_system/ld/memory.ld
+-- Adding linker script B:/Programas/Espressif/frameworks/esp-idf-v5.0/components/esp_system/ld/esp32s3/sections.ld.in
+-- Adding linker script B:/Programas/Espressif/frameworks/esp-idf-v5.0/components/esp_rom/esp32s3/ld/esp32s3.rom.ld
+-- Adding linker script B:/Programas/Espressif/frameworks/esp-idf-v5.0/components/esp_rom/esp32s3/ld/esp32s3.rom.api.ld
+-- Adding linker script B:/Programas/Espressif/frameworks/esp-idf-v5.0/components/esp_rom/esp32s3/ld/esp32s3.rom.libgcc.ld
+-- Adding linker script B:/Programas/Espressif/frameworks/esp-idf-v5.0/components/esp_rom/esp32s3/ld/esp32s3.rom.newlib.ld
+-- Adding linker script B:/Programas/Espressif/frameworks/esp-idf-v5.0/components/esp_rom/esp32s3/ld/esp32s3.rom.version.ld
+-- Adding linker script B:/Programas/Espressif/frameworks/esp-idf-v5.0/components/soc/esp32s3/ld/esp32s3.peripherals.ld
+-- Components: app_trace app_update bootloader bootloader_support bt cmock console cxx driver efuse esp-tls esp_adc esp_app_format esp_common esp_eth esp_event esp_gdbstub esp_hid esp_http_client esp_http_server esp_https_ota esp_https_server esp_hw_support esp_lcd esp_local_ctrl esp_netif esp_partition esp_phy esp_pm esp_psram esp_ringbuf esp_rom esp_system esp_timer esp_wifi espcoredump espressif__esp_tinyusb espressif__tinyusb esptool_py fatfs freertos hal heap http_parser idf_test ieee802154 json log lwip main mbedtls mqtt newlib nvs_flash openthread partition_table perfmon protobuf-c protocomm pthread sdmmc soc spi_flash spiffs tcp_transport touch_element ulp unity usb vfs wear_levelling wifi_provisioning wpa_supplicant xtensa
+-- Component paths: B:/Programas/Espressif/frameworks/esp-idf-v5.0/components/app_trace B:/Programas/Espressif/frameworks/esp-idf-v5.0/components/app_update B:/Programas/Espressif/frameworks/esp-idf-v5.0/components/bootloader B:/Programas/Espressif/frameworks/esp-idf-v5.0/components/bootloader_support B:/Programas/Espressif/frameworks/esp-idf-v5.0/components/bt B:/Programas/Espressif/frameworks/esp-idf-v5.0/components/cmock B:/Programas/Espressif/frameworks/esp-idf-v5.0/components/console B:/Programas/Espressif/frameworks/esp-idf-v5.0/components/cxx B:/Programas/Espressif/frameworks/esp-idf-v5.0/components/driver B:/Programas/Espressif/frameworks/esp-idf-v5.0/components/efuse B:/Programas/Espressif/frameworks/esp-idf-v5.0/components/esp-tls B:/Programas/Espressif/frameworks/esp-idf-v5.0/components/esp_adc B:/Programas/Espressif/frameworks/esp-idf-v5.0/components/esp_app_format B:/Programas/Espressif/frameworks/esp-idf-v5.0/components/esp_common B:/Programas/Espressif/frameworks/esp-idf-v5.0/components/esp_eth B:/Programas/Espressif/frameworks/esp-idf-v5.0/components/esp_event B:/Programas/Espressif/frameworks/esp-idf-v5.0/components/esp_gdbstub B:/Programas/Espressif/frameworks/esp-idf-v5.0/components/esp_hid B:/Programas/Espressif/frameworks/esp-idf-v5.0/components/esp_http_client B:/Programas/Espressif/frameworks/esp-idf-v5.0/components/esp_http_server B:/Programas/Espressif/frameworks/esp-idf-v5.0/components/esp_https_ota B:/Programas/Espressif/frameworks/esp-idf-v5.0/components/esp_https_server B:/Programas/Espressif/frameworks/esp-idf-v5.0/components/esp_hw_support B:/Programas/Espressif/frameworks/esp-idf-v5.0/components/esp_lcd B:/Programas/Espressif/frameworks/esp-idf-v5.0/components/esp_local_ctrl B:/Programas/Espressif/frameworks/esp-idf-v5.0/components/esp_netif B:/Programas/Espressif/frameworks/esp-idf-v5.0/components/esp_partition B:/Programas/Espressif/frameworks/esp-idf-v5.0/components/esp_phy B:/Programas/Espressif/frameworks/esp-idf-v5.0/components/esp_pm B:/Programas/Espressif/frameworks/esp-idf-v5.0/components/esp_psram B:/Programas/Espressif/frameworks/esp-idf-v5.0/components/esp_ringbuf B:/Programas/Espressif/frameworks/esp-idf-v5.0/components/esp_rom B:/Programas/Espressif/frameworks/esp-idf-v5.0/components/esp_system B:/Programas/Espressif/frameworks/esp-idf-v5.0/components/esp_timer B:/Programas/Espressif/frameworks/esp-idf-v5.0/components/esp_wifi B:/Programas/Espressif/frameworks/esp-idf-v5.0/components/espcoredump B:/Proyectos/ModernWood/managed_components/espressif__esp_tinyusb B:/Proyectos/ModernWood/managed_components/espressif__tinyusb B:/Programas/Espressif/frameworks/esp-idf-v5.0/components/esptool_py B:/Programas/Espressif/frameworks/esp-idf-v5.0/components/fatfs B:/Programas/Espressif/frameworks/esp-idf-v5.0/components/freertos B:/Programas/Espressif/frameworks/esp-idf-v5.0/components/hal B:/Programas/Espressif/frameworks/esp-idf-v5.0/components/heap B:/Programas/Espressif/frameworks/esp-idf-v5.0/components/http_parser B:/Programas/Espressif/frameworks/esp-idf-v5.0/components/idf_test B:/Programas/Espressif/frameworks/esp-idf-v5.0/components/ieee802154 B:/Programas/Espressif/frameworks/esp-idf-v5.0/components/json B:/Programas/Espressif/frameworks/esp-idf-v5.0/components/log B:/Programas/Espressif/frameworks/esp-idf-v5.0/components/lwip B:/Proyectos/ModernWood/main B:/Programas/Espressif/frameworks/esp-idf-v5.0/components/mbedtls B:/Programas/Espressif/frameworks/esp-idf-v5.0/components/mqtt B:/Programas/Espressif/frameworks/esp-idf-v5.0/components/newlib B:/Programas/Espressif/frameworks/esp-idf-v5.0/components/nvs_flash B:/Programas/Espressif/frameworks/esp-idf-v5.0/components/openthread B:/Programas/Espressif/frameworks/esp-idf-v5.0/components/partition_table B:/Programas/Espressif/frameworks/esp-idf-v5.0/components/perfmon B:/Programas/Espressif/frameworks/esp-idf-v5.0/components/protobuf-c B:/Programas/Espressif/frameworks/esp-idf-v5.0/components/protocomm B:/Programas/Espressif/frameworks/esp-idf-v5.0/components/pthread B:/Programas/Espressif/frameworks/esp-idf-v5.0/components/sdmmc B:/Programas/Espressif/frameworks/esp-idf-v5.0/components/soc B:/Programas/Espressif/frameworks/esp-idf-v5.0/components/spi_flash B:/Programas/Espressif/frameworks/esp-idf-v5.0/components/spiffs B:/Programas/Espressif/frameworks/esp-idf-v5.0/components/tcp_transport B:/Programas/Espressif/frameworks/esp-idf-v5.0/components/touch_element B:/Programas/Espressif/frameworks/esp-idf-v5.0/components/ulp B:/Programas/Espressif/frameworks/esp-idf-v5.0/components/unity B:/Programas/Espressif/frameworks/esp-idf-v5.0/components/usb B:/Programas/Espressif/frameworks/esp-idf-v5.0/components/vfs B:/Programas/Espressif/frameworks/esp-idf-v5.0/components/wear_levelling B:/Programas/Espressif/frameworks/esp-idf-v5.0/components/wifi_provisioning B:/Programas/Espressif/frameworks/esp-idf-v5.0/components/wpa_supplicant B:/Programas/Espressif/frameworks/esp-idf-v5.0/components/xtensa
+-- Configuring done
+-- Generating done
+-- Build files have been written to: B:/Proyectos/ModernWood/build
