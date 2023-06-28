@@ -1,5 +1,11 @@
 #pragma once
 
+const unsigned int NUMSCANTIDAD = 16;   // 16 Numeros del demultiplexor
+const unsigned int NUMSANCHO = 4;       // 4 al anchura del numero en binario
+
+const unsigned int ANCHURATECLADO = 16; //Tamanio del teclado a lo largo
+const unsigned int ALTURATECLADO = 6;   //Tamanio del teclado a lo ancho
+
 #define KEY_NONE 0
 #define KEY_BACKSPACE 8
 #define KEY_TAB 9
@@ -105,3 +111,10 @@
 #define KEY_PUNTOPAD 235
 #define KEY_MENOSMAYOR 236
 #define KEY_CONTEXTMENU 237
+
+const unsigned char TECLASTECLADO[ALTURATECLADO][ANCHURATECLADO] = {{KEY_ESC,KEY_F1,KEY_F2,KEY_F3,KEY_F4,KEY_F5,KEY_F6,KEY_F7,KEY_F8,KEY_F9,KEY_F10,KEY_F11,KEY_F12,KEY_PRINTSCREEN,KEY_BLOQ,KEY_PAUSE},
+                                                                    {KEY_ANGULO,KEY_UNO,KEY_DOS,KEY_TRES,KEY_CUATRO,KEY_CINCO,KEY_SEIS,KEY_SIETE,KEY_OCHO,KEY_NUEVE,KEY_CERO,KEY_APOSTROFE,KEY_EXCLAMACION,KEY_BACKSPACE,KEY_HOME,KEY_PAGEUP},
+                                                                    {KEY_TAB,KEY_Q,KEY_W,KEY_E,KEY_R,KEY_T,KEY_Y,KEY_U,KEY_I,KEY_O,KEY_P,KEY_ACENTOAGUDO,KEY_SIGNOMAS,KEY_ENTER,KEY_END,KEY_PAGEDOWN},
+                                                                    {KEY_CAPSLOCK,KEY_A,KEY_S,KEY_D,KEY_F,KEY_G,KEY_H,KEY_J,KEY_K,KEY_L,KEY_ENIE,KEY_ACENTO,KEY_CEDILLA,KEY_INS,KEY_NONE,KEY_NONE},
+                                                                    {KEY_LSHIFT,KEY_MENOSMAYOR,KEY_Z,KEY_X,KEY_C,KEY_V,KEY_B,KEY_N,KEY_M,KEY_COMA,KEY_PUNTO,KEY_MENOS,KEY_RSHIFT,KEY_DEL,KEY_FLECHAARRIBA,KEY_NONE},
+                                                                    {KEY_LCONTROL,KEY_WINDOWS,KEY_LALT,KEY_DIVISIONPAD,KEY_PORPAD,KEY_MENOSPAD,KEY_ESPACIO,KEY_SUMAPAD,KEY_RCONTROL,KEY_NUMLOCK,KEY_ALTGR,KEY_NONE,KEY_CONTEXTMENU,KEY_FLECHAIZQUIERDA,KEY_FLECHAABAJO,KEY_FLECHADERECHA}};

@@ -5,12 +5,14 @@
 #include <Keys.h>
 // For wifi disable
 #include <WiFi.h>
+
 #include <Adafruit_NeoPixel.h>
 Adafruit_NeoPixel RgbLED = Adafruit_NeoPixel(1, 48, NEO_GRB + NEO_KHZ800);
 
 #define DEBUG
 
-// BATTERY
+// ################################################## BATTERY ##################################################
+
 #define BATTERY_CHECK
 #define PIN_BATTERY 8
 #define BATTERY_DIVIDER_VOLTAGE 4.2
@@ -32,6 +34,50 @@ void IRAM_ATTR checkBatteryLevel()
 	portEXIT_CRITICAL_ISR(&timerMux);
 }
 
+// ################################################## USB HID ##################################################
+
+#define USB_CHECK
+#define PIN_USB_CONNECTED 2 //Pin used by the tp4056 to indicate that the battery is charging and the USB is connected
+
+bool volatile isUSBConnected = true;
+bool volatile isBLEConnected = false;
+
+void IRAM_ATTR USBConnected()
+{
+	isUSBConnected = true;
+	isBLEConnected = false;
+}
+
+void IRAM_ATTR USBDisconnected()
+{
+	isUSBConnected = false;
+	isBLEConnected = true;
+}
+
+// ################################################## KEYBOARD ##################################################
+
+#define COD0 0 		//Asignacino del pin de salida X0
+#define COD1 0  	//Asignacino del pin de salida X1
+#define COD2 0 		//Asignacino del pin de salida X2 
+#define COD3 0  	//Asignacino del pin de salida X3 
+
+#define E0 0 	//Asignacino del pin de Entrada E0 
+#define E1 0 	//Asignacino del pin de Entrada E1 
+#define E2 0 	//Asignacino del pin de Entrada E2 
+#define E3 0 	//Asignacino del pin de Entrada E3
+#define E4 0 	//Asignacino del pin de Entrada E4
+#define E5 0 	//Asignacino del pin de Entrada E5
+
+// Array de lectura de Fila
+const unsigned int ESwitch[ALTURATECLADO] = {E0, E1, E2, E3, E4, E5}; 
+
+const unsigned long TiempoDebounce = 5;                             //Tiempo Debounce en milisegundos
+bool SwitchEstado[ALTURATECLADO][ANCHURATECLADO] = {false};         //Estado de la lectura de la fila
+bool SwitchEstadoAntiguo[ALTURATECLADO][ANCHURATECLADO] = {false};  //Estado Anterior de la Tecla
+unsigned long Debounce[ALTURATECLADO][ANCHURATECLADO] = {0};        //Tiempo de Bounce de la fila
+
+// ################################################## MAIN ##################################################
+
 void setup()
 {
 	// Disable WiFi
@@ -45,6 +91,7 @@ void setup()
 	// Disable Bluetooth Function
 	// btStop();
 
+	// Battery
 #ifdef BATTERY_CHECK
 	// Create a timer object using hw_timer_t
 	hw_timer_t *timer = NULL;
@@ -59,24 +106,31 @@ void setup()
 	timerAlarmEnable(timer);
 #endif
 
-	//Pins Configuration
+	//USB 
+#ifdef USB_CHECK
+	pinMode(PIN_USB_CONNECTED, INPUT);
+	attachInterrupt(digitalPinToInterrupt(PIN_USB_CONNECTED), USBConnected, RISING);
+	attachInterrupt(digitalPinToInterrupt(PIN_USB_CONNECTED), USBDisconnected, FALLING);
+#endif
+
+	//Keyboard
+	pinMode(COD0, OUTPUT);
+    pinMode(COD1, OUTPUT);
+    pinMode(COD2, OUTPUT);
+    pinMode(COD3, OUTPUT);
+
+    pinMode(E0, INPUT_PULLUP);
+    pinMode(E1, INPUT_PULLUP);
+    pinMode(E2, INPUT_PULLUP);
+    pinMode(E3, INPUT_PULLUP);
+    pinMode(E4, INPUT_PULLUP);
+    pinMode(E5, INPUT_PULLUP);
+
+	//Led Configuration
 	RgbLED.begin();
 	RgbLED.setBrightness(50);
 	RgbLED.show(); // Initialize all pixels to 'off'
 
-}
-
-uint32_t Wheel(byte WheelPos) {
-	WheelPos = 255 - WheelPos;
-	if(WheelPos < 85) {
-		return RgbLED.Color(255 - WheelPos * 3, 0, WheelPos * 3);
-	}
-	if(WheelPos < 170) {
-		WheelPos -= 85;
-		return RgbLED.Color(0, WheelPos * 3, 255 - WheelPos * 3);
-	}
-	WheelPos -= 170;
-	return RgbLED.Color(WheelPos * 3, 255 - WheelPos * 3, 0);
 }
 
 void loop()
@@ -93,14 +147,6 @@ void loop()
 	while (true)
 	{
 		//Program
-		uint16_t i, j;
-
-		for(j=0; j<256*5; j++) { // 5 cycles of all colors on wheel
-			for(i=0; i< RgbLED.numPixels(); i++) {
-			RgbLED.setPixelColor(i, Wheel(((i * 256 / RgbLED.numPixels()) + j) & 255));
-			}
-			RgbLED.show();
-			delay(20);
-		}
+		
 	}
 }
