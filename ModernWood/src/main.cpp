@@ -2,12 +2,14 @@
 #include <USB.h>
 #include <USBHIDKeyboard.h>
 #include <BleKeyboard.h>
-#include <Keys.h>
 #include <SPI.h>
 #include <TFT_eSPI.h>
 // For wifi disable
 #include <WiFi.h>
 #include <Adafruit_NeoPixel.h>
+
+#include <Keys.h>
+#include <Images.h>
 #define DEBUG
 
 // ################################################## LED INDICATOR ##################################################
@@ -168,7 +170,8 @@ void setup()
 	tft.begin();
 	tft.setRotation(2);
 	tft.fillScreen(TFT_BLACK);
-	//SCREEN
+	//Show in the screen the Image of the keyboard icon in the center 80x80 pixels in the Images.h
+	tft.pushImage(0, 40, 80, 80, image_data_Icon, 0);
 #endif
 	
 }

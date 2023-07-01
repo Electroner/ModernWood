@@ -262,7 +262,6 @@
  .pio/libdeps/esp32-s3-devkitc-1/NimBLE-Arduino/src/NimBLE2904.h \
  .pio/libdeps/esp32-s3-devkitc-1/NimBLE-Arduino/src/NimBLEHIDDevice.h \
  .pio/libdeps/esp32-s3-devkitc-1/NimBLE-Arduino/src/HIDTypes.h \
- include/Keys.h \
  C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/libraries/SPI/src/SPI.h \
  C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/esp32-hal-spi.h \
  .pio/libdeps/esp32-s3-devkitc-1/TFT_eSPI/TFT_eSPI.h \
@@ -379,4 +378,5 @@
  C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/libraries/WiFi/src/WiFiUdp.h \
  C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/Udp.h \
  C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/cbuf.h \
- .pio/libdeps/esp32-s3-devkitc-1/Adafruit\ NeoPixel/Adafruit_NeoPixel.h
+ .pio/libdeps/esp32-s3-devkitc-1/Adafruit\ NeoPixel/Adafruit_NeoPixel.h \
+ include/Keys.h include/Images.h
