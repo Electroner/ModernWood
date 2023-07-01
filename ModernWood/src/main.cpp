@@ -3,13 +3,18 @@
 #include <USBHIDKeyboard.h>
 #include <BleKeyboard.h>
 #include <Keys.h>
+#include <SPI.h>
+#include <TFT_eSPI.h>
 // For wifi disable
 #include <WiFi.h>
-
 #include <Adafruit_NeoPixel.h>
-Adafruit_NeoPixel RgbLED = Adafruit_NeoPixel(1, 48, NEO_GRB + NEO_KHZ800);
-
 #define DEBUG
+
+// ################################################## LED INDICATOR ##################################################
+
+#define LED_INDICATOR_ENABLED
+#define PIN_LED_INDICATOR 48
+Adafruit_NeoPixel RgbLED = Adafruit_NeoPixel(1, PIN_LED_INDICATOR, NEO_GRB + NEO_KHZ800);
 
 // ################################################## BATTERY ##################################################
 
@@ -37,7 +42,7 @@ void IRAM_ATTR checkBatteryLevel()
 // ################################################## USB HID ##################################################
 
 #define USB_CHECK
-#define PIN_USB_CONNECTED 2 //Pin used by the tp4056 to indicate that the battery is charging and the USB is connected
+#define PIN_USB_CONNECTED 1 //Pin used by the tp4056 to indicate that the battery is charging and the USB is connected
 
 bool volatile isUSBConnected = true;
 bool volatile isBLEConnected = false;
@@ -54,19 +59,46 @@ void IRAM_ATTR USBDisconnected()
 	isBLEConnected = true;
 }
 
+// ################################################## DISPLAY ##################################################
+
+/*
+#define TFT_SCL 42  	// Pin de reloj SPI (SCLK)
+#define TFT_SDA 41  	// Pin de salida de datos SPI (MOSI)
+#define TFT_RES 40    	// Pin de reinicio (RST)
+#define TFT_DC 39     	// Pin de selección de comando/datos (DC)
+#define TFT_CS 38    	// Pin de selección de chip SPI (CS)
+*/
+/*
+80,0						80,160
+X---------------------------X
+|							|
+|							|
+|							|
+|							|
+X---------------------------X
+0,0							0,160
+X and Y are inverted
+*/
+
+#define DISPLAY_ENABLED
+#define DISPLAY_WIDTH 80
+#define DISPLAY_HEIGHT 160
+#define DISPLAY_ROTATION 0
+TFT_eSPI tft = TFT_eSPI(DISPLAY_WIDTH, DISPLAY_HEIGHT); // Invoke custom library
+
 // ################################################## KEYBOARD ##################################################
 
-#define COD0 0 		//Asignacino del pin de salida X0
-#define COD1 0  	//Asignacino del pin de salida X1
-#define COD2 0 		//Asignacino del pin de salida X2 
-#define COD3 0  	//Asignacino del pin de salida X3 
+#define COD0 4 		//Asignacino del pin de salida X0 (GPIO4)
+#define COD1 5  	//Asignacino del pin de salida X1 (GPIO5)
+#define COD2 6 		//Asignacino del pin de salida X2 (GPIO6)
+#define COD3 7  	//Asignacino del pin de salida X3 (GPIO7)
 
-#define E0 0 	//Asignacino del pin de Entrada E0 
-#define E1 0 	//Asignacino del pin de Entrada E1 
-#define E2 0 	//Asignacino del pin de Entrada E2 
-#define E3 0 	//Asignacino del pin de Entrada E3
-#define E4 0 	//Asignacino del pin de Entrada E4
-#define E5 0 	//Asignacino del pin de Entrada E5
+#define E0 15 	//Asignacino del pin de Entrada E0 
+#define E1 16 	//Asignacino del pin de Entrada E1 
+#define E2 17 	//Asignacino del pin de Entrada E2 
+#define E3 18 	//Asignacino del pin de Entrada E3
+#define E4 8 	//Asignacino del pin de Entrada E4
+#define E5 9 	//Asignacino del pin de Entrada E5
 
 // Array de lectura de Fila
 const unsigned int ESwitch[ALTURATECLADO] = {E0, E1, E2, E3, E4, E5}; 
@@ -131,6 +163,14 @@ void setup()
 	RgbLED.setBrightness(50);
 	RgbLED.show(); // Initialize all pixels to 'off'
 
+	//Display
+#ifdef DISPLAY_ENABLED
+	tft.begin();
+	tft.setRotation(2);
+	tft.fillScreen(TFT_BLACK);
+	//SCREEN
+#endif
+	
 }
 
 void loop()
