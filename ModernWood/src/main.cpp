@@ -71,15 +71,14 @@ void IRAM_ATTR USBDisconnected()
 #define TFT_CS 38    	// Pin de selección de chip SPI (CS)
 */
 /*
-80,0						80,160
+0,0							160,0
 X---------------------------X
 |							|
 |							|
 |							|
 |							|
 X---------------------------X
-0,0							0,160
-X and Y are inverted
+0,80						160,80
 */
 
 #define DISPLAY_ENABLED
@@ -168,10 +167,53 @@ void setup()
 	//Display
 #ifdef DISPLAY_ENABLED
 	tft.begin();
-	tft.setRotation(2);
+	tft.setRotation(3);
+	tft.setFreeFont(&FreeSansBold9pt7b); //Altura de la fuente 12
+	tft.setTextColor(TFT_WHITE);
+
 	tft.fillScreen(TFT_BLACK);
+	
 	//Show in the screen the Image of the keyboard icon in the center 80x80 pixels in the Images.h
-	tft.pushImage(0, 40, 80, 80, image_data_Icon, 0);
+	tft.pushImage(40, 0, 80, 80, image_Icon, 0);
+	delay(1000);
+	tft.fillScreen(TFT_BLACK);
+	
+	//Draw a line from 0,24 to 160,24
+	tft.drawLine(0, 24, 160, 24, TFT_WHITE);
+
+	//Show the image_USB in the screen int the position 1,1 33x15 pixels
+	tft.pushImage(2, 5, 33, 15, image_USB, 0);
+
+	//Show the image_Battery in the screen int the position 1,127 34x19 pixels
+	tft.pushImage(125, 2, 34, 19, image_Battery, 0);
+ 
+ 	//Position the cursor in the position 80,12 and print the text "100%"
+	tft.setCursor(75, 17);
+	tft.print("100%");
+
+	delay(5000); //to show the screen
+
+	//Erase the USB icon and replace it with the Bluetooth icon 11x17 pixels
+	tft.fillRect(2, 5, 33, 15, TFT_BLACK);
+	tft.pushImage(2, 4, 11, 17, image_BLE, 0);
+	//Next to it print the image connection image_Connection 13x17 pixels
+	tft.pushImage(15, 4, 13, 17, image_Connection, 0);
+
+	//Set inside the battery a rectangle with the color TFT_GREEN the inside of the battery is 24x13 pixels and the position is 128,5
+	//tft.fillRect(128, 5, 24, 13, TFT_GREEN);
+
+	for (int a = 0; a < 10; a++)
+	{
+		//Show animation of the battery
+		for (int i = 0; i < 24; i++)
+		{
+			tft.fillRect(128, 5, i, 13, TFT_GREEN);
+			delay(100);
+		}
+		//Set back the color of the battery to black
+		tft.fillRect(128, 5, 24, 13, TFT_BLACK);
+	}
+
 #endif
 	
 }
