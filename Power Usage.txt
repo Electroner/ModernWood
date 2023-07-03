@@ -1,0 +1,7 @@
+Power Usage
+-----------
+
+TFT LCD 0.96" 	: 13mA
+ESP32S3			: 80mA
+74hc154d		: 90mA
+DM74LS154		: 14mA
