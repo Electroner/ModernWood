@@ -37,7 +37,7 @@ void IRAM_ATTR checkBatteryLevel()
 	// We are going to use a voltage divider to measure the battery with a resistance of 1M and another of 270K and the voltage is 4.2V
 	// Vout = (4.2*1M)/(270k + 1M) = 3.3V , 3.3V -> 4095 , 2.6V -> 3250
 	batteryLevel = map(static_cast<long>(analogRead(PIN_BATTERY)), 3250.0f, 4095.0f, 0.0, 100.0);
-	Serial.println(batteryLevel);
+	//Serial.println(batteryLevel);
 	portEXIT_CRITICAL_ISR(&timerMux);
 }
 
@@ -89,6 +89,14 @@ TFT_eSPI tft = TFT_eSPI(DISPLAY_WIDTH, DISPLAY_HEIGHT); // Invoke custom library
 
 // ################################################## KEYBOARD ##################################################
 
+#define KEYBOARD_DISPLAY_SWITCH 10
+#define DEBOUNCE_DELAY_FN 200
+
+bool volatile WorkingAsKeyboard = true;
+bool volatile interrupted_FN = false;
+//millis var to debounce
+unsigned int volatile last_interrupt_FN_time = 0;
+
 #define COD0 4 		//Asignacino del pin de salida X0 (GPIO4)
 #define COD1 5  	//Asignacino del pin de salida X1 (GPIO5)
 #define COD2 6 		//Asignacino del pin de salida X2 (GPIO6)
@@ -108,6 +116,16 @@ const unsigned long TiempoDebounce = 5;                             //Tiempo Deb
 bool SwitchEstado[ALTURATECLADO][ANCHURATECLADO] = {false};         //Estado de la lectura de la fila
 bool SwitchEstadoAntiguo[ALTURATECLADO][ANCHURATECLADO] = {false};  //Estado Anterior de la Tecla
 unsigned long Debounce[ALTURATECLADO][ANCHURATECLADO] = {0};        //Tiempo de Bounce de la fila
+
+void IRAM_ATTR FNKeyboardDisplay()
+{
+	unsigned int interrupt_time = millis();
+	if (interrupt_time - last_interrupt_FN_time > DEBOUNCE_DELAY_FN){
+		WorkingAsKeyboard = !WorkingAsKeyboard;
+		interrupted_FN = true;
+		last_interrupt_FN_time = interrupt_time;
+	}
+}
 
 // ################################################## MAIN ##################################################
 
@@ -141,12 +159,15 @@ void setup()
 
 	//USB 
 #ifdef USB_CHECK
-	pinMode(PIN_USB_CONNECTED, INPUT);
+	pinMode(PIN_USB_CONNECTED, INPUT_PULLUP);
 	attachInterrupt(digitalPinToInterrupt(PIN_USB_CONNECTED), USBConnected, RISING);
 	attachInterrupt(digitalPinToInterrupt(PIN_USB_CONNECTED), USBDisconnected, FALLING);
 #endif
 
 	//Keyboard
+	pinMode(KEYBOARD_DISPLAY_SWITCH, INPUT_PULLUP);
+	attachInterrupt(digitalPinToInterrupt(KEYBOARD_DISPLAY_SWITCH), FNKeyboardDisplay, FALLING); //Function KEY Pushed (PullUp)
+
 	pinMode(COD0, OUTPUT);
     pinMode(COD1, OUTPUT);
     pinMode(COD2, OUTPUT);
@@ -179,41 +200,37 @@ void setup()
 	tft.fillScreen(TFT_BLACK);
 	
 	//Draw a line from 0,24 to 160,24
-	tft.drawLine(0, 24, 160, 24, TFT_WHITE);
+	tft.drawLine(0, SPLIT_LINE, DISPLAY_HEIGHT, SPLIT_LINE, TFT_WHITE);
 
 	//Show the image_USB in the screen int the position 1,1 33x15 pixels
-	tft.pushImage(2, 5, 33, 15, image_USB, 0);
+	tft.fillRect(USB_display_image.x, 
+				 USB_display_image.y, 
+				 USB_display_image.width, 
+				 USB_display_image.height, 
+				 TFT_BLACK);
+	tft.pushImage(USB_display_image.x, 
+				  USB_display_image.y, 
+				  USB_display_image.width, 
+				  USB_display_image.height, 
+				  image_USB, 0);
 
-	//Show the image_Battery in the screen int the position 1,127 34x19 pixels
-	tft.pushImage(125, 2, 34, 19, image_Battery, 0);
- 
- 	//Position the cursor in the position 80,12 and print the text "100%"
-	tft.setCursor(75, 17);
+	//Show the FNKeyboard
+	tft.pushImage(KeyboardFN_display_image.x,
+			  	  KeyboardFN_display_image.y, 
+				  KeyboardFN_display_image.width, 
+				  KeyboardFN_display_image.height, 
+				  image_KeyboardFN, 0);
+
+	//Position the cursor in the position 80,12 and print the text "100%"
+	tft.setCursor(BATTERY_LEVEL_X, BATTERY_LEVEL_Y);
 	tft.print("100%");
 
-	delay(5000); //to show the screen
-
-	//Erase the USB icon and replace it with the Bluetooth icon 11x17 pixels
-	tft.fillRect(2, 5, 33, 15, TFT_BLACK);
-	tft.pushImage(2, 4, 11, 17, image_BLE, 0);
-	//Next to it print the image connection image_Connection 13x17 pixels
-	tft.pushImage(15, 4, 13, 17, image_Connection, 0);
-
-	//Set inside the battery a rectangle with the color TFT_GREEN the inside of the battery is 24x13 pixels and the position is 128,5
-	//tft.fillRect(128, 5, 24, 13, TFT_GREEN);
-
-	for (int a = 0; a < 10; a++)
-	{
-		//Show animation of the battery
-		for (int i = 0; i < 24; i++)
-		{
-			tft.fillRect(128, 5, i, 13, TFT_GREEN);
-			delay(100);
-		}
-		//Set back the color of the battery to black
-		tft.fillRect(128, 5, 24, 13, TFT_BLACK);
-	}
-
+	//Show the image_Battery in the screen int the position 1,127 34x19 pixels
+	tft.pushImage(Battery_display_image.x,
+				  Battery_display_image.y, 
+				  Battery_display_image.width, 
+				  Battery_display_image.height, 
+				  image_Battery, 0);
 #endif
 	
 }
@@ -229,9 +246,56 @@ void loop()
 	Keyboard.begin();
 	USB.begin();
 
+	#ifdef DEBUG
+		Serial.println("USB and BLE Keyboards Started");
+		unsigned int loop_counter = 0;
+		unsigned int last_loop_time = millis();
+	#endif
+
 	while (true)
 	{
-		//Program
-		
+
+	#ifdef DEBUG
+		//for debug purposes show how many times the loop is executed per second
+		loop_counter++;
+		if (millis() - last_loop_time > 1000)
+		{
+			Serial.print("Loop executed ");
+			Serial.print(loop_counter);
+			Serial.println(" times per second");
+			loop_counter = 0;
+			last_loop_time = millis();
+		}
+	#endif
+
+		//Check if keyboard is working as Display Mode or Keyboard Mode
+		if(WorkingAsKeyboard && interrupted_FN)
+		{
+			tft.fillRect(KeyboardFN_display_image.x, 
+						KeyboardFN_display_image.y, 
+						KeyboardFN_display_image.width, 
+						KeyboardFN_display_image.height, 
+						TFT_BLACK);
+			tft.pushImage(KeyboardFN_display_image.x,
+						KeyboardFN_display_image.y, 
+						KeyboardFN_display_image.width, 
+						KeyboardFN_display_image.height, 
+						image_KeyboardFN, 0);
+			interrupted_FN = false;
+		}
+		else if(!WorkingAsKeyboard && interrupted_FN)
+		{
+			tft.fillRect(DisplaydFN_display_image.x, 
+						DisplaydFN_display_image.y, 
+						DisplaydFN_display_image.width, 
+						DisplaydFN_display_image.height, 
+						TFT_BLACK);
+			tft.pushImage(DisplaydFN_display_image.x,
+						DisplaydFN_display_image.y, 
+						DisplaydFN_display_image.width, 
+						DisplaydFN_display_image.height, 
+						image_DisplaydFN, 0);
+			interrupted_FN = false;
+		}
 	}
 }

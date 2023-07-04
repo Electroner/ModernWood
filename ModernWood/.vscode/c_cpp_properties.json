@@ -10,7 +10,6 @@
             "includePath": [
                 "b:/Projects/ModernWood/ModernWood/include",
                 "b:/Projects/ModernWood/ModernWood/src",
-                "C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/libraries/WiFi/src",
                 "C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/libraries/BLE/src",
                 "b:/Projects/ModernWood/ModernWood/.pio/libdeps/esp32-s3-devkitc-1/TFT_eSPI",
                 "b:/Projects/ModernWood/ModernWood/.pio/libdeps/esp32-s3-devkitc-1/TFT_eSPI_Setups",
@@ -240,6 +239,7 @@
                 "C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/libraries/USB/src",
                 "C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/libraries/Update/src",
                 "C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/libraries/WebServer/src",
+                "C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/libraries/WiFi/src",
                 "C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/libraries/WiFiClientSecure/src",
                 "C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/libraries/WiFiProv/src",
                 "C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/libraries/Wire/src",
@@ -250,7 +250,6 @@
                 "path": [
                     "b:/Projects/ModernWood/ModernWood/include",
                     "b:/Projects/ModernWood/ModernWood/src",
-                    "C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/libraries/WiFi/src",
                     "C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/libraries/BLE/src",
                     "b:/Projects/ModernWood/ModernWood/.pio/libdeps/esp32-s3-devkitc-1/TFT_eSPI",
                     "b:/Projects/ModernWood/ModernWood/.pio/libdeps/esp32-s3-devkitc-1/TFT_eSPI_Setups",
@@ -480,6 +479,7 @@
                     "C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/libraries/USB/src",
                     "C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/libraries/Update/src",
                     "C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/libraries/WebServer/src",
+                    "C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/libraries/WiFi/src",
                     "C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/libraries/WiFiClientSecure/src",
                     "C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/libraries/WiFiProv/src",
                     "C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/libraries/Wire/src",
