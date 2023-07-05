@@ -1,15 +1,5 @@
-#include <Arduino.h>
-#include <USB.h>
-#include <USBHIDKeyboard.h>
-#include <BleKeyboard.h>
-#include <SPI.h>
-#include <TFT_eSPI.h>
-// For wifi disable
-#include <WiFi.h>
-#include <Adafruit_NeoPixel.h>
+#include <ModernWood.h>
 
-#include <Keys.h>
-#include <Images.h>
 #define DEBUG
 
 // ################################################## LED INDICATOR ##################################################
@@ -96,26 +86,6 @@ bool volatile WorkingAsKeyboard = true;
 bool volatile interrupted_FN = false;
 //millis var to debounce
 unsigned int volatile last_interrupt_FN_time = 0;
-
-#define COD0 4 		//Asignacino del pin de salida X0 (GPIO4)
-#define COD1 5  	//Asignacino del pin de salida X1 (GPIO5)
-#define COD2 6 		//Asignacino del pin de salida X2 (GPIO6)
-#define COD3 7  	//Asignacino del pin de salida X3 (GPIO7)
-
-#define E0 15 	//Asignacino del pin de Entrada E0 
-#define E1 16 	//Asignacino del pin de Entrada E1 
-#define E2 17 	//Asignacino del pin de Entrada E2 
-#define E3 18 	//Asignacino del pin de Entrada E3
-#define E4 8 	//Asignacino del pin de Entrada E4
-#define E5 9 	//Asignacino del pin de Entrada E5
-
-// Array de lectura de Fila
-const unsigned int ESwitch[ALTURATECLADO] = {E0, E1, E2, E3, E4, E5}; 
-
-const unsigned long TiempoDebounce = 5;                             //Tiempo Debounce en milisegundos
-bool SwitchEstado[ALTURATECLADO][ANCHURATECLADO] = {false};         //Estado de la lectura de la fila
-bool SwitchEstadoAntiguo[ALTURATECLADO][ANCHURATECLADO] = {false};  //Estado Anterior de la Tecla
-unsigned long Debounce[ALTURATECLADO][ANCHURATECLADO] = {0};        //Tiempo de Bounce de la fila
 
 void IRAM_ATTR FNKeyboardDisplay()
 {
@@ -232,7 +202,6 @@ void setup()
 				  Battery_display_image.height, 
 				  image_Battery, 0);
 #endif
-	
 }
 
 void loop()
@@ -269,33 +238,39 @@ void loop()
 	#endif
 
 		//Check if keyboard is working as Display Mode or Keyboard Mode
-		if(WorkingAsKeyboard && interrupted_FN)
+		if(WorkingAsKeyboard)
 		{
-			tft.fillRect(KeyboardFN_display_image.x, 
+			if(interrupted_FN){
+				tft.fillRect(KeyboardFN_display_image.x, 
 						KeyboardFN_display_image.y, 
 						KeyboardFN_display_image.width, 
 						KeyboardFN_display_image.height, 
 						TFT_BLACK);
-			tft.pushImage(KeyboardFN_display_image.x,
-						KeyboardFN_display_image.y, 
-						KeyboardFN_display_image.width, 
-						KeyboardFN_display_image.height, 
-						image_KeyboardFN, 0);
-			interrupted_FN = false;
+				tft.pushImage(KeyboardFN_display_image.x,
+							KeyboardFN_display_image.y, 
+							KeyboardFN_display_image.width, 
+							KeyboardFN_display_image.height, 
+							image_KeyboardFN, 0);
+				interrupted_FN = false;
+			}
+			WorkingModeKeyboard(tft, bleKeyboard, Keyboard, isBLEConnected, isUSBConnected);
 		}
-		else if(!WorkingAsKeyboard && interrupted_FN)
+		else
 		{
-			tft.fillRect(DisplaydFN_display_image.x, 
-						DisplaydFN_display_image.y, 
-						DisplaydFN_display_image.width, 
-						DisplaydFN_display_image.height, 
-						TFT_BLACK);
-			tft.pushImage(DisplaydFN_display_image.x,
-						DisplaydFN_display_image.y, 
-						DisplaydFN_display_image.width, 
-						DisplaydFN_display_image.height, 
-						image_DisplaydFN, 0);
-			interrupted_FN = false;
+			if(interrupted_FN){
+				tft.fillRect(DisplaydFN_display_image.x, 
+							DisplaydFN_display_image.y, 
+							DisplaydFN_display_image.width, 
+							DisplaydFN_display_image.height, 
+							TFT_BLACK);
+				tft.pushImage(DisplaydFN_display_image.x,
+							DisplaydFN_display_image.y, 
+							DisplaydFN_display_image.width, 
+							DisplaydFN_display_image.height, 
+							image_DisplaydFN, 0);
+				interrupted_FN = false;
+			}
+			WorkingModeDisplay(tft, bleKeyboard, Keyboard, isBLEConnected, isUSBConnected);
 		}
 	}
 }
