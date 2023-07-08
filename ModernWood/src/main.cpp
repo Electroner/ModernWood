@@ -201,6 +201,56 @@ void setup()
 				  Battery_display_image.width, 
 				  Battery_display_image.height, 
 				  image_Battery, 0);
+
+	//MENU
+	//Poisition of the configuration icon
+	tft.setCursor(Menu_Config_display_image.x, Menu_Config_display_image.y);
+	tft.pushImage(Menu_Config_display_image.x,
+				  Menu_Config_display_image.y, 
+				  Menu_Config_display_image.width, 
+				  Menu_Config_display_image.height, 
+				  image_Menu_Config, 0);
+
+	//Poisition of the Brightness icon
+	tft.setCursor(Menu_Brightness_display_image.x, Menu_Brightness_display_image.y);
+	tft.pushImage(Menu_Brightness_display_image.x,
+				  Menu_Brightness_display_image.y, 
+				  Menu_Brightness_display_image.width, 
+				  Menu_Brightness_display_image.height, 
+				  image_Menu_Brightness, 0);
+
+	//Poisition of the Leds icon
+	tft.setCursor(Menu_Leds_display_image.x, Menu_Leds_display_image.y);
+	tft.pushImage(Menu_Leds_display_image.x,
+				  Menu_Leds_display_image.y, 
+				  Menu_Leds_display_image.width, 
+				  Menu_Leds_display_image.height, 
+				  image_Menu_Leds, 0);
+				
+	//Poisition of the Energy icon
+	tft.setCursor(Menu_Energy_display_image.x, Menu_Energy_display_image.y);
+	tft.pushImage(Menu_Energy_display_image.x,
+				  Menu_Energy_display_image.y, 
+				  Menu_Energy_display_image.width, 
+				  Menu_Energy_display_image.height, 
+				  image_Menu_Energy, 0);
+
+	//Poisition of the Connection icon
+	tft.setCursor(Menu_Connection_display_image.x, Menu_Connection_display_image.y);
+	tft.pushImage(Menu_Connection_display_image.x,
+				  Menu_Connection_display_image.y, 
+				  Menu_Connection_display_image.width, 
+				  Menu_Connection_display_image.height, 
+				  image_Menu_Connectivity, 0);
+
+	//Poisition of the InfoHelp icon
+	tft.setCursor(Menu_InfoHelp_display_image.x, Menu_InfoHelp_display_image.y);
+	tft.pushImage(Menu_InfoHelp_display_image.x,
+				  Menu_InfoHelp_display_image.y, 
+				  Menu_InfoHelp_display_image.width, 
+				  Menu_InfoHelp_display_image.height, 
+				  image_Menu_InfoHelp, 0);
+
 #endif
 }
 
@@ -269,8 +319,28 @@ void loop()
 							DisplaydFN_display_image.height, 
 							image_DisplaydFN, 0);
 				interrupted_FN = false;
+				if(isUSBConnected){
+					Keyboard.releaseAll();
+				}
+				else
+				{
+					bleKeyboard.releaseAll();
+				}
 			}
 			WorkingModeDisplay(tft, bleKeyboard, Keyboard, isBLEConnected, isUSBConnected);
 		}
 	}
 }
+
+/*
+-> Menu
+	-> Configuration (Dissable Display, Dissable Keyboard, Dissable BLE, Dissable USB)
+	-> Brightness (0-100%)
+	-> Leds (On/Off, color, brightness)
+	-> Energy (Is using battery or not)
+	-> Connectivty
+		-> Bluetooth (Only BLE)
+		-> USB	(Only USB)
+	-> About/Help (Type URL of the help page)
+
+*/

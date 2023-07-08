@@ -28,7 +28,7 @@
 // Array de lectura de Fila
 const unsigned int ESwitch[ALTURATECLADO] = {E0, E1, E2, E3, E4, E5}; 
 
-extern const long TiempoDebounce;
+const long TiempoDebounce = 5;
 extern bool SwitchEstado[ALTURATECLADO][ANCHURATECLADO];
 extern bool SwitchEstadoAntiguo[ALTURATECLADO][ANCHURATECLADO];
 extern unsigned long Debounce[ALTURATECLADO][ANCHURATECLADO];

@@ -1,0 +1,280 @@
+#include <Arduino.h>
+#include <USB.h>
+#include <USBHIDKeyboard.h>
+#include <BleKeyboard.h>
+#include <SPI.h>
+#include <TFT_eSPI.h>
+// For wifi disable
+#include <WiFi.h>
+#include <Adafruit_NeoPixel.h>
+
+#include <Keys.h>
+#include <Images.h>
+#define DEBUG
+
+// ################################################## LED INDICATOR ##################################################
+
+#define LED_INDICATOR_ENABLED
+#define PIN_LED_INDICATOR 48
+Adafruit_NeoPixel RgbLED = Adafruit_NeoPixel(1, PIN_LED_INDICATOR, NEO_GRB + NEO_KHZ800);
+
+// ################################################## BATTERY ##################################################
+
+#define BATTERY_CHECK
+#define PIN_BATTERY 8
+#define BATTERY_DIVIDER_VOLTAGE 4.2
+#define BATTERY_DIVIDER_VOLTAGE_DISCHARGED 2.6
+#define BATTERY_DIVIDER_RESISTOR1 270000
+#define BATTERY_DIVIDER_RESISTOR2 1000000
+#define BATTERY_CHECK_INTERVAL 10000 // ms
+
+uint8_t volatile batteryLevel = 100;
+portMUX_TYPE timerMux = portMUX_INITIALIZER_UNLOCKED;
+
+void IRAM_ATTR checkBatteryLevel()
+{
+	portENTER_CRITICAL_ISR(&timerMux);
+	// We are going to use a voltage divider to measure the battery with a resistance of 1M and another of 270K and the voltage is 4.2V
+	// Vout = (4.2*1M)/(270k + 1M) = 3.3V , 3.3V -> 4095 , 2.6V -> 3250
+	batteryLevel = map(static_cast<long>(analogRead(PIN_BATTERY)), 3250.0f, 4095.0f, 0.0, 100.0);
+	//Serial.println(batteryLevel);
+	portEXIT_CRITICAL_ISR(&timerMux);
+}
+
+// ################################################## USB HID ##################################################
+
+#define USB_CHECK
+#define PIN_USB_CONNECTED 1 //Pin used by the tp4056 to indicate that the battery is charging and the USB is connected
+
+bool volatile isUSBConnected = true;
+bool volatile isBLEConnected = false;
+
+void IRAM_ATTR USBConnected()
+{
+	isUSBConnected = true;
+	isBLEConnected = false;
+}
+
+void IRAM_ATTR USBDisconnected()
+{
+	isUSBConnected = false;
+	isBLEConnected = true;
+}
+
+// ################################################## DISPLAY ##################################################
+
+/*
+#define TFT_SCL 42  	// Pin de reloj SPI (SCLK)
+#define TFT_SDA 41  	// Pin de salida de datos SPI (MOSI)
+#define TFT_RES 40    	// Pin de reinicio (RST)
+#define TFT_DC 39     	// Pin de selección de comando/datos (DC)
+#define TFT_CS 38    	// Pin de selección de chip SPI (CS)
+*/
+/*
+0,0							160,0
+X---------------------------X
+|							|
+|							|
+|							|
+|							|
+X---------------------------X
+0,80						160,80
+*/
+
+#define DISPLAY_ENABLED
+#define DISPLAY_WIDTH 80
+#define DISPLAY_HEIGHT 160
+#define DISPLAY_ROTATION 0
+TFT_eSPI tft = TFT_eSPI(DISPLAY_WIDTH, DISPLAY_HEIGHT); // Invoke custom library
+
+// ################################################## KEYBOARD ##################################################
+
+#define KEYBOARD_DISPLAY_SWITCH 10
+
+#define COD0 4 		//Asignacino del pin de salida X0 (GPIO4)
+#define COD1 5  	//Asignacino del pin de salida X1 (GPIO5)
+#define COD2 6 		//Asignacino del pin de salida X2 (GPIO6)
+#define COD3 7  	//Asignacino del pin de salida X3 (GPIO7)
+
+#define E0 15 	//Asignacino del pin de Entrada E0 
+#define E1 16 	//Asignacino del pin de Entrada E1 
+#define E2 17 	//Asignacino del pin de Entrada E2 
+#define E3 18 	//Asignacino del pin de Entrada E3
+#define E4 8 	//Asignacino del pin de Entrada E4
+#define E5 9 	//Asignacino del pin de Entrada E5
+
+// Array de lectura de Fila
+const unsigned int ESwitch[ALTURATECLADO] = {E0, E1, E2, E3, E4, E5}; 
+
+const unsigned long TiempoDebounce = 5;                             //Tiempo Debounce en milisegundos
+bool SwitchEstado[ALTURATECLADO][ANCHURATECLADO] = {false};         //Estado de la lectura de la fila
+bool SwitchEstadoAntiguo[ALTURATECLADO][ANCHURATECLADO] = {false};  //Estado Anterior de la Tecla
+unsigned long Debounce[ALTURATECLADO][ANCHURATECLADO] = {0};        //Tiempo de Bounce de la fila
+
+//KEYBOARD_DISPLAY_SWITCH FN KEY
+bool volatile WorkingAsKeyboard = true;
+
+void changeFNIco(){
+	//Print the image KeyboardFN_display_image to the display
+	if(WorkingAsKeyboard)
+	{
+		tft.fillRect(KeyboardFN_display_image.x, 
+					 KeyboardFN_display_image.y, 
+					 KeyboardFN_display_image.width, 
+					 KeyboardFN_display_image.height, 
+					 TFT_BLACK);
+		tft.pushImage(KeyboardFN_display_image.x,
+				  	  KeyboardFN_display_image.y, 
+					  KeyboardFN_display_image.width, 
+					  KeyboardFN_display_image.height, 
+					  image_KeyboardFN, 0);
+	}
+	else
+	{
+		tft.fillRect(DisplaydFN_display_image.x, 
+					 DisplaydFN_display_image.y, 
+					 DisplaydFN_display_image.width, 
+					 DisplaydFN_display_image.height, 
+					 TFT_BLACK);
+		tft.pushImage(DisplaydFN_display_image.x,
+				  	  DisplaydFN_display_image.y, 
+					  DisplaydFN_display_image.width, 
+					  DisplaydFN_display_image.height, 
+					  image_DisplaydFN, 0);
+	}
+}
+
+void IRAM_ATTR FNKeyboardDisplay()
+{
+	WorkingAsKeyboard = !WorkingAsKeyboard;
+	delay(5);
+	//changeFNIco();
+}
+
+// ################################################## MAIN ##################################################
+
+void setup()
+{
+	// Disable WiFi
+	WiFi.mode(WIFI_OFF);
+
+#ifdef DEBUG
+	Serial.begin(115200);
+	Serial.println("ModernWood Keyboard");
+#endif
+
+	// Disable Bluetooth Function
+	// btStop();
+
+	// Battery
+#ifdef BATTERY_CHECK
+	// Create a timer object using hw_timer_t
+	hw_timer_t *timer = NULL;
+	//Attach onTimer function to our timer.
+	//0 : timer number
+	//80 : 80 divider. 1 tick = 1 micro second. So this will make our timer run at 1Mhz
+	//true : Count up
+	timer = timerBegin(0, 80, true);
+	timerAttachInterrupt(timer, &checkBatteryLevel, true);
+	timerAlarmWrite(timer, BATTERY_CHECK_INTERVAL*1000, true);
+	//Enable our timer.
+	timerAlarmEnable(timer);
+#endif
+
+	//USB 
+#ifdef USB_CHECK
+	pinMode(PIN_USB_CONNECTED, INPUT_PULLUP);
+	attachInterrupt(digitalPinToInterrupt(PIN_USB_CONNECTED), USBConnected, RISING);
+	attachInterrupt(digitalPinToInterrupt(PIN_USB_CONNECTED), USBDisconnected, FALLING);
+#endif
+
+	//Keyboard
+	pinMode(KEYBOARD_DISPLAY_SWITCH, INPUT_PULLUP);
+	attachInterrupt(digitalPinToInterrupt(KEYBOARD_DISPLAY_SWITCH), FNKeyboardDisplay, FALLING); //Function KEY Pushed (PullUp)
+
+	pinMode(COD0, OUTPUT);
+    pinMode(COD1, OUTPUT);
+    pinMode(COD2, OUTPUT);
+    pinMode(COD3, OUTPUT);
+
+    pinMode(E0, INPUT_PULLUP);
+    pinMode(E1, INPUT_PULLUP);
+    pinMode(E2, INPUT_PULLUP);
+    pinMode(E3, INPUT_PULLUP);
+    pinMode(E4, INPUT_PULLUP);
+    pinMode(E5, INPUT_PULLUP);
+
+	//Led Configuration
+	RgbLED.begin();
+	RgbLED.setBrightness(50);
+	RgbLED.show(); // Initialize all pixels to 'off'
+
+	//Display
+#ifdef DISPLAY_ENABLED
+	tft.begin();
+	tft.setRotation(3);
+	tft.setFreeFont(&FreeSansBold9pt7b); //Altura de la fuente 12
+	tft.setTextColor(TFT_WHITE);
+
+	tft.fillScreen(TFT_BLACK);
+	
+	//Show in the screen the Image of the keyboard icon in the center 80x80 pixels in the Images.h
+	tft.pushImage(40, 0, 80, 80, image_Icon, 0);
+	delay(1000);
+	tft.fillScreen(TFT_BLACK);
+	
+	//Draw a line from 0,24 to 160,24
+	tft.drawLine(0, SPLIT_LINE, DISPLAY_HEIGHT, SPLIT_LINE, TFT_WHITE);
+
+	//Show the image_USB in the screen int the position 1,1 33x15 pixels
+	tft.fillRect(USB_display_image.x, 
+				 USB_display_image.y, 
+				 USB_display_image.width, 
+				 USB_display_image.height, 
+				 TFT_BLACK);
+	tft.pushImage(USB_display_image.x, 
+				  USB_display_image.y, 
+				  USB_display_image.width, 
+				  USB_display_image.height, 
+				  image_USB, 0);
+
+	//Show the FNKeyboard
+	tft.pushImage(KeyboardFN_display_image.x,
+			  	  KeyboardFN_display_image.y, 
+				  KeyboardFN_display_image.width, 
+				  KeyboardFN_display_image.height, 
+				  image_KeyboardFN, 0);
+
+	//Position the cursor in the position 80,12 and print the text "100%"
+	tft.setCursor(BATTERY_LEVEL_X, BATTERY_LEVEL_Y);
+	tft.print("100%");
+
+	//Show the image_Battery in the screen int the position 1,127 34x19 pixels
+	tft.pushImage(Battery_display_image.x,
+				  Battery_display_image.y, 
+				  Battery_display_image.width, 
+				  Battery_display_image.height, 
+				  image_Battery, 0);
+#endif
+	
+}
+
+void loop()
+{
+	// Keyboards USB/BLE
+	BleKeyboard bleKeyboard("ModernWood", "Electroner", 100);
+	USBHIDKeyboard Keyboard;
+
+	//Start USB and BLE Keyboards
+	bleKeyboard.begin();
+	Keyboard.begin();
+	USB.begin();
+
+	while (true)
+	{
+		//Program
+		Serial.print("Program: ");
+		Serial.println(WorkingAsKeyboard);
+		delay(10);
+	}
+}

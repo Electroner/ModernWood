@@ -487,7 +487,7 @@
                 ]
             },
             "defines": [
-                "PLATFORMIO=60107",
+                "PLATFORMIO=60109",
                 "ARDUINO_ESP32S3_DEV",
                 "ARDUINO_USB_MODE=1",
                 "ARDUINO_RUNNING_CORE=1",
@@ -509,8 +509,8 @@
                 "ARDUINO_PARTITION_default",
                 ""
             ],
-            "cStandard": "c99",
-            "cppStandard": "c++11",
+            "cStandard": "gnu99",
+            "cppStandard": "gnu++11",
             "compilerPath": "C:/Users/Clm/.platformio/packages/toolchain-xtensa-esp32s3/bin/xtensa-esp32s3-elf-gcc.exe",
             "compilerArgs": [
                 "-mlongcalls",

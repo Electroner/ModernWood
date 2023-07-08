@@ -1,6 +1,5 @@
 #include <ModernWood.h>
 
-const long TiempoDebounce = 5;
 bool SwitchEstado[ALTURATECLADO][ANCHURATECLADO] = {false};
 bool SwitchEstadoAntiguo[ALTURATECLADO][ANCHURATECLADO] = {false};
 unsigned long Debounce[ALTURATECLADO][ANCHURATECLADO] = {0};
@@ -65,5 +64,7 @@ void WorkingModeKeyboard(TFT_eSPI &tft, BleKeyboard &bleKeyboard, USBHIDKeyboard
 }
 
 void WorkingModeDisplay(TFT_eSPI &tft, BleKeyboard &bleKeyboard, USBHIDKeyboard &Keyboard, bool volatile &isBLEConnected, bool volatile &isUSBConnected){
+
+    
 
 }
