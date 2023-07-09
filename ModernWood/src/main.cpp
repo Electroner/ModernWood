@@ -11,7 +11,7 @@ Adafruit_NeoPixel RgbLED = Adafruit_NeoPixel(1, PIN_LED_INDICATOR, NEO_GRB + NEO
 // ################################################## BATTERY ##################################################
 
 #define BATTERY_CHECK
-#define PIN_BATTERY 8
+#define PIN_BATTERY 1
 #define BATTERY_DIVIDER_VOLTAGE 4.2
 #define BATTERY_DIVIDER_VOLTAGE_DISCHARGED 2.6
 #define BATTERY_DIVIDER_RESISTOR1 270000
@@ -34,7 +34,7 @@ void IRAM_ATTR checkBatteryLevel()
 // ################################################## USB HID ##################################################
 
 #define USB_CHECK
-#define PIN_USB_CONNECTED 1 //Pin used by the tp4056 to indicate that the battery is charging and the USB is connected
+#define PIN_USB_CONNECTED 2 //Pin used by the tp4056 to indicate that the battery is charging and the USB is connected
 
 bool volatile isUSBConnected = true;
 bool volatile isBLEConnected = false;
@@ -53,23 +53,21 @@ void IRAM_ATTR USBDisconnected()
 
 // ################################################## DISPLAY ##################################################
 
-/*
-#define TFT_SCL 42  	// Pin de reloj SPI (SCLK)
-#define TFT_SDA 41  	// Pin de salida de datos SPI (MOSI)
-#define TFT_RES 40    	// Pin de reinicio (RST)
-#define TFT_DC 39     	// Pin de selección de comando/datos (DC)
-#define TFT_CS 38    	// Pin de selección de chip SPI (CS)
-*/
-/*
-0,0							160,0
-X---------------------------X
-|							|
-|							|
-|							|
-|							|
-X---------------------------X
-0,80						160,80
-*/
+//#define TFT_SCL 42  	// Pin de reloj SPI (SCLK)
+//#define TFT_SDA 41  	// Pin de salida de datos SPI (MOSI)
+//#define TFT_RES 40    // Pin de reinicio (RST)
+//#define TFT_DC 39     // Pin de selección de comando/datos (DC)
+//#define TFT_CS 38    	// Pin de selección de chip SPI (CS)
+
+//0,0							160,0
+//X---------------------------X
+//|							|
+//|							|
+//|							|
+//|							|
+//X---------------------------X
+//0,80						160,80
+
 
 #define DISPLAY_ENABLED
 #define DISPLAY_WIDTH 80
@@ -342,5 +340,4 @@ void loop()
 		-> Bluetooth (Only BLE)
 		-> USB	(Only USB)
 	-> About/Help (Type URL of the help page)
-
 */

@@ -65,6 +65,9 @@ void WorkingModeKeyboard(TFT_eSPI &tft, BleKeyboard &bleKeyboard, USBHIDKeyboard
 
 void WorkingModeDisplay(TFT_eSPI &tft, BleKeyboard &bleKeyboard, USBHIDKeyboard &Keyboard, bool volatile &isBLEConnected, bool volatile &isUSBConnected){
 
-    
+    //Check if E4 is pressed
+    if(!digitalRead(E4)){
+        Serial.println("E4 pressed");
+    }
 
 }
