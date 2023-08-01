@@ -32,6 +32,8 @@ const long TiempoDebounce = 5;
 extern bool SwitchEstado[ALTURATECLADO][ANCHURATECLADO];
 extern bool SwitchEstadoAntiguo[ALTURATECLADO][ANCHURATECLADO];
 extern unsigned long Debounce[ALTURATECLADO][ANCHURATECLADO];
+extern int option_choose;
+extern int option_selected;
 
 const bool nums0_15[NUMSCANTIDAD][NUMSANCHO] = {{0, 0, 0, 0},
                                                 {0, 0, 0, 1},
@@ -53,3 +55,40 @@ const bool nums0_15[NUMSCANTIDAD][NUMSANCHO] = {{0, 0, 0, 0},
 void WorkingModeKeyboard(TFT_eSPI &tft, BleKeyboard &bleKeyboard, USBHIDKeyboard &Keyboard, bool volatile &isBLEConnected, bool volatile &isUSBConnected);
 
 void WorkingModeDisplay(TFT_eSPI &tft, BleKeyboard &bleKeyboard, USBHIDKeyboard &Keyboard, bool volatile &isBLEConnected, bool volatile &isUSBConnected);
+
+//Poisition of the configuration icon
+void printMenuConfigDisplay(TFT_eSPI &tft);
+
+	//Poisition of the Brightness icon
+void printMenuBrightnessDisplay(TFT_eSPI &tfttft);
+
+	//Poisition of the Leds icon
+void printMenuLedsDisplay(TFT_eSPI &tft);
+				
+	//Poisition of the Energy icon
+void printMenuEnergyDisplay(TFT_eSPI &tft);
+
+	//Poisition of the Connection icon
+void printMenuConnectionDisplay(TFT_eSPI &tft);
+
+	//Poisition of the InfoHelp icon
+void printMenuInfoHelpDisplay(TFT_eSPI &tft);
+
+//INVERTED ICONS
+//Poisition of the configuration icon
+void printMenuConfigDisplayInverted(TFT_eSPI &tft);
+
+	//Poisition of the Brightness icon
+void printMenuBrightnessDisplayInverted(TFT_eSPI &tfttft);
+
+	//Poisition of the Leds icon
+void printMenuLedsDisplayInverted(TFT_eSPI &tft);
+				
+	//Poisition of the Energy icon
+void printMenuEnergyDisplayInverted(TFT_eSPI &tft);
+
+	//Poisition of the Connection icon
+void printMenuConnectionDisplayInverted(TFT_eSPI &tft);
+
+	//Poisition of the InfoHelp icon
+void printMenuInfoHelpDisplayInverted(TFT_eSPI &tft);
