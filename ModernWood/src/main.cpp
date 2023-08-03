@@ -53,11 +53,11 @@ void IRAM_ATTR USBDisconnected()
 
 // ################################################## DISPLAY ##################################################
 
-//#define TFT_SCL 42  	// Pin de reloj SPI (SCLK)
-//#define TFT_SDA 41  	// Pin de salida de datos SPI (MOSI)
-//#define TFT_RES 40    // Pin de reinicio (RST)
-//#define TFT_DC 39     // Pin de selección de comando/datos (DC)
-//#define TFT_CS 38    	// Pin de selección de chip SPI (CS)
+//#define TFT_SCL 42  	// Pin SPI Clock (SCLK)
+//#define TFT_SDA 41  	// Pin SPI out data (MOSI)
+//#define TFT_RES 40    // Pin restart (RST)
+//#define TFT_DC 39     // Pin data selection (DC)
+//#define TFT_CS 38    	// Pin SPI selection chip (CS)
 
 //0,0							160,0
 //X---------------------------X

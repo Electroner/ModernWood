@@ -31,8 +31,8 @@
 const unsigned int ESwitch[ALTURATECLADO] = {E0, E1, E2, E3, E4, E5}; 
 
 const long TiempoDebounce = 5;
-extern bool SwitchEstado[ALTURATECLADO][ANCHURATECLADO];
-extern bool SwitchEstadoAntiguo[ALTURATECLADO][ANCHURATECLADO];
+extern bool SwitchState[ALTURATECLADO][ANCHURATECLADO];
+extern bool SwitchLastState[ALTURATECLADO][ANCHURATECLADO];
 extern unsigned long Debounce[ALTURATECLADO][ANCHURATECLADO];
 
 //Config And menu
@@ -69,36 +69,36 @@ void printMenuOptionNumber(TFT_eSPI &tft, int option_selected, bool is_inverted)
 //Poisition of the configuration icon
 void printMenuConfigDisplay(TFT_eSPI &tft);
 
-	//Poisition of the Brightness icon
+//Poisition of the Brightness icon
 void printMenuBrightnessDisplay(TFT_eSPI &tft);
 
-	//Poisition of the Leds icon
+//Poisition of the Leds icon
 void printMenuLedsDisplay(TFT_eSPI &tft);
 				
-	//Poisition of the Energy icon
+//Poisition of the Energy icon
 void printMenuEnergyDisplay(TFT_eSPI &tft);
 
-	//Poisition of the Connection icon
+//Poisition of the Connection icon
 void printMenuConnectionDisplay(TFT_eSPI &tft);
 
-	//Poisition of the InfoHelp icon
+//Poisition of the InfoHelp icon
 void printMenuInfoHelpDisplay(TFT_eSPI &tft);
 
 //INVERTED ICONS
 //Poisition of the configuration icon
 void printMenuConfigDisplayInverted(TFT_eSPI &tft);
 
-	//Poisition of the Brightness icon
+//Poisition of the Brightness icon
 void printMenuBrightnessDisplayInverted(TFT_eSPI &tft);
 
-	//Poisition of the Leds icon
+//Poisition of the Leds icon
 void printMenuLedsDisplayInverted(TFT_eSPI &tft);
 				
-	//Poisition of the Energy icon
+//Poisition of the Energy icon
 void printMenuEnergyDisplayInverted(TFT_eSPI &tft);
 
-	//Poisition of the Connection icon
+//Poisition of the Connection icon
 void printMenuConnectionDisplayInverted(TFT_eSPI &tft);
 
-	//Poisition of the InfoHelp icon
+//Poisition of the InfoHelp icon
 void printMenuInfoHelpDisplayInverted(TFT_eSPI &tft);

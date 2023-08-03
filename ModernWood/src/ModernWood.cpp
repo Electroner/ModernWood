@@ -1,7 +1,7 @@
 #include <ModernWood.h>
 
-bool SwitchEstado[ALTURATECLADO][ANCHURATECLADO] = {false};
-bool SwitchEstadoAntiguo[ALTURATECLADO][ANCHURATECLADO] = {false};
+bool SwitchState[ALTURATECLADO][ANCHURATECLADO] = {false};
+bool SwitchLastState[ALTURATECLADO][ANCHURATECLADO] = {false};
 unsigned long Debounce[ALTURATECLADO][ANCHURATECLADO] = {0};
 int option_choose = 0;
 int option_selected = 0;
@@ -14,7 +14,7 @@ unsigned long KeysPressedConfigDebounce[5] = {0}; 	// Enter, Up, Left, Down, Rig
 void WorkingModeKeyboard(TFT_eSPI &tft, BleKeyboard &bleKeyboard, USBHIDKeyboard &Keyboard, bool volatile &isBLEConnected, bool volatile &isUSBConnected)
 {
 
-	bool SwicthEstadoRapido;
+	bool SwicthFastState;
 	if (isUSBConnected)
 	{
 		for (int i = 0; i < ANCHURATECLADO; i++)
@@ -25,20 +25,20 @@ void WorkingModeKeyboard(TFT_eSPI &tft, BleKeyboard &bleKeyboard, USBHIDKeyboard
 			digitalWrite(COD3, nums0_15[i][3]);
 			for (int k = 0; k < ALTURATECLADO; k++)
 			{
-				SwicthEstadoRapido = !(digitalRead(ESwitch[k]));
-				if (SwicthEstadoRapido && !SwitchEstadoAntiguo[k][i] && (millis() - Debounce[k][i]) > TiempoDebounce)
+				SwicthFastState = !(digitalRead(ESwitch[k]));
+				if (SwicthFastState && !SwitchLastState[k][i] && (millis() - Debounce[k][i]) > TiempoDebounce)
 				{
 					Debounce[k][i] = millis();
-					SwitchEstadoAntiguo[k][i] = SwicthEstadoRapido;
+					SwitchLastState[k][i] = SwicthFastState;
 					Keyboard.press(TECLASTECLADO[k][i]);
 				}
-				else if (!SwicthEstadoRapido && SwitchEstadoAntiguo[k][i] && (millis() - Debounce[k][i]) > TiempoDebounce)
+				else if (!SwicthFastState && SwitchLastState[k][i] && (millis() - Debounce[k][i]) > TiempoDebounce)
 				{
 					Debounce[k][i] = millis();
-					SwitchEstadoAntiguo[k][i] = SwicthEstadoRapido;
+					SwitchLastState[k][i] = SwicthFastState;
 					Keyboard.release(TECLASTECLADO[k][i]);
 				}
-				SwitchEstado[k][i] = SwicthEstadoRapido;
+				SwitchState[k][i] = SwicthFastState;
 			}
 		}
 	}
@@ -52,20 +52,20 @@ void WorkingModeKeyboard(TFT_eSPI &tft, BleKeyboard &bleKeyboard, USBHIDKeyboard
 			digitalWrite(COD3, nums0_15[i][3]);
 			for (int k = 0; k < ALTURATECLADO; k++)
 			{
-				SwicthEstadoRapido = !(digitalRead(ESwitch[k]));
-				if (SwicthEstadoRapido && !SwitchEstadoAntiguo[k][i] && (millis() - Debounce[k][i]) > TiempoDebounce)
+				SwicthFastState = !(digitalRead(ESwitch[k]));
+				if (SwicthFastState && !SwitchLastState[k][i] && (millis() - Debounce[k][i]) > TiempoDebounce)
 				{
 					Debounce[k][i] = millis();
-					SwitchEstadoAntiguo[k][i] = SwicthEstadoRapido;
+					SwitchLastState[k][i] = SwicthFastState;
 					bleKeyboard.press(TECLASTECLADO[k][i]);
 				}
-				else if (!SwicthEstadoRapido && SwitchEstadoAntiguo[k][i] && (millis() - Debounce[k][i]) > TiempoDebounce)
+				else if (!SwicthFastState && SwitchLastState[k][i] && (millis() - Debounce[k][i]) > TiempoDebounce)
 				{
 					Debounce[k][i] = millis();
-					SwitchEstadoAntiguo[k][i] = SwicthEstadoRapido;
+					SwitchLastState[k][i] = SwicthFastState;
 					bleKeyboard.release(TECLASTECLADO[k][i]);
 				}
-				SwitchEstado[k][i] = SwicthEstadoRapido;
+				SwitchState[k][i] = SwicthFastState;
 			}
 		}
 	}
@@ -77,7 +77,7 @@ void WorkingModeDisplay(TFT_eSPI &tft, BleKeyboard &bleKeyboard, USBHIDKeyboard 
 	// TODO: Read enter key
 
 	// Arrow keys
-	bool SwicthEstadoRapido;
+	bool SwicthFastState;
 	for (int i = 13; i < ANCHURATECLADO; i++)
 	{
 		digitalWrite(COD0, nums0_15[i][0]);
@@ -108,20 +108,20 @@ void WorkingModeDisplay(TFT_eSPI &tft, BleKeyboard &bleKeyboard, USBHIDKeyboard 
 				auxindex = 4;
 			}
 
-			SwicthEstadoRapido = !(digitalRead(ESwitch[k]));
-			if (SwicthEstadoRapido && !KeysPressedConfigLast[auxindex] && (millis() - KeysPressedConfigDebounce[auxindex]) > TiempoDebounce)
+			SwicthFastState = !(digitalRead(ESwitch[k]));
+			if (SwicthFastState && !KeysPressedConfigLast[auxindex] && (millis() - KeysPressedConfigDebounce[auxindex]) > TiempoDebounce)
 			{
 				KeysPressedConfigDebounce[auxindex] = millis();
-				KeysPressedConfigLast[auxindex] = SwicthEstadoRapido;
+				KeysPressedConfigLast[auxindex] = SwicthFastState;
 				MenuPressed[auxindex] = true;
 			}
-			else if (!SwicthEstadoRapido && KeysPressedConfigLast[auxindex] && (millis() - KeysPressedConfigDebounce[auxindex]) > TiempoDebounce)
+			else if (!SwicthFastState && KeysPressedConfigLast[auxindex] && (millis() - KeysPressedConfigDebounce[auxindex]) > TiempoDebounce)
 			{
 				KeysPressedConfigDebounce[auxindex] = millis();
-				KeysPressedConfigLast[auxindex] = SwicthEstadoRapido;
+				KeysPressedConfigLast[auxindex] = SwicthFastState;
 				MenuPressed[auxindex] = false;
 			}
-			KeysPressedConfig[auxindex] = SwicthEstadoRapido;
+			KeysPressedConfig[auxindex] = SwicthFastState;
 		}
 	}
 
@@ -181,7 +181,7 @@ void printMenuOptionNumber(TFT_eSPI &tft, int option_selected, bool is_inverted)
 {
 	switch (option_selected)
 	{
-		// Push the inverted image of the option 1
+	// Push the inverted image of the option 1
 	case 0:
 		is_inverted ? printMenuConfigDisplayInverted(tft) : printMenuConfigDisplay(tft);
 		option_choose = 0;
