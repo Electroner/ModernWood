@@ -201,23 +201,10 @@ void setup()
 				  image_Battery, 0);
 
 	//MENU
-	//configuration icon
-	printMenuConfigDisplay(tft);
-
-	//Brightness icon
-	printMenuBrightnessDisplay(tft);
-
-	//Leds icon
-	printMenuLedsDisplay(tft);
-				
-	//Energy icon
-	printMenuEnergyDisplay(tft);
-
-	//Connection icon
-	printMenuConnectionDisplay(tft);
-
-	//InfoHelp icon
-	printMenuInfoHelpDisplay(tft);
+	//configuration icons
+	for(int i = 0;i < 6; i++){
+		printMenuOptionNumber(tft, i, false);
+	}
 
 #endif
 }
@@ -270,6 +257,11 @@ void loop()
 							KeyboardFN_display_image.height, 
 							image_KeyboardFN, 0);
 				interrupted_FN = false;
+
+				//Repaint all the menu icons
+				for(int i = 0;i < 6; i++){
+					printMenuOptionNumber(tft, i, false);
+				}
 			}
 			WorkingModeKeyboard(tft, bleKeyboard, Keyboard, isBLEConnected, isUSBConnected);
 		}
@@ -294,6 +286,16 @@ void loop()
 				{
 					bleKeyboard.releaseAll();
 				}
+
+				//Repaint all the menu icons
+				for(int i = 0;i < 6; i++){
+					printMenuOptionNumber(tft, i, false);
+				}
+				//Set option_selected to 0
+				option_selected = 0;
+				option_choose = 0;
+				//Print the option selected
+				printMenuOptionNumber(tft, option_selected, true);
 			}
 			WorkingModeDisplay(tft, bleKeyboard, Keyboard, isBLEConnected, isUSBConnected);
 		}
@@ -311,3 +313,5 @@ void loop()
 		-> USB	(Only USB)
 	-> About/Help (Type URL of the help page)
 */
+
+//TODO: review if bluethoot disconnect and connect wih usb wired

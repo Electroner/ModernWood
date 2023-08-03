@@ -13,6 +13,8 @@
 #include <Keys.h>
 #include <Images.h>
 
+#include <Extra.h>
+
 #define COD0 4  //Asignacino del pin de salida X0 (GPIO4)
 #define COD1 5  //Asignacino del pin de salida X1 (GPIO5)
 #define COD2 6  //Asignacino del pin de salida X2 (GPIO6)
@@ -32,35 +34,43 @@ const long TiempoDebounce = 5;
 extern bool SwitchEstado[ALTURATECLADO][ANCHURATECLADO];
 extern bool SwitchEstadoAntiguo[ALTURATECLADO][ANCHURATECLADO];
 extern unsigned long Debounce[ALTURATECLADO][ANCHURATECLADO];
+
+//Config And menu
 extern int option_choose;
 extern int option_selected;
+extern bool MenuPressed[5]; //Enter, Up, Left, Down, Right
+extern bool KeysPressedConfig[5]; //Enter, Up, Left, Down, Right
+extern bool KeysPressedConfigLast[5]; //Enter, Up, Left, Down, Right
+extern unsigned long KeysPressedConfigDebounce[5]; //Enter, Up, Left, Down, Right
 
 const bool nums0_15[NUMSCANTIDAD][NUMSANCHO] = {{0, 0, 0, 0},
-                                                {0, 0, 0, 1},
-                                                {0, 0, 1, 0},
-                                                {0, 0, 1, 1},
-                                                {0, 1, 0, 0},
-                                                {0, 1, 0, 1},
-                                                {0, 1, 1, 0},
-                                                {0, 1, 1, 1},
                                                 {1, 0, 0, 0},
-                                                {1, 0, 0, 1},
-                                                {1, 0, 1, 0},
-                                                {1, 0, 1, 1},
+                                                {0, 1, 0, 0},
                                                 {1, 1, 0, 0},
-                                                {1, 1, 0, 1},
+                                                {0, 0, 1, 0},
+                                                {1, 0, 1, 0},
+                                                {0, 1, 1, 0},
                                                 {1, 1, 1, 0},
+                                                {0, 0, 0, 1},
+                                                {1, 0, 0, 1},
+                                                {0, 1, 0, 1},
+                                                {1, 1, 0, 1},
+                                                {0, 0, 1, 1},
+                                                {1, 0, 1, 1},
+                                                {0, 1, 1, 1},
                                                 {1, 1, 1, 1}};
 
 void WorkingModeKeyboard(TFT_eSPI &tft, BleKeyboard &bleKeyboard, USBHIDKeyboard &Keyboard, bool volatile &isBLEConnected, bool volatile &isUSBConnected);
 
 void WorkingModeDisplay(TFT_eSPI &tft, BleKeyboard &bleKeyboard, USBHIDKeyboard &Keyboard, bool volatile &isBLEConnected, bool volatile &isUSBConnected);
 
+void printMenuOptionNumber(TFT_eSPI &tft, int option_selected, bool is_inverted);
+
 //Poisition of the configuration icon
 void printMenuConfigDisplay(TFT_eSPI &tft);
 
 	//Poisition of the Brightness icon
-void printMenuBrightnessDisplay(TFT_eSPI &tfttft);
+void printMenuBrightnessDisplay(TFT_eSPI &tft);
 
 	//Poisition of the Leds icon
 void printMenuLedsDisplay(TFT_eSPI &tft);
@@ -79,7 +89,7 @@ void printMenuInfoHelpDisplay(TFT_eSPI &tft);
 void printMenuConfigDisplayInverted(TFT_eSPI &tft);
 
 	//Poisition of the Brightness icon
-void printMenuBrightnessDisplayInverted(TFT_eSPI &tfttft);
+void printMenuBrightnessDisplayInverted(TFT_eSPI &tft);
 
 	//Poisition of the Leds icon
 void printMenuLedsDisplayInverted(TFT_eSPI &tft);
