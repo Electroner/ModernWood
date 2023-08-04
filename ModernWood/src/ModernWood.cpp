@@ -73,39 +73,37 @@ void WorkingModeKeyboard(TFT_eSPI &tft, BleKeyboard &bleKeyboard, USBHIDKeyboard
 
 void WorkingModeDisplay(TFT_eSPI &tft, BleKeyboard &bleKeyboard, USBHIDKeyboard &Keyboard, bool volatile &isBLEConnected, bool volatile &isUSBConnected)
 {
-
-	// TODO: Read enter key
+	bool SwicthFastState;
 
 	// Arrow keys
-	bool SwicthFastState;
-	for (int i = 13; i < ANCHURATECLADO; i++)
+	for (int i = KeyMenuLeftCol; i < ANCHURATECLADO; i++)
 	{
 		digitalWrite(COD0, nums0_15[i][0]);
 		digitalWrite(COD1, nums0_15[i][1]);
 		digitalWrite(COD2, nums0_15[i][2]);
 		digitalWrite(COD3, nums0_15[i][3]);
-		for (int k = 4; k < ALTURATECLADO; k++)
+		for (int k = KeyMenuUpRow; k < ALTURATECLADO; k++)
 		{
 			int auxindex = 0;
 			// Up arrow key
-			if (i == 14 && k == 4)
+			if (i == KeyMenuUpCol && k == KeyMenuUpRow)
 			{
-				auxindex = 1;
+				auxindex = ArrUp;
 			}
 			// Left arrow key
-			if (i == 13 && k == 5)
+			if (i == KeyMenuLeftCol && k == KeyMenuLeftRow)
 			{
-				auxindex = 2;
+				auxindex = ArrLeft;
 			}
 			// Down arrow key
-			if (i == 14 && k == 5)
+			if (i == KeyMenuDownCol && k == KeyMenuDownRow)
 			{
-				auxindex = 3;
+				auxindex = ArrDown;
 			}
 			// Right arrow key
-			if (i == 15 && k == 5)
+			if (i == KeyMenuRightCol && k == KeyMenuRightRow)
 			{
-				auxindex = 4;
+				auxindex = ArrRight;
 			}
 
 			SwicthFastState = !(digitalRead(ESwitch[k]));
@@ -125,47 +123,73 @@ void WorkingModeDisplay(TFT_eSPI &tft, BleKeyboard &bleKeyboard, USBHIDKeyboard 
 		}
 	}
 
+	//Enter key
+	digitalWrite(COD0, nums0_15[KeyMenuEnterCol][0]);
+	digitalWrite(COD1, nums0_15[KeyMenuEnterCol][1]);
+	digitalWrite(COD2, nums0_15[KeyMenuEnterCol][2]);
+	digitalWrite(COD3, nums0_15[KeyMenuEnterCol][3]);
+	SwicthFastState = !(digitalRead(ESwitch[KeyMenuEnterRow]));
+	if (SwicthFastState && !KeysPressedConfigLast[ArrEnter] && (millis() - KeysPressedConfigDebounce[ArrEnter]) > TiempoDebounce)
+	{
+		KeysPressedConfigDebounce[ArrEnter] = millis();
+		KeysPressedConfigLast[ArrEnter] = SwicthFastState;
+		MenuPressed[ArrEnter] = true;
+	}
+	else if (!SwicthFastState && KeysPressedConfigLast[ArrEnter] && (millis() - KeysPressedConfigDebounce[ArrEnter]) > TiempoDebounce)
+	{
+		KeysPressedConfigDebounce[ArrEnter] = millis();
+		KeysPressedConfigLast[ArrEnter] = SwicthFastState;
+		MenuPressed[ArrEnter] = false;
+	}
+	KeysPressedConfig[ArrEnter] = SwicthFastState;
+
 	bool changed_option = false;
 	int old_option_selected = option_selected;
 
 	//if right arrow key is pressed
-	if (MenuPressed[4])
+	if (MenuPressed[ArrRight])
 	{
 		option_selected = modulo_p((option_selected + 1),6);
 		changed_option = true;
-		MenuPressed[4] = false;
+		MenuPressed[ArrRight] = false;
 		Serial.print("Right : ");
 		Serial.println(option_selected);
 	}
 
 	//if left arrow key is pressed
-	if (MenuPressed[2])
+	if (MenuPressed[ArrLeft])
 	{
 		option_selected = modulo_p((option_selected - 1),6);
 		changed_option = true;
-		MenuPressed[2] = false;
+		MenuPressed[ArrLeft] = false;
 		Serial.print("Left : ");
 		Serial.println(option_selected);
 	}
 
 	//if down arrow key is pressed
-	if (MenuPressed[3])
+	if (MenuPressed[ArrDown])
 	{
 		option_selected = modulo_p((option_selected + 3),6);
 		changed_option = true;
-		MenuPressed[3] = false;
+		MenuPressed[ArrDown] = false;
 		Serial.print("Down : ");
 		Serial.println(option_selected);
 	}
 
 	//if up arrow key is pressed
-	if (MenuPressed[1])
+	if (MenuPressed[ArrUp])
 	{
 		option_selected = modulo_p((option_selected - 3),6);
 		changed_option = true;
-		MenuPressed[1] = false;
+		MenuPressed[ArrUp] = false;
 		Serial.print("Up : ");
 		Serial.println(option_selected);
+	}
+
+	//if up enter key is pressed
+	if (MenuPressed[ArrEnter])
+	{
+		//CALL OPTION SELECTED
 	}
 
 	//Print the last option in normal mode
@@ -177,45 +201,45 @@ void WorkingModeDisplay(TFT_eSPI &tft, BleKeyboard &bleKeyboard, USBHIDKeyboard 
 	}
 }
 
-void printMenuOptionNumber(TFT_eSPI &tft, int option_selected, bool is_inverted)
+void printMenuOptionNumber(TFT_eSPI &tft, int& _option_selected, bool is_inverted)
 {
-	switch (option_selected)
+	switch (_option_selected)
 	{
 	// Push the inverted image of the option 1
-	case 0:
+	case MenuConfig:
 		is_inverted ? printMenuConfigDisplayInverted(tft) : printMenuConfigDisplay(tft);
-		option_choose = 0;
-		option_selected = -1;
+		option_choose = MenuConfig;
+		_option_selected = -1;
 		break;
 
-	case 1:
+	case MenuBrightness:
 		is_inverted ? printMenuBrightnessDisplayInverted(tft) : printMenuBrightnessDisplay(tft);
-		option_choose = 1;
-		option_selected = -1;
+		option_choose = MenuBrightness;
+		_option_selected = -1;
 		break;
 
-	case 2:
+	case MenuLeds:
 		is_inverted ? printMenuLedsDisplayInverted(tft) : printMenuLedsDisplay(tft);
-		option_choose = 2;
-		option_selected = -1;
+		option_choose = MenuLeds;
+		_option_selected = -1;
 		break;
 
-	case 3:
+	case MenuEnergy:
 		is_inverted ? printMenuEnergyDisplayInverted(tft) : printMenuEnergyDisplay(tft);
-		option_choose = 3;
-		option_selected = -1;
+		option_choose = MenuEnergy;
+		_option_selected = -1;
 		break;
 
-	case 4:
+	case MenuConnection:
 		is_inverted ? printMenuConnectionDisplayInverted(tft) : printMenuConnectionDisplay(tft);
-		option_choose = 4;
-		option_selected = -1;
+		option_choose = MenuConnection;
+		_option_selected = -1;
 		break;
 
-	case 5:
+	case MenuInfoHelp:
 		is_inverted ? printMenuInfoHelpDisplayInverted(tft) : printMenuInfoHelpDisplay(tft);
-		option_choose = 5;
-		option_selected = -1;
+		option_choose = MenuInfoHelp;
+		_option_selected = -1;
 		break;
 
 	default:

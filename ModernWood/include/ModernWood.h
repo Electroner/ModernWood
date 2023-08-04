@@ -36,6 +36,20 @@ extern bool SwitchLastState[ALTURATECLADO][ANCHURATECLADO];
 extern unsigned long Debounce[ALTURATECLADO][ANCHURATECLADO];
 
 //Config And menu
+enum KeysDistribution {ArrEnter, ArrUp, ArrLeft, ArrDown, ArrRight};
+enum Menus {MenuConfig, MenuBrightness, MenuLeds, MenuEnergy, MenuConnection, MenuInfoHelp};
+
+#define KeyMenuEnterRow 3 //position
+#define KeyMenuEnterCol 14 //position
+#define KeyMenuUpRow 4 //index (-1 to position), lowest index of the 4 keys
+#define KeyMenuUpCol 14 //index (-1 to position)
+#define KeyMenuLeftRow 5 //index (-1 to position)
+#define KeyMenuLeftCol 13 //index (-1 to position) Lowest index of the 4 keys
+#define KeyMenuDownRow 5 //index (-1 to position)
+#define KeyMenuDownCol 14 //index (-1 to position)
+#define KeyMenuRightRow 5 //index (-1 to position)
+#define KeyMenuRightCol 15 //index (-1 to position)
+
 extern int option_choose;
 extern int option_selected;
 extern bool MenuPressed[5]; //Enter, Up, Left, Down, Right
@@ -64,7 +78,7 @@ void WorkingModeKeyboard(TFT_eSPI &tft, BleKeyboard &bleKeyboard, USBHIDKeyboard
 
 void WorkingModeDisplay(TFT_eSPI &tft, BleKeyboard &bleKeyboard, USBHIDKeyboard &Keyboard, bool volatile &isBLEConnected, bool volatile &isUSBConnected);
 
-void printMenuOptionNumber(TFT_eSPI &tft, int option_selected, bool is_inverted);
+void printMenuOptionNumber(TFT_eSPI &tft, int& option_selected, bool is_inverted);
 
 //Poisition of the configuration icon
 void printMenuConfigDisplay(TFT_eSPI &tft);
