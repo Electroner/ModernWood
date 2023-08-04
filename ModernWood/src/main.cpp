@@ -206,6 +206,11 @@ void setup()
 		printMenuOptionNumber(tft, i, false);
 	}
 
+	//Reset the font to the default
+	tft.setTextColor(TFT_WHITE, TFT_BLACK);
+	tft.setFreeFont(NULL);
+	tft.setTextSize(1);
+
 #endif
 }
 

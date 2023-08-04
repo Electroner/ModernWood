@@ -314,7 +314,7 @@ static const uint8_t image_Menu_Energy[1152] PROGMEM= {
 };
 
 static const uint8_t image_Menu_Connectivity[1152] PROGMEM= {
-   0xff,0xe0,0x00,0x00,0x07,0xff
+0xff,0xe0,0x00,0x00,0x07,0xff
 ,0x80,0x00,0x00,0x00,0x00,0x01
 ,0x82,0x00,0x00,0x40,0x03,0x01
 ,0x86,0x00,0x00,0x60,0x03,0x01
@@ -623,3 +623,10 @@ const struct Menu_InfoHelp_display_image{
     const uint8_t width = 48;
     const uint8_t height = 24;
 }Menu_InfoHelp_display_image;
+
+const struct General_Screen_display{
+    const uint8_t x = 0;
+    const uint8_t y = 26;
+    const uint8_t width = 160;
+    const uint8_t height = 53;
+}General_Screen_display;

@@ -36,11 +36,11 @@ extern bool SwitchLastState[ALTURATECLADO][ANCHURATECLADO];
 extern unsigned long Debounce[ALTURATECLADO][ANCHURATECLADO];
 
 //Config And menu
-enum KeysDistribution {ArrEnter, ArrUp, ArrLeft, ArrDown, ArrRight};
+enum KeysDistribution {ArrEnter, ArrUp, ArrLeft, ArrDown, ArrRight, ArrEsc};
 enum Menus {MenuConfig, MenuBrightness, MenuLeds, MenuEnergy, MenuConnection, MenuInfoHelp};
 
-#define KeyMenuEnterRow 3 //position
-#define KeyMenuEnterCol 14 //position
+#define KeyMenuEnterRow 2 //index
+#define KeyMenuEnterCol 13 //index
 #define KeyMenuUpRow 4 //index (-1 to position), lowest index of the 4 keys
 #define KeyMenuUpCol 14 //index (-1 to position)
 #define KeyMenuLeftRow 5 //index (-1 to position)
@@ -49,13 +49,15 @@ enum Menus {MenuConfig, MenuBrightness, MenuLeds, MenuEnergy, MenuConnection, Me
 #define KeyMenuDownCol 14 //index (-1 to position)
 #define KeyMenuRightRow 5 //index (-1 to position)
 #define KeyMenuRightCol 15 //index (-1 to position)
+#define KeyMenuEscRow 0 //index (-1 to position)
+#define KeyMenuEscCol 0 //index (-1 to position)
 
 extern int option_choose;
 extern int option_selected;
-extern bool MenuPressed[5]; //Enter, Up, Left, Down, Right
-extern bool KeysPressedConfig[5]; //Enter, Up, Left, Down, Right
-extern bool KeysPressedConfigLast[5]; //Enter, Up, Left, Down, Right
-extern unsigned long KeysPressedConfigDebounce[5]; //Enter, Up, Left, Down, Right
+extern bool MenuPressed[6]; //Enter, Up, Left, Down, Right
+extern bool KeysPressedConfig[6]; //Enter, Up, Left, Down, Right
+extern bool KeysPressedConfigLast[6]; //Enter, Up, Left, Down, Right
+extern unsigned long KeysPressedConfigDebounce[6]; //Enter, Up, Left, Down, Right
 
 const bool nums0_15[NUMSCANTIDAD][NUMSANCHO] = {{0, 0, 0, 0},
                                                 {1, 0, 0, 0},
@@ -78,7 +80,7 @@ void WorkingModeKeyboard(TFT_eSPI &tft, BleKeyboard &bleKeyboard, USBHIDKeyboard
 
 void WorkingModeDisplay(TFT_eSPI &tft, BleKeyboard &bleKeyboard, USBHIDKeyboard &Keyboard, bool volatile &isBLEConnected, bool volatile &isUSBConnected);
 
-void printMenuOptionNumber(TFT_eSPI &tft, int& option_selected, bool is_inverted);
+int printMenuOptionNumber(TFT_eSPI &tft, int _option_selected, bool is_inverted);
 
 //Poisition of the configuration icon
 void printMenuConfigDisplay(TFT_eSPI &tft);
@@ -116,3 +118,6 @@ void printMenuConnectionDisplayInverted(TFT_eSPI &tft);
 
 //Poisition of the InfoHelp icon
 void printMenuInfoHelpDisplayInverted(TFT_eSPI &tft);
+
+//Print the menus and general part of the display black
+void printGeneralDisplay(TFT_eSPI &tft);
