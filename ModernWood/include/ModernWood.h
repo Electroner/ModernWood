@@ -39,6 +39,16 @@ extern unsigned long Debounce[ALTURATECLADO][ANCHURATECLADO];
 enum KeysDistribution {ArrEnter, ArrUp, ArrLeft, ArrDown, ArrRight, ArrEsc};
 enum Menus {MenuConfig, MenuBrightness, MenuLeds, MenuEnergy, MenuConnection, MenuInfoHelp};
 
+//Size of the Submenus (number of options, the last one is the size of the submenu, and has to be the last one)
+enum SubMenuConfig {DissableDisplay, DissableKeyboard, Screensaver, LanguageMenu, SizeSubMenuConfig};
+const String SubMenuConfigText[SizeSubMenuConfig] = {"Disable Display", "Disable Keyboard", "Screensaver", "Language"};
+//TODO: Make a vector of pointers to the variables of the submenu
+enum SubMenuBrightness {BrightnessLeds, BrightnessDisplay, SizeSubMenuBrightness}; 
+enum SubMenuLeds {DisableLeds, LedsColor, LedsMode, LedsSpeed, SizeSubMenuLeds};
+enum SubMenuEnergy {DisableBattery, EnergyBattery, SizeSubMenuEnergy};
+enum SubMenuConnection {DisableBle, DisableUSB, PreferenceBle, PreferenceUSB, SizeSubMenuConnection};
+enum SubMenuInfoHelp {Info, Help, SizeSubMenuInfoHelp};
+
 #define KeyMenuEnterRow 2 //index
 #define KeyMenuEnterCol 13 //index
 #define KeyMenuUpRow 4 //index (-1 to position), lowest index of the 4 keys
@@ -54,10 +64,14 @@ enum Menus {MenuConfig, MenuBrightness, MenuLeds, MenuEnergy, MenuConnection, Me
 
 extern int option_choose;
 extern int option_selected;
+extern int option_choose_submenu;
+extern int option_selected_submenu;
+
 extern bool MenuPressed[6]; //Enter, Up, Left, Down, Right
 extern bool KeysPressedConfig[6]; //Enter, Up, Left, Down, Right
 extern bool KeysPressedConfigLast[6]; //Enter, Up, Left, Down, Right
 extern unsigned long KeysPressedConfigDebounce[6]; //Enter, Up, Left, Down, Right
+extern bool InMenu;
 
 const bool nums0_15[NUMSCANTIDAD][NUMSANCHO] = {{0, 0, 0, 0},
                                                 {1, 0, 0, 0},
@@ -80,7 +94,11 @@ void WorkingModeKeyboard(TFT_eSPI &tft, BleKeyboard &bleKeyboard, USBHIDKeyboard
 
 void WorkingModeDisplay(TFT_eSPI &tft, BleKeyboard &bleKeyboard, USBHIDKeyboard &Keyboard, bool volatile &isBLEConnected, bool volatile &isUSBConnected);
 
+//Prints the Main menu options in the normal mode or inverted mode
 int printMenuOptionNumber(TFT_eSPI &tft, int _option_selected, bool is_inverted);
+
+//Prints the Sub menu options in the normal mode or inverted mode
+int printSubMenuOptionNumber(TFT_eSPI &tft, int _option_selected, bool is_inverted);
 
 //Poisition of the configuration icon
 void printMenuConfigDisplay(TFT_eSPI &tft);

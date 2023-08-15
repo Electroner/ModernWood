@@ -5,11 +5,14 @@ bool SwitchLastState[ALTURATECLADO][ANCHURATECLADO] = {false};
 unsigned long Debounce[ALTURATECLADO][ANCHURATECLADO] = {0};
 int option_choose = 0;
 int option_selected = 0;
+int option_choose_submenu = 0;
+int option_selected_submenu = 0;
 
-bool MenuPressed[6] = {false}; 						// Enter, Up, Left, Down, Right
-bool KeysPressedConfig[6] = {false};			  	// Enter, Up, Left, Down, Right
-bool KeysPressedConfigLast[6] = {false};		  	// Enter, Up, Left, Down, Right
-unsigned long KeysPressedConfigDebounce[6] = {0}; 	// Enter, Up, Left, Down, Right
+bool MenuPressed[6] = {false};					  // Enter, Up, Left, Down, Right
+bool KeysPressedConfig[6] = {false};			  // Enter, Up, Left, Down, Right
+bool KeysPressedConfigLast[6] = {false};		  // Enter, Up, Left, Down, Right
+unsigned long KeysPressedConfigDebounce[6] = {0}; // Enter, Up, Left, Down, Right
+bool InMenu = false;
 
 void WorkingModeKeyboard(TFT_eSPI &tft, BleKeyboard &bleKeyboard, USBHIDKeyboard &Keyboard, bool volatile &isBLEConnected, bool volatile &isUSBConnected)
 {
@@ -123,7 +126,7 @@ void WorkingModeDisplay(TFT_eSPI &tft, BleKeyboard &bleKeyboard, USBHIDKeyboard 
 		}
 	}
 
-	//Enter key
+	// Enter key
 	digitalWrite(COD0, nums0_15[KeyMenuEnterCol][0]);
 	digitalWrite(COD1, nums0_15[KeyMenuEnterCol][1]);
 	digitalWrite(COD2, nums0_15[KeyMenuEnterCol][2]);
@@ -143,7 +146,7 @@ void WorkingModeDisplay(TFT_eSPI &tft, BleKeyboard &bleKeyboard, USBHIDKeyboard 
 	}
 	KeysPressedConfig[ArrEnter] = SwicthFastState;
 
-	//ESC key
+	// ESC key
 	digitalWrite(COD0, nums0_15[KeyMenuEscCol][0]);
 	digitalWrite(COD1, nums0_15[KeyMenuEscCol][1]);
 	digitalWrite(COD2, nums0_15[KeyMenuEscCol][2]);
@@ -163,83 +166,101 @@ void WorkingModeDisplay(TFT_eSPI &tft, BleKeyboard &bleKeyboard, USBHIDKeyboard 
 	}
 	KeysPressedConfig[ArrEsc] = SwicthFastState;
 
-	//OPTION SELECTION
+	// OPTION SELECTION
 
 	bool changed_option = false;
 	int old_option_selected = option_selected;
 
-	//if right arrow key is pressed
+	// if right arrow key is pressed
 	if (MenuPressed[ArrRight])
 	{
-		option_selected = modulo_p((option_selected + 1),6);
-		changed_option = true;
-		MenuPressed[ArrRight] = false;
-		Serial.println(option_selected);
+		if (!InMenu)
+		{
+			option_selected = modulo_p((option_selected + 1), 6);
+			changed_option = true;
+			MenuPressed[ArrRight] = false;
+		}
 	}
 
-	//if left arrow key is pressed
+	// if left arrow key is pressed
 	if (MenuPressed[ArrLeft])
 	{
-		option_selected = modulo_p((option_selected - 1),6);
-		changed_option = true;
-		MenuPressed[ArrLeft] = false;
-		Serial.println(option_selected);
+		if (!InMenu)
+		{
+			option_selected = modulo_p((option_selected - 1), 6);
+			changed_option = true;
+			MenuPressed[ArrLeft] = false;
+		}
 	}
 
-	//if down arrow key is pressed
+	// if down arrow key is pressed
 	if (MenuPressed[ArrDown])
 	{
-		option_selected = modulo_p((option_selected + 3),6);
-		changed_option = true;
-		MenuPressed[ArrDown] = false;
-		Serial.println(option_selected);
+		if (!InMenu)
+		{
+			option_selected = modulo_p((option_selected + 3), 6);
+			changed_option = true;
+			MenuPressed[ArrDown] = false;
+		}
 	}
 
-	//if up arrow key is pressed
+	// if up arrow key is pressed
 	if (MenuPressed[ArrUp])
 	{
-		option_selected = modulo_p((option_selected - 3),6);
-		changed_option = true;
-		MenuPressed[ArrUp] = false;
-		Serial.println(option_selected);
+		if (!InMenu)
+		{
+			option_selected = modulo_p((option_selected - 3), 6);
+			changed_option = true;
+			MenuPressed[ArrUp] = false;
+		}
 	}
 
-	//if up enter key is pressed
+	// if up enter key is pressed
 	if (MenuPressed[ArrEnter])
 	{
-		//Erase the screen of the menu only (Config menu is the first one)
-		printGeneralDisplay(tft);
+		if(!InMenu){
+			// Erase the screen of the menu only (Config menu is the first one)
+			printGeneralDisplay(tft);
 
-		//Print a text in the screen to indicate that the option is selected
-		tft.setCursor(General_Screen_display.x+2, General_Screen_display.y+2);
-		tft.print("Option ");
-		tft.print(option_selected);
-		tft.print(" selected");
+			// Print a text in the screen to indicate that the option is selected
+			tft.setCursor(General_Screen_display.x + 2, General_Screen_display.y + 2);
+			printSubMenuOptionNumber(tft, option_selected, true);
+		}
 
-		option_selected = 10;
+		InMenu = true;
 		MenuPressed[ArrEnter] = false;
 	}
 
-	//if up Esc key is pressed
+	// if up Esc key is pressed
 	if (MenuPressed[ArrEsc])
 	{
 		printGeneralDisplay(tft);
-		//Repaint all the menu icons
-		for(int i = 0;i < 6; i++){
+		// Repaint all the menu icons
+		for (int i = 0; i < 6; i++)
+		{
 			printMenuOptionNumber(tft, i, false);
 		}
 
-		//Reset the menu
+		// Reset the menu
 		option_selected = 0;
+		InMenu = false;
 		MenuPressed[ArrEsc] = false;
 	}
 
-	//Print the last option in normal mode
-	if(changed_option)
+	// Print the last option in normal mode
+	if (changed_option)
 	{
-		// Print the menu with the new option selected
-		old_option_selected = printMenuOptionNumber(tft, old_option_selected, false);
-		option_selected = printMenuOptionNumber(tft, option_selected, true);
+		if(!InMenu){
+			// Print the menu with the new option selected
+			old_option_selected = printMenuOptionNumber(tft, old_option_selected, false);
+			option_selected = printMenuOptionNumber(tft, option_selected, true);
+		}
+		else
+		{
+			// Print the menu with the new option selected
+			old_option_selected = printSubMenuOptionNumber(tft, old_option_selected, false);
+			option_selected = printSubMenuOptionNumber(tft, option_selected, false);
+		}
 	}
 }
 
@@ -252,42 +273,61 @@ int printMenuOptionNumber(TFT_eSPI &tft, int _option_selected, bool is_inverted)
 	case MenuConfig:
 		is_inverted ? printMenuConfigDisplayInverted(tft) : printMenuConfigDisplay(tft);
 		ret_option_selected = MenuConfig;
-		_option_selected = -1;
 		break;
 
 	case MenuBrightness:
 		is_inverted ? printMenuBrightnessDisplayInverted(tft) : printMenuBrightnessDisplay(tft);
 		ret_option_selected = MenuBrightness;
-		_option_selected = -1;
 		break;
 
 	case MenuLeds:
 		is_inverted ? printMenuLedsDisplayInverted(tft) : printMenuLedsDisplay(tft);
 		ret_option_selected = MenuLeds;
-		_option_selected = -1;
 		break;
 
 	case MenuEnergy:
 		is_inverted ? printMenuEnergyDisplayInverted(tft) : printMenuEnergyDisplay(tft);
 		ret_option_selected = MenuEnergy;
-		_option_selected = -1;
 		break;
 
 	case MenuConnection:
 		is_inverted ? printMenuConnectionDisplayInverted(tft) : printMenuConnectionDisplay(tft);
 		ret_option_selected = MenuConnection;
-		_option_selected = -1;
 		break;
 
 	case MenuInfoHelp:
 		is_inverted ? printMenuInfoHelpDisplayInverted(tft) : printMenuInfoHelpDisplay(tft);
 		ret_option_selected = MenuInfoHelp;
-		_option_selected = -1;
 		break;
 
 	default:
 		break;
 	}
+	return ret_option_selected;
+}
+
+int printSubMenuOptionNumber(TFT_eSPI &tft, int _option_selected, bool is_inverted)
+{
+	int ret_option_selected = -1;
+	switch (_option_selected)
+	{
+		//Case SubMenuConfig
+		case 0:
+			//TODO: Print the lines with the text
+			for(int i = 0; i < SizeSubMenuConfig; i++){
+				//Print Option A, and then a value of 1 at the right (End of the same line), then Option B and a value of 2 at the right for the SizeSubMenuConfig times
+				tft.setCursor(General_Screen_display.x, Option_Value_Position_display.y + i*10);
+				tft.print(SubMenuConfigText[i]);
+				tft.setCursor(Option_Value_Position_display.x, Option_Value_Position_display.y + i*10);
+				tft.print("100%");
+			}
+			ret_option_selected = 0;
+			break;
+
+	default:
+		break;
+	}
+
 	return ret_option_selected;
 }
 
