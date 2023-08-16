@@ -15,6 +15,82 @@
 
 #include <Extra.h>
 
+// ################################################## LED INDICATOR ##################################################
+
+#define LED_INDICATOR_ENABLED
+#define PIN_LED_INDICATOR 48
+extern Adafruit_NeoPixel RgbLED;
+
+// ################################################## BATTERY ##################################################
+
+#define BATTERY_CHECK
+#define PIN_BATTERY 1
+#define BATTERY_DIVIDER_VOLTAGE 4.2
+#define BATTERY_DIVIDER_VOLTAGE_DISCHARGED 2.6
+#define BATTERY_DIVIDER_RESISTOR1 270000
+#define BATTERY_DIVIDER_RESISTOR2 1000000
+#define BATTERY_CHECK_INTERVAL 10000 // ms
+
+extern uint8_t volatile batteryLevel;
+extern portMUX_TYPE timerMux;
+
+void IRAM_ATTR checkBatteryLevel();
+
+// ################################################## USB HID ##################################################
+
+#define USB_CHECK
+#define PIN_USB_CONNECTED 2 //Pin used by the tp4056 to indicate that the battery is charging and the USB is connected
+
+extern bool volatile isUSBConnected;
+extern bool volatile isBLEConnected;
+
+void IRAM_ATTR USBConnected();
+
+void IRAM_ATTR USBDisconnected();
+
+// ################################################## DISPLAY ##################################################
+
+//#define TFT_SCL 42  	// Pin SPI Clock (SCLK)
+//#define TFT_SDA 41  	// Pin SPI out data (MOSI)
+//#define TFT_RES 40    // Pin restart (RST)
+//#define TFT_DC 39     // Pin data selection (DC)
+//#define TFT_CS 38    	// Pin SPI selection chip (CS)
+
+//0,0							160,0
+//X---------------------------X
+//|							|
+//|							|
+//|							|
+//|							|
+//X---------------------------X
+//0,80						160,80
+
+
+#define DISPLAY_ENABLED
+#define DISPLAY_WIDTH 80
+#define DISPLAY_HEIGHT 160
+#define DISPLAY_ROTATION 0
+extern TFT_eSPI tft;
+extern int DisplayEnabled;
+extern int Screensaver;
+extern int LanguageMenu;
+
+// ################################################## KEYBOARD ##################################################
+
+#define KEYBOARD_DISPLAY_SWITCH 10
+#define DEBOUNCE_DELAY_FN 200
+
+extern bool volatile WorkingAsKeyboard;
+extern bool volatile interrupted_FN;
+//millis var to debounce
+extern unsigned int volatile last_interrupt_FN_time;
+
+extern int KeyboardEnabled;
+
+void IRAM_ATTR FNKeyboardDisplay();
+
+// ################################################## OTHER ##################################################
+
 #define COD0 4  //Asignacino del pin de salida X0 (GPIO4)
 #define COD1 5  //Asignacino del pin de salida X1 (GPIO5)
 #define COD2 6  //Asignacino del pin de salida X2 (GPIO6)
@@ -40,8 +116,9 @@ enum KeysDistribution {ArrEnter, ArrUp, ArrLeft, ArrDown, ArrRight, ArrEsc};
 enum Menus {MenuConfig, MenuBrightness, MenuLeds, MenuEnergy, MenuConnection, MenuInfoHelp};
 
 //Size of the Submenus (number of options, the last one is the size of the submenu, and has to be the last one)
-enum SubMenuConfig {DissableDisplay, DissableKeyboard, Screensaver, LanguageMenu, SizeSubMenuConfig};
+enum SubMenuConfig {DissableDisplayOption, DissableKeyboardOption, ScreensaverOption, LanguageMenuOption, SizeSubMenuConfig};
 const String SubMenuConfigText[SizeSubMenuConfig] = {"Disable Display", "Disable Keyboard", "Screensaver", "Language"};
+const extern int* SubMenuConfigVar[SizeSubMenuConfig];
 //TODO: Make a vector of pointers to the variables of the submenu
 enum SubMenuBrightness {BrightnessLeds, BrightnessDisplay, SizeSubMenuBrightness}; 
 enum SubMenuLeds {DisableLeds, LedsColor, LedsMode, LedsSpeed, SizeSubMenuLeds};

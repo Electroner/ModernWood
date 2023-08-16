@@ -14,6 +14,73 @@ bool KeysPressedConfigLast[6] = {false};		  // Enter, Up, Left, Down, Right
 unsigned long KeysPressedConfigDebounce[6] = {0}; // Enter, Up, Left, Down, Right
 bool InMenu = false;
 
+const int* SubMenuConfigVar[SizeSubMenuConfig] = {&DisplayEnabled, &KeyboardEnabled, &Screensaver, &LanguageMenu};
+
+//MAIN FUNCTIONS
+// ################################################## LED INDICATOR ##################################################
+
+Adafruit_NeoPixel RgbLED = Adafruit_NeoPixel(1, PIN_LED_INDICATOR, NEO_GRB + NEO_KHZ800);
+
+// ################################################## BATTERY ##################################################
+
+uint8_t volatile batteryLevel = 100;
+portMUX_TYPE timerMux = portMUX_INITIALIZER_UNLOCKED;
+
+void IRAM_ATTR checkBatteryLevel()
+{
+	portENTER_CRITICAL_ISR(&timerMux);
+	// We are going to use a voltage divider to measure the battery with a resistance of 1M and another of 270K and the voltage is 4.2V
+	// Vout = (4.2*1M)/(270k + 1M) = 3.3V , 3.3V -> 4095 , 2.6V -> 3250
+	batteryLevel = map(static_cast<long>(analogRead(PIN_BATTERY)), 3250.0f, 4095.0f, 0.0, 100.0);
+	//Serial.println(batteryLevel);
+	portEXIT_CRITICAL_ISR(&timerMux);
+}
+
+// ################################################## USB HID ##################################################
+
+bool volatile isUSBConnected = true;
+bool volatile isBLEConnected = false;
+
+void IRAM_ATTR USBConnected()
+{
+	isUSBConnected = true;
+	isBLEConnected = false;
+}
+
+void IRAM_ATTR USBDisconnected()
+{
+	isUSBConnected = false;
+	isBLEConnected = true;
+}
+
+// ################################################## DISPLAY ##################################################
+
+TFT_eSPI tft = TFT_eSPI(DISPLAY_WIDTH, DISPLAY_HEIGHT); // Invoke custom library
+int DisplayEnabled = 1;
+int Screensaver = 0;
+int LanguageMenu = 0;
+
+// ################################################## KEYBOARD ##################################################
+
+bool volatile WorkingAsKeyboard = true;
+bool volatile interrupted_FN = false;
+//millis var to debounce
+unsigned int volatile last_interrupt_FN_time = 0;
+
+int KeyboardEnabled = 1;
+
+void IRAM_ATTR FNKeyboardDisplay()
+{
+	unsigned int interrupt_time = millis();
+	if (interrupt_time - last_interrupt_FN_time > DEBOUNCE_DELAY_FN){
+		WorkingAsKeyboard = !WorkingAsKeyboard;
+		interrupted_FN = true;
+		last_interrupt_FN_time = interrupt_time;
+	}
+}
+
+// ################################################## MODES ##################################################
+
 void WorkingModeKeyboard(TFT_eSPI &tft, BleKeyboard &bleKeyboard, USBHIDKeyboard &Keyboard, bool volatile &isBLEConnected, bool volatile &isUSBConnected)
 {
 
