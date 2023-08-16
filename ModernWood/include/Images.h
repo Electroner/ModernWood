@@ -633,6 +633,6 @@ const struct General_Screen_display{
 
 //The max size on the option value is 36 pixels
 const struct Option_Value_Position_display{
-    const uint8_t x = 120;
+    const uint8_t x = 125;
     const uint8_t y = 26;
 }Option_Value_Position_display;
