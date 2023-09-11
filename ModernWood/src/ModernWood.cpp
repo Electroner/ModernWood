@@ -535,3 +535,23 @@ void printGeneralDisplay(TFT_eSPI &tft)
 	tft.setCursor(Menu_Config_display_image.x, Menu_Config_display_image.y);
 	tft.fillRect(General_Screen_display.x, General_Screen_display.y, General_Screen_display.width, General_Screen_display.height, TFT_BLACK);
 }
+
+// ################################################## UTILS ##################################################
+//Transform the variables into Text, Char to String, int to String, RGB to String and bool to True or False String
+template<typename T>
+String VarToText(T var){
+	String ret = "";
+	if(typeid(var) == typeid(char)){
+		ret = String(var);
+	}
+	else if(typeid(var) == typeid(int)){
+		ret = String(var);
+	}
+	else if(typeid(var) == typeid(RGB)){
+		ret = "C" + String(var.R) + "," + String(var.G) + "," + String(var.B);
+	}
+	else if(typeid(var) == typeid(bool)){
+		ret = var ? "True" : "False";
+	}
+	return ret;
+}

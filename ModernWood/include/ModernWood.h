@@ -21,6 +21,12 @@
 #define PIN_LED_INDICATOR 48
 extern Adafruit_NeoPixel RgbLED;
 
+//RGB color struct
+struct RGB {
+    int r, g, b;
+    RGB(int red, int green, int blue) : r(red), g(green), b(blue) {}
+};
+
 // ################################################## BATTERY ##################################################
 
 #define BATTERY_CHECK
@@ -216,3 +222,7 @@ void printMenuInfoHelpDisplayInverted(TFT_eSPI &tft);
 
 //Print the menus and general part of the display black
 void printGeneralDisplay(TFT_eSPI &tft);
+
+//Transform the variables into Text
+template<typename T>
+String VarToText(T var);
