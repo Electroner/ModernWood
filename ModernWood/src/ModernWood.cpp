@@ -15,14 +15,25 @@ unsigned long KeysPressedConfigDebounce[6] = {0}; // Enter, Up, Left, Down, Righ
 bool InMenu = false;
 
 const int* SubMenuConfigVar[SizeSubMenuConfig] = {&DisplayEnabled, &KeyboardEnabled, &Screensaver, &LanguageMenu};
+const int* SubMenuBrightnessVar[SizeSubMenuBrightness] = {&LedsBrightness, &DisplayBrightness};
+const int* SubMenuLedsVar[SizeSubMenuLeds] = {&LedsActive, &LedsColor.color, &LedsMode, &LedsSpeed};
+const int* SubMenuEnergyVar[SizeSubMenuEnergy] = {&BatteryEnabled, &DisplayBatteryMode};
+const int* SubMenuConnectionVar[SizeSubMenuConnection] = {&BLEEnabled, &USBEnabled, &isBLEPreferred, &isUSBPreferred};
 
 //MAIN FUNCTIONS
 // ################################################## LED INDICATOR ##################################################
 
 Adafruit_NeoPixel RgbLED = Adafruit_NeoPixel(1, PIN_LED_INDICATOR, NEO_GRB + NEO_KHZ800);
+int LedsBrightness = 100;
+int LedsActive = 1;
+RGB LedsColor(255, 255, 255);
+int LedsMode = 0;
+int LedsSpeed = 0;
 
 // ################################################## BATTERY ##################################################
 
+int BatteryEnabled = 1;
+int DisplayBatteryMode = 0;
 uint8_t volatile batteryLevel = 100;
 portMUX_TYPE timerMux = portMUX_INITIALIZER_UNLOCKED;
 
@@ -37,6 +48,11 @@ void IRAM_ATTR checkBatteryLevel()
 }
 
 // ################################################## USB HID ##################################################
+
+int BLEEnabled = 0;
+int USBEnabled = 1;
+int isBLEPreferred = 0;
+int isUSBPreferred = 1;
 
 bool volatile isUSBConnected = true;
 bool volatile isBLEConnected = false;
@@ -59,6 +75,7 @@ TFT_eSPI tft = TFT_eSPI(DISPLAY_WIDTH, DISPLAY_HEIGHT); // Invoke custom library
 int DisplayEnabled = 1;
 int Screensaver = 0;
 int LanguageMenu = 0;
+int DisplayBrightness = 100;
 
 // ################################################## KEYBOARD ##################################################
 
@@ -535,7 +552,7 @@ void printGeneralDisplay(TFT_eSPI &tft)
 	tft.setCursor(Menu_Config_display_image.x, Menu_Config_display_image.y);
 	tft.fillRect(General_Screen_display.x, General_Screen_display.y, General_Screen_display.width, General_Screen_display.height, TFT_BLACK);
 }
-
+/*
 // ################################################## UTILS ##################################################
 //Transform the variables into Text, Char to String, int to String, RGB to String and bool to True or False String
 template<typename T>
@@ -554,4 +571,4 @@ String VarToText(T var){
 		ret = var ? "True" : "False";
 	}
 	return ret;
-}
+}*/

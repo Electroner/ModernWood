@@ -14,6 +14,7 @@
 #include <Images.h>
 
 #include <Extra.h>
+#include <customRGB.h>
 
 // ################################################## LED INDICATOR ##################################################
 
@@ -21,11 +22,11 @@
 #define PIN_LED_INDICATOR 48
 extern Adafruit_NeoPixel RgbLED;
 
-//RGB color struct
-struct RGB {
-    int r, g, b;
-    RGB(int red, int green, int blue) : r(red), g(green), b(blue) {}
-};
+extern int LedsBrightness;
+extern int LedsActive;
+extern RGB LedsColor;
+extern int LedsMode;
+extern int LedsSpeed;
 
 // ################################################## BATTERY ##################################################
 
@@ -37,6 +38,8 @@ struct RGB {
 #define BATTERY_DIVIDER_RESISTOR2 1000000
 #define BATTERY_CHECK_INTERVAL 10000 // ms
 
+extern int BatteryEnabled;
+extern int DisplayBatteryMode;
 extern uint8_t volatile batteryLevel;
 extern portMUX_TYPE timerMux;
 
@@ -46,6 +49,11 @@ void IRAM_ATTR checkBatteryLevel();
 
 #define USB_CHECK
 #define PIN_USB_CONNECTED 2 //Pin used by the tp4056 to indicate that the battery is charging and the USB is connected
+
+extern int BLEEnabled;
+extern int USBEnabled;
+extern int isBLEPreferred;
+extern int isUSBPreferred;
 
 extern bool volatile isUSBConnected;
 extern bool volatile isBLEConnected;
@@ -80,6 +88,7 @@ extern TFT_eSPI tft;
 extern int DisplayEnabled;
 extern int Screensaver;
 extern int LanguageMenu;
+extern int DisplayBrightness;
 
 // ################################################## KEYBOARD ##################################################
 
@@ -122,15 +131,36 @@ enum KeysDistribution {ArrEnter, ArrUp, ArrLeft, ArrDown, ArrRight, ArrEsc};
 enum Menus {MenuConfig, MenuBrightness, MenuLeds, MenuEnergy, MenuConnection, MenuInfoHelp};
 
 //Size of the Submenus (number of options, the last one is the size of the submenu, and has to be the last one)
-enum SubMenuConfig {DissableDisplayOption, DissableKeyboardOption, ScreensaverOption, LanguageMenuOption, SizeSubMenuConfig};
-const String SubMenuConfigText[SizeSubMenuConfig] = {"Disable Display", "Disable Keyboard", "Screensaver", "Language"};
-const extern int* SubMenuConfigVar[SizeSubMenuConfig];
 //TODO: Make a vector of pointers to the variables of the submenu
-enum SubMenuBrightness {BrightnessLeds, BrightnessDisplay, SizeSubMenuBrightness}; 
-enum SubMenuLeds {DisableLeds, LedsColor, LedsMode, LedsSpeed, SizeSubMenuLeds};
-enum SubMenuEnergy {DisableBattery, EnergyBattery, SizeSubMenuEnergy};
-enum SubMenuConnection {DisableBle, DisableUSB, PreferenceBle, PreferenceUSB, SizeSubMenuConnection};
-enum SubMenuInfoHelp {Info, Help, SizeSubMenuInfoHelp};
+enum SubMenuConfig {_DissableDisplayOption, _DissableKeyboardOption, _ScreensaverOption, _LanguageMenuOption, SizeSubMenuConfig};
+const String SubMenuConfigText[SizeSubMenuConfig] = {"Disable Display", "Disable Keyboard", "Screensaver", "Language"};
+const String SubMenuConfigVarType[SizeSubMenuConfig] = {"bool", "bool", "bool", "int"};
+const extern int* SubMenuConfigVar[SizeSubMenuConfig];
+
+enum SubMenuBrightness {_BrightnessLeds, _BrightnessDisplay, SizeSubMenuBrightness}; 
+const String SubMenuBrightnessText[SizeSubMenuBrightness] = {"Brightness Leds", "Brightness Display"};
+const String SubMenuBrightnessVarType[SizeSubMenuBrightness] = {"int", "int"};
+const extern int* SubMenuBrightnessVar[SizeSubMenuBrightness];
+
+enum SubMenuLeds {_DisableLeds, _LedsColor, _LedsMode, _LedsSpeed, SizeSubMenuLeds};
+const String SubMenuLedsText[SizeSubMenuLeds] = {"Disable Leds", "Leds Color", "Leds Mode", "Leds Speed"};
+const String SubMenuLedsVarType[SizeSubMenuLeds] = {"bool", "rgb", "int", "int"};
+const extern int* SubMenuLedsVar[SizeSubMenuLeds];
+
+enum SubMenuEnergy {_DisableBattery, _DisplayMode, SizeSubMenuEnergy};
+const String SubMenuEnergyText[SizeSubMenuEnergy] = {"Disable Battery", "Display Mode"};
+const String SubMenuEnergyVarType[SizeSubMenuEnergy] = {"bool", "int"};
+const extern int* SubMenuEnergyVar[SizeSubMenuEnergy];
+
+enum SubMenuConnection {_DisableBle, _DisableUSB, _PreferenceBle, _PreferenceUSB, SizeSubMenuConnection};
+const String SubMenuConnectionText[SizeSubMenuConnection] = {"Disable Ble", "Disable USB", "Preference Ble", "Preference USB"};
+const String SubMenuConnectionVarType[SizeSubMenuConnection] = {"bool", "bool", "bool", "bool"};
+const extern int* SubMenuConnectionVar[SizeSubMenuConnection];
+
+enum SubMenuInfoHelp {_Info, _Help, SizeSubMenuInfoHelp};
+const String SubMenuInfoHelpText[SizeSubMenuInfoHelp] = {"Info", "Help"};
+const String SubMenuInfoHelpVarType[SizeSubMenuInfoHelp] = {"none", "none"};
+
 
 #define KeyMenuEnterRow 2 //index
 #define KeyMenuEnterCol 13 //index
