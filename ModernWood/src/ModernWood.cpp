@@ -14,19 +14,19 @@ bool KeysPressedConfigLast[6] = {false};		  // Enter, Up, Left, Down, Right
 unsigned long KeysPressedConfigDebounce[6] = {0}; // Enter, Up, Left, Down, Right
 bool InMenu = false;
 
-const int* SubMenuConfigVar[SizeSubMenuConfig] = {&DisplayEnabled, &KeyboardEnabled, &Screensaver, &LanguageMenu};
-const int* SubMenuBrightnessVar[SizeSubMenuBrightness] = {&LedsBrightness, &DisplayBrightness};
-const int* SubMenuLedsVar[SizeSubMenuLeds] = {&LedsActive, &LedsColor.color, &LedsMode, &LedsSpeed};
-const int* SubMenuEnergyVar[SizeSubMenuEnergy] = {&BatteryEnabled, &DisplayBatteryMode};
-const int* SubMenuConnectionVar[SizeSubMenuConnection] = {&BLEEnabled, &USBEnabled, &isBLEPreferred, &isUSBPreferred};
+int *SubMenuConfigVar[SizeSubMenuConfig] = {&DisplayEnabled, &KeyboardEnabled, &Screensaver, &LanguageMenu};
+int *SubMenuBrightnessVar[SizeSubMenuBrightness] = {&LedsBrightness, &DisplayBrightness};
+int *SubMenuLedsVar[SizeSubMenuLeds] = {&LedsActive, &LedsColor.color, &LedsMode, &LedsSpeed};
+int *SubMenuEnergyVar[SizeSubMenuEnergy] = {&BatteryEnabled, &DisplayBatteryMode};
+int *SubMenuConnectionVar[SizeSubMenuConnection] = {&BLEEnabled, &USBEnabled, &isBLEPreferred, &isUSBPreferred};
 
-//MAIN FUNCTIONS
-// ################################################## LED INDICATOR ##################################################
+// MAIN FUNCTIONS
+//  ################################################## LED INDICATOR ##################################################
 
 Adafruit_NeoPixel RgbLED = Adafruit_NeoPixel(1, PIN_LED_INDICATOR, NEO_GRB + NEO_KHZ800);
 int LedsBrightness = 100;
 int LedsActive = 1;
-RGB LedsColor(255, 255, 255);
+RGB LedsColor(129, 84, 56);
 int LedsMode = 0;
 int LedsSpeed = 0;
 
@@ -43,7 +43,7 @@ void IRAM_ATTR checkBatteryLevel()
 	// We are going to use a voltage divider to measure the battery with a resistance of 1M and another of 270K and the voltage is 4.2V
 	// Vout = (4.2*1M)/(270k + 1M) = 3.3V , 3.3V -> 4095 , 2.6V -> 3250
 	batteryLevel = map(static_cast<long>(analogRead(PIN_BATTERY)), 3250.0f, 4095.0f, 0.0, 100.0);
-	//Serial.println(batteryLevel);
+	// Serial.println(batteryLevel);
 	portEXIT_CRITICAL_ISR(&timerMux);
 }
 
@@ -81,7 +81,7 @@ int DisplayBrightness = 100;
 
 bool volatile WorkingAsKeyboard = true;
 bool volatile interrupted_FN = false;
-//millis var to debounce
+// millis var to debounce
 unsigned int volatile last_interrupt_FN_time = 0;
 
 int KeyboardEnabled = 1;
@@ -89,7 +89,8 @@ int KeyboardEnabled = 1;
 void IRAM_ATTR FNKeyboardDisplay()
 {
 	unsigned int interrupt_time = millis();
-	if (interrupt_time - last_interrupt_FN_time > DEBOUNCE_DELAY_FN){
+	if (interrupt_time - last_interrupt_FN_time > DEBOUNCE_DELAY_FN)
+	{
 		WorkingAsKeyboard = !WorkingAsKeyboard;
 		interrupted_FN = true;
 		last_interrupt_FN_time = interrupt_time;
@@ -100,7 +101,6 @@ void IRAM_ATTR FNKeyboardDisplay()
 
 void WorkingModeKeyboard(TFT_eSPI &tft, BleKeyboard &bleKeyboard, USBHIDKeyboard &Keyboard, bool volatile &isBLEConnected, bool volatile &isUSBConnected)
 {
-
 	bool SwicthFastState;
 	if (isUSBConnected)
 	{
@@ -302,11 +302,12 @@ void WorkingModeDisplay(TFT_eSPI &tft, BleKeyboard &bleKeyboard, USBHIDKeyboard 
 	// if up enter key is pressed
 	if (MenuPressed[ArrEnter])
 	{
-		if(!InMenu){
+		if (!InMenu)
+		{
 			// Erase the screen of the menu only (Config menu is the first one)
 			printGeneralDisplay(tft);
 
-			// Print a text in the screen to indicate that the option is selected
+			// Print text in the screen to indicate that the option is selected
 			tft.setCursor(General_Screen_display.x + 2, General_Screen_display.y + 2);
 			printSubMenuOptionNumber(tft, option_selected, true);
 		}
@@ -318,23 +319,26 @@ void WorkingModeDisplay(TFT_eSPI &tft, BleKeyboard &bleKeyboard, USBHIDKeyboard 
 	// if up Esc key is pressed
 	if (MenuPressed[ArrEsc])
 	{
-		printGeneralDisplay(tft);
-		// Repaint all the menu icons
-		for (int i = 0; i < 6; i++)
-		{
-			printMenuOptionNumber(tft, i, false);
-		}
+		if(InMenu){
+			printGeneralDisplay(tft);
+			// Repaint all the menu icons
+			for (int i = 0; i < 6; i++)
+			{
+				printMenuOptionNumber(tft, i, false);
+			}
 
-		// Reset the menu
-		option_selected = 0;
-		InMenu = false;
-		MenuPressed[ArrEsc] = false;
+			// Reset the menu
+			option_selected = 0;
+			InMenu = false;
+			MenuPressed[ArrEsc] = false;
+		}
 	}
 
 	// Print the last option in normal mode
 	if (changed_option)
 	{
-		if(!InMenu){
+		if (!InMenu)
+		{
 			// Print the menu with the new option selected
 			old_option_selected = printMenuOptionNumber(tft, old_option_selected, false);
 			option_selected = printMenuOptionNumber(tft, option_selected, true);
@@ -395,18 +399,91 @@ int printSubMenuOptionNumber(TFT_eSPI &tft, int _option_selected, bool is_invert
 	int ret_option_selected = -1;
 	switch (_option_selected)
 	{
-		//Case SubMenuConfig
-		case 0:
-			//TODO: Print the lines with the text
-			for(int i = 0; i < SizeSubMenuConfig; i++){
-				//Print Option A, and then a value of 1 at the right (End of the same line), then Option B and a value of 2 at the right for the SizeSubMenuConfig times
-				tft.setCursor(General_Screen_display.x, Option_Value_Position_display.y + i*10);
-				tft.print(SubMenuConfigText[i]);
-				tft.setCursor(Option_Value_Position_display.x, Option_Value_Position_display.y + i*10);
-				tft.print("100%");
+	// Case SubMenuConfig
+	case 0:
+		// TODO: Print the lines with the text
+		for (int i = 0; i < SizeSubMenuConfig; i++)
+		{
+			// Print Option A, and then a value of 1 at the right (End of the same line), then Option B and a value of 2 at the right for the SizeSubMenuConfig times
+			tft.setCursor(General_Screen_display.x, Option_Value_Position_display.y + i * 10);
+			tft.print(SubMenuConfigText[i]);
+
+			tft.setCursor(Option_Value_Position_display.x, Option_Value_Position_display.y + i * 10);
+			tft.print(varToText(SubMenuConfigVarType[i], SubMenuConfigVar[i]));
+		}
+		ret_option_selected = 0;
+		break;
+
+	case 1:
+		for (int i = 0; i < SizeSubMenuBrightness; i++)
+		{
+			// Print Option A, and then a value of 1 at the right (End of the same line), then Option B and a value of 2 at the right for the SizeSubMenuConfig times
+			tft.setCursor(General_Screen_display.x, Option_Value_Position_display.y + i * 10);
+			tft.print(SubMenuBrightnessText[i]);
+
+			tft.setCursor(Option_Value_Position_display.x, Option_Value_Position_display.y + i * 10);
+			tft.print(varToText(SubMenuBrightnessVarType[i], SubMenuBrightnessVar[i]));
+		}
+		ret_option_selected = 1;
+		break;
+
+	case 2:
+		for (int i = 0; i < SizeSubMenuLeds; i++)
+		{
+			// Print Option A, and then a value of 1 at the right (End of the same line), then Option B and a value of 2 at the right for the SizeSubMenuConfig times
+			tft.setCursor(General_Screen_display.x, Option_Value_Position_display.y + i * 10);
+			tft.print(SubMenuLedsText[i]);
+
+			tft.setCursor(Option_Value_Position_display.x, Option_Value_Position_display.y + i * 10);
+			if(SubMenuLedsVarType[i] != "rgb"){
+				tft.print(varToText(SubMenuLedsVarType[i], SubMenuLedsVar[i]));
 			}
-			ret_option_selected = 0;
-			break;
+			else
+			{
+				tft.fillRect(Option_Value_Position_display.x, Option_Value_Position_display.y + i * 10, tft.width()-Option_Value_Position_display.x-2, 7, *SubMenuLedsVar[i]);
+			}
+		}
+		ret_option_selected = 2;
+		break;
+
+	case 3:
+		for (int i = 0; i < SizeSubMenuEnergy; i++)
+		{
+			// Print Option A, and then a value of 1 at the right (End of the same line), then Option B and a value of 2 at the right for the SizeSubMenuConfig times
+			tft.setCursor(General_Screen_display.x, Option_Value_Position_display.y + i * 10);
+			tft.print(SubMenuEnergyText[i]);
+
+			tft.setCursor(Option_Value_Position_display.x, Option_Value_Position_display.y + i * 10);
+			tft.print(varToText(SubMenuEnergyVarType[i], SubMenuEnergyVar[i]));
+		}
+		ret_option_selected = 3;
+		break;
+
+	case 4:
+		for (int i = 0; i < SizeSubMenuConnection; i++)
+		{
+			// Print Option A, and then a value of 1 at the right (End of the same line), then Option B and a value of 2 at the right for the SizeSubMenuConfig times
+			tft.setCursor(General_Screen_display.x, Option_Value_Position_display.y + i * 10);
+			tft.print(SubMenuConnectionText[i]);
+
+			tft.setCursor(Option_Value_Position_display.x, Option_Value_Position_display.y + i * 10);
+			tft.print(varToText(SubMenuConnectionVarType[i], SubMenuConnectionVar[i]));
+		}
+		ret_option_selected = 4;
+		break;
+
+	case 5:
+		for (int i = 0; i < SizeSubMenuInfoHelp; i++)
+		{
+			// Print Option A, and then a value of 1 at the right (End of the same line), then Option B and a value of 2 at the right for the SizeSubMenuConfig times
+			tft.setCursor(General_Screen_display.x, Option_Value_Position_display.y + i * 10);
+			tft.print(SubMenuInfoHelpText[i]);
+
+			tft.setCursor(Option_Value_Position_display.x, Option_Value_Position_display.y + i * 10);
+			tft.print(varToText(SubMenuInfoHelpVarType[i], nullptr));
+		}
+		ret_option_selected = 5;
+		break;
 
 	default:
 		break;
@@ -552,23 +629,41 @@ void printGeneralDisplay(TFT_eSPI &tft)
 	tft.setCursor(Menu_Config_display_image.x, Menu_Config_display_image.y);
 	tft.fillRect(General_Screen_display.x, General_Screen_display.y, General_Screen_display.width, General_Screen_display.height, TFT_BLACK);
 }
-/*
+
 // ################################################## UTILS ##################################################
-//Transform the variables into Text, Char to String, int to String, RGB to String and bool to True or False String
-template<typename T>
-String VarToText(T var){
+// Transform the variables into Text, Char to String, int to String, RGB to String and bool to True or False String
+String varToText(String varType, int *var)
+{
+
 	String ret = "";
-	if(typeid(var) == typeid(char)){
-		ret = String(var);
+	// Check the type of the variable it can be "bool" or "int" or "rgb" or "none"
+	if (varType == "bool")
+	{
+		// Check if var is true or false
+		if (*var)
+		{
+			ret = "True";
+		}
+		else
+		{
+			ret = "False";
+		}
 	}
-	else if(typeid(var) == typeid(int)){
-		ret = String(var);
+	else if(varType == "int")
+	{
+		ret = String(*var);
 	}
-	else if(typeid(var) == typeid(RGB)){
-		ret = "C" + String(var.R) + "," + String(var.G) + "," + String(var.B);
+	else if(varType == "rgb")
+	{
+		RGB temp;
+		temp.color = *var;
+		temp.CalculateRGB();
+		ret = String(temp.r) + "," + String(temp.g) + "," + String(temp.b);
 	}
-	else if(typeid(var) == typeid(bool)){
-		ret = var ? "True" : "False";
+	else if(varType == "none")
+	{
+		ret = "+";
 	}
+
 	return ret;
-}*/
+}

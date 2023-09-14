@@ -62,12 +62,18 @@ void setup()
 
 	//Display
 #ifdef DISPLAY_ENABLED
+	//Dissable the display Image for noise with BLK_SCREEN pin
+	pinMode(BLK_SCREEN, OUTPUT);
+
+	digitalWrite(BLK_SCREEN, LOW);
 	tft.begin();
+	tft.fillScreen(TFT_BLACK);
+
 	tft.setRotation(3);
 	tft.setFreeFont(&FreeSansBold9pt7b); //Altura de la fuente 12
 	tft.setTextColor(TFT_WHITE);
-
-	tft.fillScreen(TFT_BLACK);
+	delay(50);
+	digitalWrite(BLK_SCREEN, HIGH);
 	
 	//Show in the screen the Image of the keyboard icon in the center 80x80 pixels in the Images.h
 	tft.pushImage(40, 0, 80, 80, image_Icon, 0);
@@ -170,6 +176,9 @@ void loop()
 							image_KeyboardFN, 0);
 				interrupted_FN = false;
 
+				//Erase all the screen and print the general display
+				printGeneralDisplay(tft);
+
 				//Repaint all the menu icons
 				for(int i = 0;i < 6; i++){
 					printMenuOptionNumber(tft, i, false);
@@ -198,6 +207,9 @@ void loop()
 				{
 					bleKeyboard.releaseAll();
 				}
+
+				//Erase all the screen and print the general display
+				printGeneralDisplay(tft);
 
 				//Repaint all the menu icons
 				for(int i = 0;i < 6; i++){

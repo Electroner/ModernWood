@@ -69,6 +69,7 @@ void IRAM_ATTR USBDisconnected();
 //#define TFT_RES 40    // Pin restart (RST)
 //#define TFT_DC 39     // Pin data selection (DC)
 //#define TFT_CS 38    	// Pin SPI selection chip (CS)
+#define BLK_SCREEN 47   // GND -> OFF
 
 //0,0							160,0
 //X---------------------------X
@@ -131,31 +132,30 @@ enum KeysDistribution {ArrEnter, ArrUp, ArrLeft, ArrDown, ArrRight, ArrEsc};
 enum Menus {MenuConfig, MenuBrightness, MenuLeds, MenuEnergy, MenuConnection, MenuInfoHelp};
 
 //Size of the Submenus (number of options, the last one is the size of the submenu, and has to be the last one)
-//TODO: Make a vector of pointers to the variables of the submenu
 enum SubMenuConfig {_DissableDisplayOption, _DissableKeyboardOption, _ScreensaverOption, _LanguageMenuOption, SizeSubMenuConfig};
 const String SubMenuConfigText[SizeSubMenuConfig] = {"Disable Display", "Disable Keyboard", "Screensaver", "Language"};
 const String SubMenuConfigVarType[SizeSubMenuConfig] = {"bool", "bool", "bool", "int"};
-const extern int* SubMenuConfigVar[SizeSubMenuConfig];
+extern int* SubMenuConfigVar[SizeSubMenuConfig];
 
 enum SubMenuBrightness {_BrightnessLeds, _BrightnessDisplay, SizeSubMenuBrightness}; 
 const String SubMenuBrightnessText[SizeSubMenuBrightness] = {"Brightness Leds", "Brightness Display"};
 const String SubMenuBrightnessVarType[SizeSubMenuBrightness] = {"int", "int"};
-const extern int* SubMenuBrightnessVar[SizeSubMenuBrightness];
+extern int* SubMenuBrightnessVar[SizeSubMenuBrightness];
 
 enum SubMenuLeds {_DisableLeds, _LedsColor, _LedsMode, _LedsSpeed, SizeSubMenuLeds};
 const String SubMenuLedsText[SizeSubMenuLeds] = {"Disable Leds", "Leds Color", "Leds Mode", "Leds Speed"};
 const String SubMenuLedsVarType[SizeSubMenuLeds] = {"bool", "rgb", "int", "int"};
-const extern int* SubMenuLedsVar[SizeSubMenuLeds];
+extern int* SubMenuLedsVar[SizeSubMenuLeds];
 
 enum SubMenuEnergy {_DisableBattery, _DisplayMode, SizeSubMenuEnergy};
 const String SubMenuEnergyText[SizeSubMenuEnergy] = {"Disable Battery", "Display Mode"};
 const String SubMenuEnergyVarType[SizeSubMenuEnergy] = {"bool", "int"};
-const extern int* SubMenuEnergyVar[SizeSubMenuEnergy];
+extern int* SubMenuEnergyVar[SizeSubMenuEnergy];
 
 enum SubMenuConnection {_DisableBle, _DisableUSB, _PreferenceBle, _PreferenceUSB, SizeSubMenuConnection};
 const String SubMenuConnectionText[SizeSubMenuConnection] = {"Disable Ble", "Disable USB", "Preference Ble", "Preference USB"};
 const String SubMenuConnectionVarType[SizeSubMenuConnection] = {"bool", "bool", "bool", "bool"};
-const extern int* SubMenuConnectionVar[SizeSubMenuConnection];
+extern int* SubMenuConnectionVar[SizeSubMenuConnection];
 
 enum SubMenuInfoHelp {_Info, _Help, SizeSubMenuInfoHelp};
 const String SubMenuInfoHelpText[SizeSubMenuInfoHelp] = {"Info", "Help"};
@@ -254,5 +254,4 @@ void printMenuInfoHelpDisplayInverted(TFT_eSPI &tft);
 void printGeneralDisplay(TFT_eSPI &tft);
 
 //Transform the variables into Text
-template<typename T>
-String VarToText(T var);
+String varToText(String varType, int *var);
