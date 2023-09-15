@@ -11,7 +11,7 @@ bool MenuPressed[6] = {false};					  // Enter, Up, Left, Down, Right
 bool KeysPressedConfig[6] = {false};			  // Enter, Up, Left, Down, Right
 bool KeysPressedConfigLast[6] = {false};		  // Enter, Up, Left, Down, Right
 unsigned long KeysPressedConfigDebounce[6] = {0}; // Enter, Up, Left, Down, Right
-bool InMenu = false;							  // Check if the user is in the Sub Menu (True)
+bool InMenu = true;								  // Check if the user is in the Menu (True)
 bool InSubConfig = false;						  // Check if the user is in the Sub Menu Config Option (True)
 
 int *SubMenuConfigVar[SizeSubMenuConfig] = {&DisplayEnabled, &KeyboardEnabled, &Screensaver, &LanguageMenu};
@@ -260,93 +260,83 @@ void WorkingModeDisplay(TFT_eSPI &tft, BleKeyboard &bleKeyboard, USBHIDKeyboard 
 	// if right arrow key is pressed
 	if (MenuPressed[ArrRight])
 	{
-		if (!InMenu)
+		if (InMenu)
 		{
 			option_selected = modulo_p((option_selected + 1), 6);
 			changed_option = true;
-			MenuPressed[ArrRight] = false;
 		}
 		else
 		{
-			option_selected_submenu = modulo_p((option_selected_submenu + 1), GetSizeSubMenu(option_selected));
-			changed_option_subMenu = true;
-			MenuPressed[ArrRight] = false;
+			ChangeConfig(option_selected, option_selected_submenu);
 		}
+		MenuPressed[ArrRight] = false;
 	}
 
 	// if left arrow key is pressed
 	if (MenuPressed[ArrLeft])
 	{
-		if (!InMenu)
+		if (InMenu)
 		{
 			option_selected = modulo_p((option_selected - 1), 6);
 			changed_option = true;
-			MenuPressed[ArrLeft] = false;
 		}
 		else
 		{
-			option_selected_submenu = modulo_p((option_selected_submenu - 1), GetSizeSubMenu(option_selected));
-			changed_option_subMenu = true;
-			MenuPressed[ArrLeft] = false;
+			ChangeConfig(option_selected, option_selected_submenu);
 		}
+		MenuPressed[ArrLeft] = false;
 	}
 
 	// if down arrow key is pressed
 	if (MenuPressed[ArrDown])
 	{
-		if (!InMenu)
+		if (InMenu)
 		{
 			option_selected = modulo_p((option_selected + 3), 6);
 			changed_option = true;
-			MenuPressed[ArrDown] = false;
 		}
 		else
 		{
 			option_selected_submenu = modulo_p((option_selected_submenu + 1), GetSizeSubMenu(option_selected));
 			changed_option_subMenu = true;
-			MenuPressed[ArrDown] = false;
 		}
+		MenuPressed[ArrDown] = false;
 	}
 
 	// if up arrow key is pressed
 	if (MenuPressed[ArrUp])
 	{
-		if (!InMenu)
+		if (InMenu)
 		{
 			option_selected = modulo_p((option_selected - 3), 6);
 			changed_option = true;
-			MenuPressed[ArrUp] = false;
 		}
 		else
 		{
 			option_selected_submenu = modulo_p((option_selected_submenu - 1), GetSizeSubMenu(option_selected));
 			changed_option_subMenu = true;
-			MenuPressed[ArrUp] = false;
 		}
+		MenuPressed[ArrUp] = false;
 	}
 
-	// TODO: Make the function to change the configuration with the option_selected_submenu and the option_selected and the value of the option also is necesary to check if InMenu is true or false
 	//  if up enter key is pressed
 	if (MenuPressed[ArrEnter])
 	{
-		if (!InMenu)
+		if (InMenu)
 		{
 			// Erase the screen of the menu only (Config menu is the first one)
 			printGeneralDisplay(tft);
-
-			// Print text in the screen to indicate that the option is selected
-			tft.setCursor(General_Screen_display.x + 2, General_Screen_display.y + 2);
-			printSubMenuOptionNumber(tft, option_selected, option_selected_submenu, false);
+			changed_option_subMenu = true;
 		}
-		
-		InMenu = true;
+
+		InMenu = false;
 		MenuPressed[ArrEnter] = false;
 	}
 
 	// if up Esc key is pressed
 	if (MenuPressed[ArrEsc])
 	{
-		if (InMenu && !config_option_selected)
+		if (!InMenu && !config_option_selected)
 		{
 			printGeneralDisplay(tft);
 			// Repaint all the menu icons
@@ -357,6 +347,7 @@ void WorkingModeDisplay(TFT_eSPI &tft, BleKeyboard &bleKeyboard, USBHIDKeyboard 
 
 			// Reset the menu
 			option_selected = 0;
+			changed_option = true;
 			if (InSubConfig)
 			{
 				InSubConfig = false;
@@ -364,22 +355,21 @@ void WorkingModeDisplay(TFT_eSPI &tft, BleKeyboard &bleKeyboard, USBHIDKeyboard 
 			}
 			else
 			{
-				InMenu = false;
+				InMenu = true;
 			}
-			MenuPressed[ArrEsc] = false;
 		}
 		else if (config_option_selected)
 		{
 			// A Option is selected and we need to go back to the menu
 			config_option_selected = false;
-			MenuPressed[ArrEsc] = false;
 		}
+		MenuPressed[ArrEsc] = false;
 	}
 
 	// Print the last option in normal mode
 	if (changed_option || changed_option_subMenu)
 	{
-		if (!InMenu)
+		if (InMenu)
 		{
 			// Print the menu with the new option selected
 			old_option_selected = printMenuOptionNumber(tft, old_option_selected, false);
@@ -858,4 +848,35 @@ int GetSizeSubMenu(int Menu)
 		break;
 	}
 	return ret;
+}
+
+// TODO: Change the configuration of the parameters
+// Function to change the parameters of the configuration
+void ChangeConfig(int Menu, int SubMenu)
+{
+	switch (Menu)
+	{
+	case 0:
+
+		break;
+
+	case 1:
+		break;
+
+	case 2:
+		break;
+
+	case 4:
+		break;
+
+	case 5:
+		break;
+
+	default:
+		break;
+	}
+}
+
+void ChangeVar(String varType, int &var)
+{
 }

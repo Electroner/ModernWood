@@ -252,7 +252,15 @@ void printMenuInfoHelpDisplayInverted(TFT_eSPI &tft);
 //Print the menus and general part of the display black
 void printGeneralDisplay(TFT_eSPI &tft);
 
+// ################################################## UTILS ##################################################
 //Transform the variables into Text
 String varToText(String varType, int *var);
 
+//Get the size of the submenu
 int GetSizeSubMenu(int Menu);
+
+//Change the config
+void ChangeConfig(int Menu, int SubMenu);
+
+//Change the var depending on the type
+void ChangeVar(String varType, int &var);
