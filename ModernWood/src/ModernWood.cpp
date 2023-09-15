@@ -4,14 +4,15 @@ bool SwitchState[ALTURATECLADO][ANCHURATECLADO] = {false};
 bool SwitchLastState[ALTURATECLADO][ANCHURATECLADO] = {false};
 unsigned long Debounce[ALTURATECLADO][ANCHURATECLADO] = {0};
 
-int option_selected = 0;			//MAIN MENU OPTION SELECTED (0-5)
-int option_selected_submenu = 0; 	//SUBMENU OPTION SELECTED (0-n)
+int option_selected = 0;		 // MAIN MENU OPTION SELECTED (0-5)
+int option_selected_submenu = 0; // SUBMENU OPTION SELECTED (0-n)
 
 bool MenuPressed[6] = {false};					  // Enter, Up, Left, Down, Right
 bool KeysPressedConfig[6] = {false};			  // Enter, Up, Left, Down, Right
 bool KeysPressedConfigLast[6] = {false};		  // Enter, Up, Left, Down, Right
 unsigned long KeysPressedConfigDebounce[6] = {0}; // Enter, Up, Left, Down, Right
-bool InMenu = false;							// Check if the user is in the Sub Menu (True)
+bool InMenu = false;							  // Check if the user is in the Sub Menu (True)
+bool InSubConfig = false;						  // Check if the user is in the Sub Menu Config Option (True)
 
 int *SubMenuConfigVar[SizeSubMenuConfig] = {&DisplayEnabled, &KeyboardEnabled, &Screensaver, &LanguageMenu};
 int *SubMenuBrightnessVar[SizeSubMenuBrightness] = {&LedsBrightness, &DisplayBrightness};
@@ -251,9 +252,9 @@ void WorkingModeDisplay(TFT_eSPI &tft, BleKeyboard &bleKeyboard, USBHIDKeyboard 
 
 	// OPTION SELECTION
 
-	bool changed_option = false;			//Check if the option has changed (Main Menu)
-	bool changed_option_subMenu = false;	//Check if the option has changed (Sub Menu)
-	bool config_option_selected = false;	//Check if the option is selected to be configured
+	bool changed_option = false;		 // Check if the option has changed (Main Menu)
+	bool changed_option_subMenu = false; // Check if the option has changed (Sub Menu)
+	bool config_option_selected = false; // Check if the option is selected to be configured
 	int old_option_selected = option_selected;
 
 	// if right arrow key is pressed
@@ -324,8 +325,8 @@ void WorkingModeDisplay(TFT_eSPI &tft, BleKeyboard &bleKeyboard, USBHIDKeyboard 
 		}
 	}
 
-	//TODO: Make the function to change the configuration with the option_selected_submenu and the option_selected and the value of the option also is necesary to check if InMenu is true or false
-	// if up enter key is pressed
+	// TODO: Make the function to change the configuration with the option_selected_submenu and the option_selected and the value of the option also is necesary to check if InMenu is true or false
+	//  if up enter key is pressed
 	if (MenuPressed[ArrEnter])
 	{
 		if (!InMenu)
@@ -337,7 +338,7 @@ void WorkingModeDisplay(TFT_eSPI &tft, BleKeyboard &bleKeyboard, USBHIDKeyboard 
 			tft.setCursor(General_Screen_display.x + 2, General_Screen_display.y + 2);
 			printSubMenuOptionNumber(tft, option_selected, option_selected_submenu, false);
 		}
-
+		
 		InMenu = true;
 		MenuPressed[ArrEnter] = false;
 	}
@@ -345,7 +346,7 @@ void WorkingModeDisplay(TFT_eSPI &tft, BleKeyboard &bleKeyboard, USBHIDKeyboard 
 	// if up Esc key is pressed
 	if (MenuPressed[ArrEsc])
 	{
-		if(InMenu && !config_option_selected)
+		if (InMenu && !config_option_selected)
 		{
 			printGeneralDisplay(tft);
 			// Repaint all the menu icons
@@ -356,10 +357,18 @@ void WorkingModeDisplay(TFT_eSPI &tft, BleKeyboard &bleKeyboard, USBHIDKeyboard 
 
 			// Reset the menu
 			option_selected = 0;
-			InMenu = false;
+			if (InSubConfig)
+			{
+				InSubConfig = false;
+				option_selected_submenu = 0;
+			}
+			else
+			{
+				InMenu = false;
+			}
 			MenuPressed[ArrEsc] = false;
 		}
-		else if(config_option_selected)
+		else if (config_option_selected)
 		{
 			// A Option is selected and we need to go back to the menu
 			config_option_selected = false;
@@ -427,18 +436,18 @@ int printMenuOptionNumber(TFT_eSPI &tft, int _option_selected, bool is_inverted)
 	return ret_option_selected;
 }
 
-int printSubMenuOptionNumber(TFT_eSPI &tft, int _option_selected,int _option_selected_submenu, bool is_inverted)
+int printSubMenuOptionNumber(TFT_eSPI &tft, int _option_selected, int _option_selected_submenu, bool is_inverted)
 {
 	switch (_option_selected)
 	{
 	case 0:
 		for (int i = 0; i < SizeSubMenuConfig; i++)
 		{
-			if(i == _option_selected_submenu && is_inverted)
+			if (i == _option_selected_submenu && is_inverted)
 			{
-				//That option is selected and we need to print it in inverted mode
-				// Set the cursor in the position of the option and draw a rectangle white and set the text in black
-				tft.fillRect(General_Screen_display.x, Option_Value_Position_display.y + i * 10, tft.width()-General_Screen_display.x-2, 7, TFT_WHITE);
+				// That option is selected and we need to print it in inverted mode
+				//  Set the cursor in the position of the option and draw a rectangle white and set the text in black
+				tft.fillRect(General_Screen_display.x, Option_Value_Position_display.y + i * 10, tft.width() - General_Screen_display.x - 2, 7, TFT_WHITE);
 				tft.setTextColor(TFT_BLACK);
 				tft.setCursor(General_Screen_display.x, Option_Value_Position_display.y + i * 10);
 				tft.print(SubMenuConfigText[i]);
@@ -449,9 +458,9 @@ int printSubMenuOptionNumber(TFT_eSPI &tft, int _option_selected,int _option_sel
 			}
 			else
 			{
-				//That option is selected and we need to print it in normal mode
-				// Set the cursor in the position of the option and draw a rectangle black and set the text in white
-				tft.fillRect(General_Screen_display.x, Option_Value_Position_display.y + i * 10, tft.width()-General_Screen_display.x-2, 7, TFT_BLACK);
+				// That option is selected and we need to print it in normal mode
+				//  Set the cursor in the position of the option and draw a rectangle black and set the text in white
+				tft.fillRect(General_Screen_display.x, Option_Value_Position_display.y + i * 10, tft.width() - General_Screen_display.x - 2, 7, TFT_BLACK);
 				tft.setTextColor(TFT_WHITE);
 				tft.setCursor(General_Screen_display.x, Option_Value_Position_display.y + i * 10);
 				tft.print(SubMenuConfigText[i]);
@@ -465,11 +474,11 @@ int printSubMenuOptionNumber(TFT_eSPI &tft, int _option_selected,int _option_sel
 	case 1:
 		for (int i = 0; i < SizeSubMenuBrightness; i++)
 		{
-			if(i == _option_selected_submenu && is_inverted)
+			if (i == _option_selected_submenu && is_inverted)
 			{
-				//That option is selected and we need to print it in inverted mode
+				// That option is selected and we need to print it in inverted mode
 				// Set the cursor in the position of the option and draw a rectangle white and set the text in black
-				tft.fillRect(General_Screen_display.x, Option_Value_Position_display.y + i * 10, tft.width()-General_Screen_display.x-2, 7, TFT_WHITE);
+				tft.fillRect(General_Screen_display.x, Option_Value_Position_display.y + i * 10, tft.width() - General_Screen_display.x - 2, 7, TFT_WHITE);
 				tft.setTextColor(TFT_BLACK);
 				tft.setCursor(General_Screen_display.x, Option_Value_Position_display.y + i * 10);
 				tft.print(SubMenuBrightnessText[i]);
@@ -480,57 +489,59 @@ int printSubMenuOptionNumber(TFT_eSPI &tft, int _option_selected,int _option_sel
 			}
 			else
 			{
-				//That option is selected and we need to print it in normal mode
+				// That option is selected and we need to print it in normal mode
 				// Set the cursor in the position of the option and draw a rectangle black and set the text in white
-				tft.fillRect(General_Screen_display.x, Option_Value_Position_display.y + i * 10, tft.width()-General_Screen_display.x-2, 7, TFT_BLACK);
+				tft.fillRect(General_Screen_display.x, Option_Value_Position_display.y + i * 10, tft.width() - General_Screen_display.x - 2, 7, TFT_BLACK);
 				tft.setTextColor(TFT_WHITE);
 				tft.setCursor(General_Screen_display.x, Option_Value_Position_display.y + i * 10);
 				tft.print(SubMenuBrightnessText[i]);
 
 				tft.setCursor(Option_Value_Position_display.x, Option_Value_Position_display.y + i * 10);
 				tft.print(varToText(SubMenuBrightnessVarType[i], SubMenuBrightnessVar[i]));
-			}			
+			}
 		}
 		break;
 
 	case 2:
 		for (int i = 0; i < SizeSubMenuLeds; i++)
 		{
-			if(i == _option_selected_submenu && is_inverted)
+			if (i == _option_selected_submenu && is_inverted)
 			{
-				//That option is selected and we need to print it in inverted mode
+				// That option is selected and we need to print it in inverted mode
 				// Set the cursor in the position of the option and draw a rectangle white and set the text in black
-				tft.fillRect(General_Screen_display.x, Option_Value_Position_display.y + i * 10, tft.width()-General_Screen_display.x-2, 7, TFT_WHITE);
+				tft.fillRect(General_Screen_display.x, Option_Value_Position_display.y + i * 10, tft.width() - General_Screen_display.x - 2, 7, TFT_WHITE);
 				tft.setTextColor(TFT_BLACK);
 				tft.setCursor(General_Screen_display.x, Option_Value_Position_display.y + i * 10);
 				tft.print(SubMenuLedsText[i]);
 
 				tft.setCursor(Option_Value_Position_display.x, Option_Value_Position_display.y + i * 10);
-				if(SubMenuLedsVarType[i] != "rgb"){
+				if (SubMenuLedsVarType[i] != "rgb")
+				{
 					tft.print(varToText(SubMenuLedsVarType[i], SubMenuLedsVar[i]));
 				}
 				else
 				{
-					tft.fillRect(Option_Value_Position_display.x, Option_Value_Position_display.y + i * 10, tft.width()-Option_Value_Position_display.x-2, 7, *SubMenuLedsVar[i]);
+					tft.fillRect(Option_Value_Position_display.x, Option_Value_Position_display.y + i * 10, tft.width() - Option_Value_Position_display.x - 2, 7, *SubMenuLedsVar[i]);
 				}
 				tft.setTextColor(TFT_WHITE);
 			}
 			else
 			{
-				//That option is selected and we need to print it in normal mode
+				// That option is selected and we need to print it in normal mode
 				// Set the cursor in the position of the option and draw a rectangle black and set the text in white
-				tft.fillRect(General_Screen_display.x, Option_Value_Position_display.y + i * 10, tft.width()-General_Screen_display.x-2, 7, TFT_BLACK);
+				tft.fillRect(General_Screen_display.x, Option_Value_Position_display.y + i * 10, tft.width() - General_Screen_display.x - 2, 7, TFT_BLACK);
 				tft.setTextColor(TFT_WHITE);
 				tft.setCursor(General_Screen_display.x, Option_Value_Position_display.y + i * 10);
 				tft.print(SubMenuLedsText[i]);
 
 				tft.setCursor(Option_Value_Position_display.x, Option_Value_Position_display.y + i * 10);
-				if(SubMenuLedsVarType[i] != "rgb"){
+				if (SubMenuLedsVarType[i] != "rgb")
+				{
 					tft.print(varToText(SubMenuLedsVarType[i], SubMenuLedsVar[i]));
 				}
 				else
 				{
-					tft.fillRect(Option_Value_Position_display.x, Option_Value_Position_display.y + i * 10, tft.width()-Option_Value_Position_display.x-2, 7, *SubMenuLedsVar[i]);
+					tft.fillRect(Option_Value_Position_display.x, Option_Value_Position_display.y + i * 10, tft.width() - Option_Value_Position_display.x - 2, 7, *SubMenuLedsVar[i]);
 				}
 			}
 		}
@@ -539,11 +550,11 @@ int printSubMenuOptionNumber(TFT_eSPI &tft, int _option_selected,int _option_sel
 	case 3:
 		for (int i = 0; i < SizeSubMenuEnergy; i++)
 		{
-			if(i == _option_selected_submenu && is_inverted)
+			if (i == _option_selected_submenu && is_inverted)
 			{
-				//That option is selected and we need to print it in inverted mode
+				// That option is selected and we need to print it in inverted mode
 				// Set the cursor in the position of the option and draw a rectangle white and set the text in black
-				tft.fillRect(General_Screen_display.x, Option_Value_Position_display.y + i * 10, tft.width()-General_Screen_display.x-2, 7, TFT_WHITE);
+				tft.fillRect(General_Screen_display.x, Option_Value_Position_display.y + i * 10, tft.width() - General_Screen_display.x - 2, 7, TFT_WHITE);
 				tft.setTextColor(TFT_BLACK);
 				tft.setCursor(General_Screen_display.x, Option_Value_Position_display.y + i * 10);
 				tft.print(SubMenuEnergyText[i]);
@@ -554,27 +565,27 @@ int printSubMenuOptionNumber(TFT_eSPI &tft, int _option_selected,int _option_sel
 			}
 			else
 			{
-				//That option is selected and we need to print it in normal mode
+				// That option is selected and we need to print it in normal mode
 				// Set the cursor in the position of the option and draw a rectangle black and set the text in white
-				tft.fillRect(General_Screen_display.x, Option_Value_Position_display.y + i * 10, tft.width()-General_Screen_display.x-2, 7, TFT_BLACK);
+				tft.fillRect(General_Screen_display.x, Option_Value_Position_display.y + i * 10, tft.width() - General_Screen_display.x - 2, 7, TFT_BLACK);
 				tft.setTextColor(TFT_WHITE);
 				tft.setCursor(General_Screen_display.x, Option_Value_Position_display.y + i * 10);
 				tft.print(SubMenuEnergyText[i]);
 
 				tft.setCursor(Option_Value_Position_display.x, Option_Value_Position_display.y + i * 10);
 				tft.print(varToText(SubMenuEnergyVarType[i], SubMenuEnergyVar[i]));
-			}		
+			}
 		}
 		break;
 
 	case 4:
 		for (int i = 0; i < SizeSubMenuConnection; i++)
 		{
-			if(i == _option_selected_submenu && is_inverted)
+			if (i == _option_selected_submenu && is_inverted)
 			{
-				//That option is selected and we need to print it in inverted mode
+				// That option is selected and we need to print it in inverted mode
 				// Set the cursor in the position of the option and draw a rectangle white and set the text in black
-				tft.fillRect(General_Screen_display.x, Option_Value_Position_display.y + i * 10, tft.width()-General_Screen_display.x-2, 7, TFT_WHITE);
+				tft.fillRect(General_Screen_display.x, Option_Value_Position_display.y + i * 10, tft.width() - General_Screen_display.x - 2, 7, TFT_WHITE);
 				tft.setTextColor(TFT_BLACK);
 				tft.setCursor(General_Screen_display.x, Option_Value_Position_display.y + i * 10);
 				tft.print(SubMenuConnectionText[i]);
@@ -585,9 +596,9 @@ int printSubMenuOptionNumber(TFT_eSPI &tft, int _option_selected,int _option_sel
 			}
 			else
 			{
-				//That option is selected and we need to print it in normal mode
+				// That option is selected and we need to print it in normal mode
 				// Set the cursor in the position of the option and draw a rectangle black and set the text in white
-				tft.fillRect(General_Screen_display.x, Option_Value_Position_display.y + i * 10, tft.width()-General_Screen_display.x-2, 7, TFT_BLACK);
+				tft.fillRect(General_Screen_display.x, Option_Value_Position_display.y + i * 10, tft.width() - General_Screen_display.x - 2, 7, TFT_BLACK);
 				tft.setTextColor(TFT_WHITE);
 				tft.setCursor(General_Screen_display.x, Option_Value_Position_display.y + i * 10);
 				tft.print(SubMenuConnectionText[i]);
@@ -601,11 +612,11 @@ int printSubMenuOptionNumber(TFT_eSPI &tft, int _option_selected,int _option_sel
 	case 5:
 		for (int i = 0; i < SizeSubMenuInfoHelp; i++)
 		{
-			if(i == _option_selected_submenu && is_inverted)
+			if (i == _option_selected_submenu && is_inverted)
 			{
-				//That option is selected and we need to print it in inverted mode
+				// That option is selected and we need to print it in inverted mode
 				// Set the cursor in the position of the option and draw a rectangle white and set the text in black
-				tft.fillRect(General_Screen_display.x, Option_Value_Position_display.y + i * 10, tft.width()-General_Screen_display.x-2, 7, TFT_WHITE);
+				tft.fillRect(General_Screen_display.x, Option_Value_Position_display.y + i * 10, tft.width() - General_Screen_display.x - 2, 7, TFT_WHITE);
 				tft.setTextColor(TFT_BLACK);
 				tft.setCursor(General_Screen_display.x, Option_Value_Position_display.y + i * 10);
 				tft.print(SubMenuInfoHelpText[i]);
@@ -616,16 +627,16 @@ int printSubMenuOptionNumber(TFT_eSPI &tft, int _option_selected,int _option_sel
 			}
 			else
 			{
-				//That option is selected and we need to print it in normal mode
+				// That option is selected and we need to print it in normal mode
 				// Set the cursor in the position of the option and draw a rectangle black and set the text in white
-				tft.fillRect(General_Screen_display.x, Option_Value_Position_display.y + i * 10, tft.width()-General_Screen_display.x-2, 7, TFT_BLACK);
+				tft.fillRect(General_Screen_display.x, Option_Value_Position_display.y + i * 10, tft.width() - General_Screen_display.x - 2, 7, TFT_BLACK);
 				tft.setTextColor(TFT_WHITE);
 				tft.setCursor(General_Screen_display.x, Option_Value_Position_display.y + i * 10);
 				tft.print(SubMenuInfoHelpText[i]);
 
 				tft.setCursor(Option_Value_Position_display.x, Option_Value_Position_display.y + i * 10);
 				tft.print(varToText(SubMenuInfoHelpVarType[i], nullptr));
-			}	
+			}
 		}
 		break;
 
@@ -793,18 +804,18 @@ String varToText(String varType, int *var)
 			ret = "False";
 		}
 	}
-	else if(varType == "int")
+	else if (varType == "int")
 	{
 		ret = String(*var);
 	}
-	else if(varType == "rgb")
+	else if (varType == "rgb")
 	{
 		RGB temp;
 		temp.color = *var;
 		temp.CalculateRGB();
 		ret = String(temp.r) + "," + String(temp.g) + "," + String(temp.b);
 	}
-	else if(varType == "none")
+	else if (varType == "none")
 	{
 		ret = "+";
 	}
@@ -812,7 +823,7 @@ String varToText(String varType, int *var)
 	return ret;
 }
 
-//Returns the size of the submenu depending on the menu selected
+// Returns the size of the submenu depending on the menu selected
 int GetSizeSubMenu(int Menu)
 {
 	int ret = 0;
