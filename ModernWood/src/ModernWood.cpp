@@ -267,7 +267,7 @@ void WorkingModeDisplay(TFT_eSPI &tft, BleKeyboard &bleKeyboard, USBHIDKeyboard 
 		}
 		else
 		{
-			ChangeConfig(option_selected, option_selected_submenu);
+			ChangeConfig(option_selected, option_selected_submenu, changed_option_subMenu, true);
 		}
 		MenuPressed[ArrRight] = false;
 	}
@@ -282,7 +282,7 @@ void WorkingModeDisplay(TFT_eSPI &tft, BleKeyboard &bleKeyboard, USBHIDKeyboard 
 		}
 		else
 		{
-			ChangeConfig(option_selected, option_selected_submenu);
+			ChangeConfig(option_selected, option_selected_submenu, changed_option_subMenu, false);
 		}
 		MenuPressed[ArrLeft] = false;
 	}
@@ -347,6 +347,7 @@ void WorkingModeDisplay(TFT_eSPI &tft, BleKeyboard &bleKeyboard, USBHIDKeyboard 
 
 			// Reset the menu
 			option_selected = 0;
+			option_selected_submenu = 0;
 			changed_option = true;
 			if (InSubConfig)
 			{
@@ -850,26 +851,29 @@ int GetSizeSubMenu(int Menu)
 	return ret;
 }
 
-// TODO: Change the configuration of the parameters
 // Function to change the parameters of the configuration
-void ChangeConfig(int Menu, int SubMenu)
+void ChangeConfig(int Menu, int SubMenu, bool &changed_option_subMenu, bool right)
 {
 	switch (Menu)
 	{
 	case 0:
-
+		ChangeVar(SubMenuConfigVarType[SubMenu], SubMenuConfigVar[SubMenu], changed_option_subMenu, right);
 		break;
 
 	case 1:
+		ChangeVar(SubMenuBrightnessVarType[SubMenu], SubMenuBrightnessVar[SubMenu], changed_option_subMenu, right);
 		break;
 
 	case 2:
+		ChangeVar(SubMenuLedsVarType[SubMenu], SubMenuLedsVar[SubMenu], changed_option_subMenu, right);
 		break;
 
 	case 4:
+		ChangeVar(SubMenuConnectionVarType[SubMenu], SubMenuConnectionVar[SubMenu], changed_option_subMenu, right);
 		break;
 
 	case 5:
+		ChangeVar(SubMenuInfoHelpVarType[SubMenu], nullptr, changed_option_subMenu, right);
 		break;
 
 	default:
@@ -877,6 +881,42 @@ void ChangeConfig(int Menu, int SubMenu)
 	}
 }
 
-void ChangeVar(String varType, int &var)
+void ChangeVar(String varType, int *var, bool &changed_option_subMenu, bool right)
 {
+	// Bool variable: True to False and False to True
+	if (varType == "bool")
+	{
+		*var = !*var;
+		changed_option_subMenu = true;
+	}
+
+	// Int variable: Increase the value
+	else if (varType == "int")
+	{
+		if (right)
+		{
+			*var = modulo_p((*var + 1), 100);
+		}
+		else
+		{
+			*var = modulo_p((*var - 1), 100);
+		}
+		changed_option_subMenu = true;
+	}
+
+	// RGB variable: Increase the value
+	else if (varType == "rgb")
+	{
+		if (right)
+		{
+			LedsColor.color = modulo_p((LedsColor.color + 100), 0xFFFFFF);
+			LedsColor.CalculateRGB();
+		}
+		else
+		{
+			LedsColor.color = modulo_p((LedsColor.color - 100), 0xFFFFFF);
+			LedsColor.CalculateRGB();
+		}
+		changed_option_subMenu = true;
+	}
 }

@@ -240,3 +240,4 @@ void loop()
 */
 
 //TODO: review if bluethoot disconnect and connect wih usb wired
+//TODO: make int menu options max and min with another category

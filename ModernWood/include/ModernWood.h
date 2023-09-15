@@ -260,7 +260,7 @@ String varToText(String varType, int *var);
 int GetSizeSubMenu(int Menu);
 
 //Change the config
-void ChangeConfig(int Menu, int SubMenu);
+void ChangeConfig(int Menu, int SubMenu, bool &changed_option_subMenu, bool right);
 
 //Change the var depending on the type
-void ChangeVar(String varType, int &var);
+void ChangeVar(String varType, int *var, bool &changed_option_subMenu, bool right);
