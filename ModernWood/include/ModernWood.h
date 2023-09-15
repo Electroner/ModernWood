@@ -161,7 +161,7 @@ enum SubMenuInfoHelp {_Info, _Help, SizeSubMenuInfoHelp};
 const String SubMenuInfoHelpText[SizeSubMenuInfoHelp] = {"Info", "Help"};
 const String SubMenuInfoHelpVarType[SizeSubMenuInfoHelp] = {"none", "none"};
 
-
+//What are the positions of the keys that control the menu
 #define KeyMenuEnterRow 2 //index
 #define KeyMenuEnterCol 13 //index
 #define KeyMenuUpRow 4 //index (-1 to position), lowest index of the 4 keys
@@ -175,11 +175,10 @@ const String SubMenuInfoHelpVarType[SizeSubMenuInfoHelp] = {"none", "none"};
 #define KeyMenuEscRow 0 //index (-1 to position)
 #define KeyMenuEscCol 0 //index (-1 to position)
 
-extern int option_choose;
 extern int option_selected;
-extern int option_choose_submenu;
 extern int option_selected_submenu;
 
+//Registers for the keys
 extern bool MenuPressed[6]; //Enter, Up, Left, Down, Right
 extern bool KeysPressedConfig[6]; //Enter, Up, Left, Down, Right
 extern bool KeysPressedConfigLast[6]; //Enter, Up, Left, Down, Right
@@ -211,7 +210,7 @@ void WorkingModeDisplay(TFT_eSPI &tft, BleKeyboard &bleKeyboard, USBHIDKeyboard 
 int printMenuOptionNumber(TFT_eSPI &tft, int _option_selected, bool is_inverted);
 
 //Prints the Sub menu options in the normal mode or inverted mode
-int printSubMenuOptionNumber(TFT_eSPI &tft, int _option_selected, bool is_inverted);
+int printSubMenuOptionNumber(TFT_eSPI &tft, int _option_selected,int _option_selected_submenu, bool is_inverted);
 
 //Poisition of the configuration icon
 void printMenuConfigDisplay(TFT_eSPI &tft);
@@ -255,3 +254,5 @@ void printGeneralDisplay(TFT_eSPI &tft);
 
 //Transform the variables into Text
 String varToText(String varType, int *var);
+
+int GetSizeSubMenu(int Menu);

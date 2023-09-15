@@ -217,7 +217,7 @@ void loop()
 				}
 				//Set option_selected to 0
 				option_selected = 0;
-				option_choose = 0;
+				option_selected_submenu = 0;
 				InMenu = false;
 				//Print the option selected
 				printMenuOptionNumber(tft, option_selected, true);
