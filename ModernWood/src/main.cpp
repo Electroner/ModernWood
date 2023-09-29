@@ -58,7 +58,9 @@ void setup()
 	//Led Configuration
 	RgbLED.begin();
 	RgbLED.setBrightness(50);
-	RgbLED.show(); // Initialize all pixels to 'off'
+	//Set color to blue (0,0,255)
+	RgbLED.setPixelColor(0, 0, 0, 255);
+	RgbLED.show();
 
 	//Display
 #ifdef DISPLAY_ENABLED
@@ -226,18 +228,6 @@ void loop()
 		}
 	}
 }
-
-/*
--> Menu
-	-> Configuration (Dissable Display, Dissable Keyboard, Dissable BLE, Dissable USB)
-	-> Brightness (0-100%)
-	-> Leds (On/Off, color, brightness)
-	-> Energy (Is using battery or not)
-	-> Connectivty
-		-> Bluetooth (Only BLE)
-		-> USB	(Only USB)
-	-> About/Help (Type URL of the help page)
-*/
 
 //TODO: review if bluethoot disconnect and connect wih usb wired
 //TODO: make int menu options max and min with another category
