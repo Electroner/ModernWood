@@ -18,7 +18,6 @@
  C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/soc/esp32s3/include/soc/ledc_caps.h \
  C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/soc/esp32s3/include/soc/mpu_caps.h \
  C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/soc/esp32s3/include/soc/twai_caps.h \
- C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/soc/esp32s3/include/soc/uart_caps.h \
  C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/driver/include/driver/gpio.h \
  C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/esp_common/include/esp_err.h \
  C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/esp_common/include/esp_compiler.h \
@@ -90,6 +89,7 @@
  C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/soc/esp32s3/include/soc/i2c_struct.h \
  C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/hal/esp32s3/include/hal/i2c_ll.h \
  C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/hal/platform_port/include/hal/misc.h \
+ C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/hal/platform_port/include/hal/assert.h \
  C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/soc/include/soc/i2c_periph.h \
  C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/hal/include/hal/i2c_types.h \
  C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/esp32-hal-log.h \

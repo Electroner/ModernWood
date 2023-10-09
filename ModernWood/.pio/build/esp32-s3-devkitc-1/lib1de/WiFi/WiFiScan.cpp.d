@@ -61,7 +61,6 @@
  C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/soc/esp32s3/include/soc/ledc_caps.h \
  C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/soc/esp32s3/include/soc/mpu_caps.h \
  C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/soc/esp32s3/include/soc/twai_caps.h \
- C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/soc/esp32s3/include/soc/uart_caps.h \
  C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/hal/include/hal/cpu_types.h \
  C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/hal/esp32s3/include/hal/cpu_ll.h \
  C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/xtensa/esp32s3/include/xtensa/config/extreg.h \
@@ -124,6 +123,7 @@
  C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/lwip/lwip/src/include/lwip/def.h \
  C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/lwip/lwip/src/include/lwip/ip6_zone.h \
  C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/lwip/include/apps/dhcpserver/dhcpserver.h \
+ C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/lwip/lwip/src/include/lwip/err.h \
  C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/esp_netif/include/esp_netif_sta_list.h \
  C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/esp_wifi/include/esp_smartconfig.h \
  C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/wifi_provisioning/include/wifi_provisioning/manager.h \
@@ -191,6 +191,8 @@
  C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/spi_flash/include/esp_spi_flash.h \
  C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/spi_flash/include/esp_spi_flash_counters.h \
  C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/esp_hw_support/include/soc/esp32/spiram.h \
+ C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/io_pin_remap.h \
+ C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/Arduino.h \
  C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/Client.h \
  C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/libraries/WiFi/src/WiFiServer.h \
  C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/Server.h \
@@ -203,5 +205,4 @@
  C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/esp_wifi/include/esp_wifi_crypto_types.h \
  C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/esp_wifi/include/esp_private/wifi_os_adapter.h \
  C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/esp_wifi/include/esp_wifi_default.h \
- C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/esp32-hal.h \
- C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/lwip/lwip/src/include/lwip/err.h
+ C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/esp32-hal.h

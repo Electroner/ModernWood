@@ -1,6 +1,6 @@
 #pragma once
 
-#include <Arduino.h>
+//#include <Arduino.h>
 #include <USB.h>
 #include <USBHIDKeyboard.h>
 #include <BleKeyboard.h>

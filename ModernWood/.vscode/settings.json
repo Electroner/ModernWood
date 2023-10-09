@@ -11,5 +11,6 @@
         "string_view": "cpp",
         "initializer_list": "cpp",
         "memory": "cpp"
-    }
+    },
+    "idf.portWin": "COM4"
 }

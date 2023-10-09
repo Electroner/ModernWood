@@ -1,7 +1,10 @@
 .pio/build/esp32-s3-devkitc-1/src/ModernWood.cpp.o: src/ModernWood.cpp \
  include/ModernWood.h \
- C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/Arduino.h \
- C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/esp_arduino_version.h \
+ C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/USB.h \
+ C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/qio_qspi/include/sdkconfig.h \
+ C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/esp_event/include/esp_event.h \
+ C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/esp_common/include/esp_err.h \
+ C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/esp_common/include/esp_compiler.h \
  C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/freertos/include/freertos/FreeRTOS.h \
  C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/freertos/include/esp_additions/freertos/FreeRTOSConfig.h \
  C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/esp_common/include/esp_compiler.h \
@@ -37,8 +40,6 @@
  C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/esp_hw_support/include/soc/cpu.h \
  C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/esp_hw_support/include/esp_cpu.h \
  C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/hal/include/hal/cpu_hal.h \
- C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/esp_common/include/esp_err.h \
- C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/esp_common/include/esp_compiler.h \
  C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/soc/esp32s3/include/soc/soc_caps.h \
  C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/soc/esp32s3/include/soc/brownout_caps.h \
  C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/soc/esp32s3/include/soc/cpu_caps.h \
@@ -46,7 +47,6 @@
  C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/soc/esp32s3/include/soc/ledc_caps.h \
  C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/soc/esp32s3/include/soc/mpu_caps.h \
  C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/soc/esp32s3/include/soc/twai_caps.h \
- C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/soc/esp32s3/include/soc/uart_caps.h \
  C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/hal/include/hal/cpu_types.h \
  C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/hal/esp32s3/include/hal/cpu_ll.h \
  C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/xtensa/esp32s3/include/xtensa/config/extreg.h \
@@ -71,65 +71,10 @@
  C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/freertos/include/freertos/task.h \
  C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/freertos/include/freertos/list.h \
  C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/freertos/include/esp_additions/freertos/task_snapshot.h \
- C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/freertos/include/freertos/semphr.h \
  C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/freertos/include/freertos/queue.h \
  C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/freertos/include/freertos/task.h \
- C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/esp32-hal.h \
- C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/esp_hw_support/include/esp_sleep.h \
- C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/hal/include/hal/touch_sensor_types.h \
- C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/hal/include/hal/gpio_types.h \
- C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/soc/include/soc/gpio_periph.h \
- C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/soc/esp32s3/include/soc/io_mux_reg.h \
- C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/soc/esp32s3/include/soc/gpio_struct.h \
- C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/soc/esp32s3/include/soc/gpio_reg.h \
- C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/soc/esp32s3/include/soc/gpio_sig_map.h \
+ C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/freertos/include/freertos/semphr.h \
  C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/freertos/include/freertos/queue.h \
- C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/freertos/include/freertos/event_groups.h \
- C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/freertos/include/freertos/timers.h \
- C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/esp32-hal-log.h \
- C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/log/include/esp_log.h \
- C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/log/include/esp_log_internal.h \
- C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/esp32-hal-matrix.h \
- C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/esp32-hal-uart.h \
- C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/esp32-hal-gpio.h \
- C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/variants/esp32s3/pins_arduino.h \
- C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/esp32-hal-touch.h \
- C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/esp32-hal-dac.h \
- C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/driver/include/driver/gpio.h \
- C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/esp_hw_support/include/esp_intr_alloc.h \
- C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/esp_common/include/esp_types.h \
- C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/esp_rom/include/esp32s3/rom/gpio.h \
- C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/esp32-hal-adc.h \
- C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/esp32-hal-spi.h \
- C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/esp32-hal-i2c.h \
- C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/esp32-hal-ledc.h \
- C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/esp32-hal-rmt.h \
- C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/esp32-hal-sigmadelta.h \
- C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/esp32-hal-timer.h \
- C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/esp32-hal-bt.h \
- C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/esp32-hal-psram.h \
- C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/esp32-hal-rgb-led.h \
- C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/esp32-hal-cpu.h \
- C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/esp8266-compat.h \
- C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/stdlib_noniso.h \
- C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/binary.h \
- C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/WCharacter.h \
- C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/WString.h \
- C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/pgmspace.h \
- C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/Stream.h \
- C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/Print.h \
- C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/Printable.h \
- C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/IPAddress.h \
- C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/WString.h \
- C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/Printable.h \
- C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/Client.h \
- C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/Server.h \
- C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/Udp.h \
- C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/Stream.h \
- C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/IPAddress.h \
- C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/HardwareSerial.h \
- C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/HWCDC.h \
- C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/esp_event/include/esp_event.h \
  C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/esp_event/include/esp_event_base.h \
  C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/esp_event/include/esp_event_legacy.h \
  C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/esp_wifi/include/esp_wifi_types.h \
@@ -159,6 +104,7 @@
  C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/lwip/lwip/src/include/lwip/debug.h \
  C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/lwip/lwip/src/include/lwip/arch.h \
  C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/lwip/port/esp32/include/arch/cc.h \
+ C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/newlib/platform_include/errno.h \
  C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/lwip/port/esp32/include/arch/sys_arch.h \
  C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/lwip/port/esp32/include/arch/vfs_lwip.h \
  C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/lwip/lwip/src/include/lwip/def.h \
@@ -167,17 +113,14 @@
  C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/lwip/lwip/src/include/lwip/def.h \
  C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/lwip/lwip/src/include/lwip/ip6_zone.h \
  C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/lwip/include/apps/dhcpserver/dhcpserver.h \
+ C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/lwip/lwip/src/include/lwip/err.h \
  C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/esp_netif/include/esp_netif_sta_list.h \
- C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/Esp.h \
- C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/spi_flash/include/esp_partition.h \
- C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/spi_flash/include/esp_flash.h \
- C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/hal/include/hal/spi_flash_types.h \
- C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/hal/include/hal/esp_flash_err.h \
- C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/spi_flash/include/esp_spi_flash.h \
- C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/spi_flash/include/esp_spi_flash_counters.h \
- C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/esp_hw_support/include/soc/esp32/spiram.h \
- C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/USB.h \
  C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/USBCDC.h \
+ C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/Stream.h \
+ C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/Print.h \
+ C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/WString.h \
+ C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/pgmspace.h \
+ C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/Printable.h \
  include/USBHIDKeyboard.h \
  C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/Print.h \
  include/USBHID.h \
@@ -231,6 +174,8 @@
  .pio/libdeps/esp32-s3-devkitc-1/NimBLE-Arduino/src/nimble/porting/nimble/include/modlog/../log_common/log_common.h \
  .pio/libdeps/esp32-s3-devkitc-1/NimBLE-Arduino/src/nimble/porting/nimble/include/modlog/../log_common/ignore.h \
  .pio/libdeps/esp32-s3-devkitc-1/NimBLE-Arduino/src/nimble/porting/nimble/include/modlog/../log/log.h \
+ C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/log/include/esp_log.h \
+ C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/log/include/esp_log_internal.h \
  .pio/libdeps/esp32-s3-devkitc-1/NimBLE-Arduino/src/nimble/porting/nimble/include/log/log.h \
  .pio/libdeps/esp32-s3-devkitc-1/NimBLE-Arduino/src/nimble/porting/nimble/include/logcfg/logcfg.h \
  .pio/libdeps/esp32-s3-devkitc-1/NimBLE-Arduino/src/nimble/porting/nimble/include/logcfg/../modlog/modlog.h \
@@ -257,6 +202,65 @@
  .pio/libdeps/esp32-s3-devkitc-1/NimBLE-Arduino/src/NimBLECharacteristic.h \
  .pio/libdeps/esp32-s3-devkitc-1/NimBLE-Arduino/src/NimBLEDescriptor.h \
  .pio/libdeps/esp32-s3-devkitc-1/NimBLE-Arduino/src/NimBLEAttValue.h \
+ C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/Arduino.h \
+ C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/esp_arduino_version.h \
+ C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/esp32-hal.h \
+ C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/esp_hw_support/include/esp_sleep.h \
+ C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/hal/include/hal/touch_sensor_types.h \
+ C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/hal/include/hal/gpio_types.h \
+ C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/soc/include/soc/gpio_periph.h \
+ C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/soc/esp32s3/include/soc/io_mux_reg.h \
+ C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/soc/esp32s3/include/soc/gpio_struct.h \
+ C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/soc/esp32s3/include/soc/gpio_reg.h \
+ C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/soc/esp32s3/include/soc/gpio_sig_map.h \
+ C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/freertos/include/freertos/event_groups.h \
+ C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/freertos/include/freertos/timers.h \
+ C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/esp32-hal-log.h \
+ C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/esp32-hal-matrix.h \
+ C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/esp32-hal-uart.h \
+ C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/esp32-hal-gpio.h \
+ C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/variants/esp32s3/pins_arduino.h \
+ C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/esp32-hal-touch.h \
+ C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/esp32-hal-dac.h \
+ C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/driver/include/driver/gpio.h \
+ C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/esp_hw_support/include/esp_intr_alloc.h \
+ C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/esp_common/include/esp_types.h \
+ C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/esp_rom/include/esp32s3/rom/gpio.h \
+ C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/esp32-hal-adc.h \
+ C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/esp32-hal-spi.h \
+ C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/esp32-hal-i2c.h \
+ C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/esp32-hal-ledc.h \
+ C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/esp32-hal-rmt.h \
+ C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/esp32-hal-sigmadelta.h \
+ C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/esp32-hal-timer.h \
+ C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/esp32-hal-bt.h \
+ C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/esp32-hal-psram.h \
+ C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/esp32-hal-rgb-led.h \
+ C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/esp32-hal-cpu.h \
+ C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/esp8266-compat.h \
+ C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/stdlib_noniso.h \
+ C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/binary.h \
+ C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/WCharacter.h \
+ C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/IPAddress.h \
+ C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/WString.h \
+ C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/Printable.h \
+ C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/Client.h \
+ C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/Server.h \
+ C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/Udp.h \
+ C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/Stream.h \
+ C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/IPAddress.h \
+ C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/HardwareSerial.h \
+ C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/HWCDC.h \
+ C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/Esp.h \
+ C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/spi_flash/include/esp_partition.h \
+ C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/spi_flash/include/esp_flash.h \
+ C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/hal/include/hal/spi_flash_types.h \
+ C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/hal/include/hal/esp_flash_err.h \
+ C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/spi_flash/include/esp_spi_flash.h \
+ C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/spi_flash/include/esp_spi_flash_counters.h \
+ C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/esp_hw_support/include/soc/esp32/spiram.h \
+ C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/io_pin_remap.h \
+ C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/Arduino.h \
  .pio/libdeps/esp32-s3-devkitc-1/NimBLE-Arduino/src/NimBLELog.h \
  .pio/libdeps/esp32-s3-devkitc-1/NimBLE-Arduino/src/nimble/porting/nimble/include/syscfg/syscfg.h \
  .pio/libdeps/esp32-s3-devkitc-1/NimBLE-Arduino/src/nimble/console/console.h \
