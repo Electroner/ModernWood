@@ -12,6 +12,8 @@ void setup()
 #ifdef DEBUG
 	Serial.begin(115200);
 	Serial.println("ModernWood Keyboard");
+	Serial.println("Version: " + (*fun_ptr)());
+	delay(1000);
 #endif
 
 	// Disable Bluetooth Function
