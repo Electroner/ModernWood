@@ -12,8 +12,7 @@ void setup()
 #ifdef DEBUG
 	Serial.begin(115200);
 	Serial.println("ModernWood Keyboard");
-	Serial.println("Version: " + (*fun_ptr)());
-	delay(1000);
+	//(*MODULESFUNCARRAY[0][0])();
 #endif
 
 	// Disable Bluetooth Function
@@ -129,6 +128,12 @@ void setup()
 	tft.setTextSize(1);
 
 #endif
+
+	//Set the keyboard Functions to noneFN and default
+	inExternalFunctionMode = false;
+    executingCustomFunction = false;
+    actualFunctionRow = 0; 
+    actualFunctionCol = 0;
 }
 
 void loop()

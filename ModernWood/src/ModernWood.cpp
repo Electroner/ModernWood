@@ -1,8 +1,8 @@
 #include <ModernWood.h>
 
-bool SwitchState[ALTURATECLADO][ANCHURATECLADO] = {false};
-bool SwitchLastState[ALTURATECLADO][ANCHURATECLADO] = {false};
-unsigned long Debounce[ALTURATECLADO][ANCHURATECLADO] = {0};
+bool SwitchState[KEYBOARDHEIGHT][KEYBOARDWIDTH] = {false};
+bool SwitchLastState[KEYBOARDHEIGHT][KEYBOARDWIDTH] = {false};
+unsigned long Debounce[KEYBOARDHEIGHT][KEYBOARDWIDTH] = {0};
 
 int option_selected = 0;		 // MAIN MENU OPTION SELECTED (0-5)
 int option_selected_submenu = 0; // SUBMENU OPTION SELECTED (0-n)
@@ -97,6 +97,14 @@ void IRAM_ATTR FNKeyboardDisplay()
 	}
 }
 
+// ################################################## OTHERS ##################################################	
+
+bool inExternalFunctionMode = false; //To know if we are in the external function mode
+bool executingCustomFunction = false; //To know if we are executing a custom function
+//If there is a actual function begin exectued, which is the row and col of the key
+int actualFunctionRow = 0; 
+int actualFunctionCol = 0;
+
 // ################################################## MODES ##################################################
 
 void WorkingModeKeyboard(TFT_eSPI &tft, BleKeyboard &bleKeyboard, USBHIDKeyboard &Keyboard, bool volatile &isBLEConnected, bool volatile &isUSBConnected)
@@ -104,26 +112,26 @@ void WorkingModeKeyboard(TFT_eSPI &tft, BleKeyboard &bleKeyboard, USBHIDKeyboard
 	bool SwicthFastState;
 	if (isUSBConnected)
 	{
-		for (int i = 0; i < ANCHURATECLADO; i++)
+		for (int i = 0; i < KEYBOARDWIDTH; i++)
 		{
 			digitalWrite(COD0, nums0_15[i][0]);
 			digitalWrite(COD1, nums0_15[i][1]);
 			digitalWrite(COD2, nums0_15[i][2]);
 			digitalWrite(COD3, nums0_15[i][3]);
-			for (int k = 0; k < ALTURATECLADO; k++)
+			for (int k = 0; k < KEYBOARDHEIGHT; k++)
 			{
 				SwicthFastState = !(digitalRead(ESwitch[k]));
 				if (SwicthFastState && !SwitchLastState[k][i] && (millis() - Debounce[k][i]) > TiempoDebounce)
 				{
 					Debounce[k][i] = millis();
 					SwitchLastState[k][i] = SwicthFastState;
-					Keyboard.press(TECLASTECLADO[k][i]);
+					Keyboard.press(KEYSKEYBOARD[k][i]);
 				}
 				else if (!SwicthFastState && SwitchLastState[k][i] && (millis() - Debounce[k][i]) > TiempoDebounce)
 				{
 					Debounce[k][i] = millis();
 					SwitchLastState[k][i] = SwicthFastState;
-					Keyboard.release(TECLASTECLADO[k][i]);
+					Keyboard.release(KEYSKEYBOARD[k][i]);
 				}
 				SwitchState[k][i] = SwicthFastState;
 			}
@@ -131,26 +139,26 @@ void WorkingModeKeyboard(TFT_eSPI &tft, BleKeyboard &bleKeyboard, USBHIDKeyboard
 	}
 	else
 	{
-		for (int i = 0; i < ANCHURATECLADO; i++)
+		for (int i = 0; i < KEYBOARDWIDTH; i++)
 		{
 			digitalWrite(COD0, nums0_15[i][0]);
 			digitalWrite(COD1, nums0_15[i][1]);
 			digitalWrite(COD2, nums0_15[i][2]);
 			digitalWrite(COD3, nums0_15[i][3]);
-			for (int k = 0; k < ALTURATECLADO; k++)
+			for (int k = 0; k < KEYBOARDHEIGHT; k++)
 			{
 				SwicthFastState = !(digitalRead(ESwitch[k]));
 				if (SwicthFastState && !SwitchLastState[k][i] && (millis() - Debounce[k][i]) > TiempoDebounce)
 				{
 					Debounce[k][i] = millis();
 					SwitchLastState[k][i] = SwicthFastState;
-					bleKeyboard.press(TECLASTECLADO[k][i]);
+					bleKeyboard.press(KEYSKEYBOARD[k][i]);
 				}
 				else if (!SwicthFastState && SwitchLastState[k][i] && (millis() - Debounce[k][i]) > TiempoDebounce)
 				{
 					Debounce[k][i] = millis();
 					SwitchLastState[k][i] = SwicthFastState;
-					bleKeyboard.release(TECLASTECLADO[k][i]);
+					bleKeyboard.release(KEYSKEYBOARD[k][i]);
 				}
 				SwitchState[k][i] = SwicthFastState;
 			}
@@ -163,13 +171,13 @@ void WorkingModeDisplay(TFT_eSPI &tft, BleKeyboard &bleKeyboard, USBHIDKeyboard 
 	bool SwicthFastState;
 
 	// Arrow keys
-	for (int i = KeyMenuLeftCol; i < ANCHURATECLADO; i++)
+	for (int i = KeyMenuLeftCol; i < KEYBOARDWIDTH; i++)
 	{
 		digitalWrite(COD0, nums0_15[i][0]);
 		digitalWrite(COD1, nums0_15[i][1]);
 		digitalWrite(COD2, nums0_15[i][2]);
 		digitalWrite(COD3, nums0_15[i][3]);
-		for (int k = KeyMenuUpRow; k < ALTURATECLADO; k++)
+		for (int k = KeyMenuUpRow; k < KEYBOARDHEIGHT; k++)
 		{
 			int auxindex = 0;
 			// Up arrow key

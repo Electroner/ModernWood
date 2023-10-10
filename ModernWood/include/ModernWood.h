@@ -110,6 +110,12 @@ void IRAM_ATTR FNKeyboardDisplay();
 
 // ################################################## OTHER ##################################################
 
+extern bool inExternalFunctionMode; //To know if we are in the external function mode
+extern bool executingCustomFunction; //To know if we are executing a custom function
+//If there is a actual function begin exectued, which is the row and col of the key
+extern int actualFunctionRow; 
+extern int actualFunctionCol;
+
 #define COD0 4  //Asignacino del pin de salida X0 (GPIO4)
 #define COD1 5  //Asignacino del pin de salida X1 (GPIO5)
 #define COD2 6  //Asignacino del pin de salida X2 (GPIO6)
@@ -123,12 +129,12 @@ void IRAM_ATTR FNKeyboardDisplay();
 #define E5 9    //Asignacino del pin de Entrada E5
 
 // Array de lectura de Fila
-const unsigned int ESwitch[ALTURATECLADO] = {E0, E1, E2, E3, E4, E5}; 
+const unsigned int ESwitch[KEYBOARDHEIGHT] = {E0, E1, E2, E3, E4, E5}; 
 
 const long TiempoDebounce = 5;
-extern bool SwitchState[ALTURATECLADO][ANCHURATECLADO];
-extern bool SwitchLastState[ALTURATECLADO][ANCHURATECLADO];
-extern unsigned long Debounce[ALTURATECLADO][ANCHURATECLADO];
+extern bool SwitchState[KEYBOARDHEIGHT][KEYBOARDWIDTH];
+extern bool SwitchLastState[KEYBOARDHEIGHT][KEYBOARDWIDTH];
+extern unsigned long Debounce[KEYBOARDHEIGHT][KEYBOARDWIDTH];
 
 //Config And menu
 enum KeysDistribution {ArrEnter, ArrUp, ArrLeft, ArrDown, ArrRight, ArrEsc};
@@ -188,7 +194,7 @@ extern bool KeysPressedConfigLast[6]; //Enter, Up, Left, Down, Right
 extern unsigned long KeysPressedConfigDebounce[6]; //Enter, Up, Left, Down, Right
 extern bool InMenu;
 
-const bool nums0_15[NUMSCANTIDAD][NUMSANCHO] = {{0, 0, 0, 0},
+const bool nums0_15[NUMSDEMUSIZE][NUMSDEMUWIDTH] = {{0, 0, 0, 0},
                                                 {1, 0, 0, 0},
                                                 {0, 1, 0, 0},
                                                 {1, 1, 0, 0},

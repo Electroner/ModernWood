@@ -1,6 +1,6 @@
 .pio/build/esp32-s3-devkitc-1/modules/src/ModulesMap.cpp.o: \
  modules/src/ModulesMap.cpp modules/include/ModulesMap.h \
- modules/include/Version.h include/ModernWood.h \
+ include/ModernWood.h \
  C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/Arduino.h \
  C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/esp_arduino_version.h \
  C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/freertos/include/freertos/FreeRTOS.h \
@@ -383,4 +383,5 @@
  C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/Udp.h \
  C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/cbuf.h \
  .pio/libdeps/esp32-s3-devkitc-1/Adafruit\ NeoPixel/Adafruit_NeoPixel.h \
- include/Keys.h include/Images.h include/Extra.h include/customRGB.h
+ include/Keys.h include/Images.h include/Extra.h include/customRGB.h \
+ modules/include/Base.h
