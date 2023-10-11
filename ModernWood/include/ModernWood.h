@@ -16,6 +16,8 @@
 #include <Extra.h>
 #include <customRGB.h>
 
+#include <Preferences.h>
+
 //Modules
 #include "ModulesMap.h"
 
@@ -210,6 +212,8 @@ const bool nums0_15[NUMSDEMUSIZE][NUMSDEMUWIDTH] = {{0, 0, 0, 0},
                                                 {1, 0, 1, 1},
                                                 {0, 1, 1, 1},
                                                 {1, 1, 1, 1}};
+
+void WorkingInExternalFunctionMode(TFT_eSPI &tft, BleKeyboard &bleKeyboard, USBHIDKeyboard &Keyboard, bool volatile &isBLEConnected, bool volatile &isUSBConnected);
 
 void WorkingModeKeyboard(TFT_eSPI &tft, BleKeyboard &bleKeyboard, USBHIDKeyboard &Keyboard, bool volatile &isBLEConnected, bool volatile &isUSBConnected);
 

@@ -384,4 +384,5 @@
  C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/cbuf.h \
  .pio/libdeps/esp32-s3-devkitc-1/Adafruit\ NeoPixel/Adafruit_NeoPixel.h \
  include/Keys.h include/Images.h include/Extra.h include/customRGB.h \
+ C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/libraries/Preferences/src/Preferences.h \
  modules/include/Base.h

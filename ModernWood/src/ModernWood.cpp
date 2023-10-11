@@ -91,21 +91,52 @@ void IRAM_ATTR FNKeyboardDisplay()
 	unsigned int interrupt_time = millis();
 	if (interrupt_time - last_interrupt_FN_time > DEBOUNCE_DELAY_FN)
 	{
+		// Changes the mode of the keyboard and set the interrupt Flag
 		WorkingAsKeyboard = !WorkingAsKeyboard;
 		interrupted_FN = true;
 		last_interrupt_FN_time = interrupt_time;
 	}
 }
 
-// ################################################## OTHERS ##################################################	
+// ################################################## OTHERS ##################################################
 
-bool inExternalFunctionMode = false; //To know if we are in the external function mode
-bool executingCustomFunction = false; //To know if we are executing a custom function
-//If there is a actual function begin exectued, which is the row and col of the key
-int actualFunctionRow = 0; 
+bool inExternalFunctionMode = false;  // To know if we are in the external function mode
+bool executingCustomFunction = false; // To know if we are executing a custom function
+// If there is a actual function begin exectued, which is the row and col of the key
+int actualFunctionRow = 0;
 int actualFunctionCol = 0;
 
 // ################################################## MODES ##################################################
+
+void WorkingInExternalFunctionMode(TFT_eSPI &tft, BleKeyboard &bleKeyboard, USBHIDKeyboard &Keyboard, bool volatile &isBLEConnected, bool volatile &isUSBConnected)
+{
+	bool SwicthFastState;
+	for (int i = 0; i < KEYBOARDWIDTH; i++)
+	{
+		digitalWrite(COD0, nums0_15[i][0]);
+		digitalWrite(COD1, nums0_15[i][1]);
+		digitalWrite(COD2, nums0_15[i][2]);
+		digitalWrite(COD3, nums0_15[i][3]);
+		for (int k = 0; k < KEYBOARDHEIGHT; k++)
+		{
+			SwicthFastState = !(digitalRead(ESwitch[k]));
+			
+			//If any switch is pressed we set the actualFunctionRow and actualFunctionCol
+			if (SwicthFastState)
+			{
+				actualFunctionRow = k;
+				actualFunctionCol = i;
+				
+				//And set the executingCustomFunction to true
+				executingCustomFunction = true;
+
+				//We exit the loop
+				i = KEYBOARDWIDTH;
+				k = KEYBOARDHEIGHT;
+			}
+		}
+	}
+}
 
 void WorkingModeKeyboard(TFT_eSPI &tft, BleKeyboard &bleKeyboard, USBHIDKeyboard &Keyboard, bool volatile &isBLEConnected, bool volatile &isUSBConnected)
 {
