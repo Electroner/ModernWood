@@ -1,14 +1,8 @@
 #include "Base.h"
 
-void ModuleGetVersion(){
-    Serial.println("1.0.0b");
-}
-
 void __attribute__((optimize("O0"))) noneFN(void){
-    //Reset the function mode and the function row and col to do nothing
-    inExternalFunctionMode = false;
-    executingCustomFunction = false;
-    actualFunctionRow = 0; 
-    actualFunctionCol = 0;
-    return;
+    //Just Exit Module
+    //All modules must have this function to end the module and return to the main menu (executed one time)
+    //If you don't have this function, the module will be stuck in a loop until FN KEY is pressed or the board is reset
+    exitModule();
 }

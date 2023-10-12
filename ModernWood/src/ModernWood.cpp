@@ -959,3 +959,11 @@ void ChangeVar(String varType, int *var, bool &changed_option_subMenu, bool righ
 		changed_option_subMenu = true;
 	}
 }
+
+inline void exitModule()
+{
+	inExternalFunctionMode = false;
+	executingCustomFunction = false;
+	actualFunctionRow = 0;
+	actualFunctionCol = 0;
+}

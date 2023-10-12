@@ -277,3 +277,6 @@ void ChangeConfig(int Menu, int SubMenu, bool &changed_option_subMenu, bool righ
 
 //Change the var depending on the type
 void ChangeVar(String varType, int *var, bool &changed_option_subMenu, bool right);
+
+//Exit the special Function Mode (Macros, Media, etc)
+inline void exitModule();
