@@ -279,4 +279,4 @@ void ChangeConfig(int Menu, int SubMenu, bool &changed_option_subMenu, bool righ
 void ChangeVar(String varType, int *var, bool &changed_option_subMenu, bool right);
 
 //Exit the special Function Mode (Macros, Media, etc)
-inline void exitModule();
+void exitModule();

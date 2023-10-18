@@ -960,7 +960,7 @@ void ChangeVar(String varType, int *var, bool &changed_option_subMenu, bool righ
 	}
 }
 
-inline void exitModule()
+void exitModule()
 {
 	inExternalFunctionMode = false;
 	executingCustomFunction = false;

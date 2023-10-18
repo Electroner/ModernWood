@@ -2,10 +2,22 @@
 
 #define DEBUG
 
+#ifdef DEBUG
+#include "driver/temp_sensor.h"
+#endif
+
 // ################################################## MAIN ##################################################
 
 void setup()
 {
+#ifdef DEBUG
+	//TEMPERATURE SENSOR ON CHIP
+	temp_sensor_config_t temp_sensor = TSENS_CONFIG_DEFAULT();
+    temp_sensor.dac_offset = TSENS_DAC_L2;  // TSENS_DAC_L2 is default; L4(-40°C ~ 20°C), L2(-10°C ~ 80°C), L1(20°C ~ 100°C), L0(50°C ~ 125°C)
+    temp_sensor_set_config(temp_sensor);
+    temp_sensor_start();
+#endif
+
 	// Disable WiFi
 	WiFi.mode(WIFI_OFF);
 
@@ -164,6 +176,13 @@ void loop()
 			Serial.print("Loop executed ");
 			Serial.print(loop_counter);
 			Serial.println(" times per second");
+
+			Serial.print("Temperature: ");
+			float result = 0;
+			temp_sensor_read_celsius(&result);
+			Serial.print(result);
+			Serial.println(" °C");
+
 			loop_counter = 0;
 			last_loop_time = millis();
 		}
