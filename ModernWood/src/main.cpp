@@ -69,7 +69,7 @@ void setup()
 
 	// Led Configuration
 	RgbLED.begin();
-	RgbLED.setBrightness(50);
+	RgbLED.setBrightness(0);
 	// Set color to blue (0,0,255)
 	RgbLED.setPixelColor(0, 0, 0, 255);
 	RgbLED.show();
