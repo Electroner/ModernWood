@@ -605,6 +605,14 @@
 <circle x="412.745" y="71.825" radius="2" width="0.001" layer="48"/>
 <circle x="412.745" y="48.175" radius="2" width="0.001" layer="48"/>
 <circle x="428" y="48.175" radius="1.5" width="0.001" layer="48"/>
+<wire x1="4.5" y1="127" x2="429" y2="127" width="0.01" layer="20"/>
+<wire x1="431" y1="125" x2="431" y2="5" width="0.01" layer="20"/>
+<wire x1="4.6" y1="3" x2="2.5" y2="5" width="0.01" layer="20" curve="-92.862405"/>
+<wire x1="2.5" y1="5" x2="2.5" y2="125" width="0.01" layer="20"/>
+<wire x1="2.5" y1="125" x2="4.5" y2="127" width="0.01" layer="20" curve="-90"/>
+<wire x1="429" y1="127" x2="431" y2="125" width="0.01" layer="20" curve="-90"/>
+<wire x1="431" y1="5" x2="429" y2="3" width="0.01" layer="20" curve="-90"/>
+<wire x1="429" y1="3" x2="4.6" y2="3" width="0.01" layer="20"/>
 </plain>
 <libraries>
 <library name="cherrymx">
