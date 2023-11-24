@@ -24,7 +24,7 @@
 // ################################################## LED INDICATOR ##################################################
 
 #define LED_INDICATOR_ENABLED
-#define PIN_LED_INDICATOR 48
+#define PIN_LED_INDICATOR 48 //Pin used to control the leds
 extern Adafruit_NeoPixel RgbLED;
 
 extern int LedsBrightness;
@@ -35,10 +35,10 @@ extern int LedsSpeed;
 
 // ################################################## BATTERY ##################################################
 
-#define BATTERY_CHECK
-#define PIN_BATTERY 1
+#define BATTERY_CHECK //Define if we want to check the battery level
+#define PIN_BATTERY 1 //Pin used to read the battery level
 #define BATTERY_DIVIDER_VOLTAGE 4.2
-#define BATTERY_DIVIDER_VOLTAGE_DISCHARGED 2.6
+#define BATTERY_DIVIDER_VOLTAGE_DISCHARGED 3.3
 #define BATTERY_DIVIDER_RESISTOR1 270000
 #define BATTERY_DIVIDER_RESISTOR2 1000000
 #define BATTERY_CHECK_INTERVAL 10000 // ms
