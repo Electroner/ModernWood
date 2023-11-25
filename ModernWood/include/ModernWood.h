@@ -37,8 +37,9 @@ extern int LedsSpeed;
 
 #define BATTERY_CHECK //Define if we want to check the battery level
 #define PIN_BATTERY 1 //Pin used to read the battery level
-#define BATTERY_DIVIDER_VOLTAGE 4.2
+#define BATTERY_DIVIDER_VOLTAGE 3.7
 #define BATTERY_DIVIDER_VOLTAGE_DISCHARGED 3.3
+
 #define BATTERY_DIVIDER_RESISTOR1 270000
 #define BATTERY_DIVIDER_RESISTOR2 1000000
 #define BATTERY_CHECK_INTERVAL 10000 // ms
