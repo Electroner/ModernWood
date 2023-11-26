@@ -3786,6 +3786,8 @@ You are welcome to use this library for commercial purposes. For attribution, we
 <part name="P+3" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="VCC" device=""/>
 <part name="GND12" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="GND" device=""/>
 <part name="U$67" library="Led-WS2812B" deviceset="WS2812B5050" device=""/>
+<part name="GND18" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="GND" device=""/>
+<part name="P+6" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="VCC" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -4636,6 +4638,12 @@ You are welcome to use this library for commercial purposes. For attribution, we
 <instance part="U$67" gate="G$1" x="680.72" y="86.36" smashed="yes">
 <attribute name="VALUE" x="677.72" y="92.36" size="1.27" layer="95"/>
 <attribute name="NAME" x="677.72" y="79.36" size="1.27" layer="95"/>
+</instance>
+<instance part="GND18" gate="1" x="668.02" y="73.66" smashed="yes">
+<attribute name="VALUE" x="670.56" y="73.66" size="1.778" layer="96"/>
+</instance>
+<instance part="P+6" gate="VCC" x="695.96" y="99.06" smashed="yes">
+<attribute name="VALUE" x="698.5" y="101.6" size="1.778" layer="96" rot="R180"/>
 </instance>
 </instances>
 <busses>
@@ -6101,6 +6109,12 @@ You are welcome to use this library for commercial purposes. For attribution, we
 <wire x1="566.42" y1="139.7" x2="566.42" y2="147.32" width="0.1524" layer="91"/>
 <pinref part="GND12" gate="1" pin="GND"/>
 </segment>
+<segment>
+<pinref part="U$67" gate="G$1" pin="LED_GND"/>
+<wire x1="674.72" y1="83.36" x2="668.02" y2="83.36" width="0.1524" layer="91"/>
+<wire x1="668.02" y1="83.36" x2="668.02" y2="76.2" width="0.1524" layer="91"/>
+<pinref part="GND18" gate="1" pin="GND"/>
+</segment>
 </net>
 <net name="E4" class="0">
 <segment>
@@ -6676,6 +6690,12 @@ You are welcome to use this library for commercial purposes. For attribution, we
 <wire x1="561.34" y1="137.16" x2="561.34" y2="147.32" width="0.1524" layer="91"/>
 <pinref part="P+3" gate="VCC" pin="VCC"/>
 </segment>
+<segment>
+<pinref part="U$67" gate="G$1" pin="LED_VDD"/>
+<wire x1="687.22" y1="89.36" x2="695.96" y2="89.36" width="0.1524" layer="91"/>
+<wire x1="695.96" y1="89.36" x2="695.96" y2="96.52" width="0.1524" layer="91"/>
+<pinref part="P+6" gate="VCC" pin="VCC"/>
+</segment>
 </net>
 <net name="COD0" class="0">
 <segment>
@@ -7057,26 +7077,14 @@ You are welcome to use this library for commercial purposes. For attribution, we
 <label x="746.76" y="149.86" size="1.778" layer="95"/>
 </segment>
 </net>
-<net name="N$35" class="0">
-<segment>
-<pinref part="U$67" gate="G$1" pin="LED_GND"/>
-<wire x1="674.72" y1="83.36" x2="668.02" y2="83.36" width="0.1524" layer="91"/>
-<wire x1="668.02" y1="83.36" x2="668.02" y2="76.2" width="0.1524" layer="91"/>
-</segment>
-</net>
-<net name="N$79" class="0">
-<segment>
-<pinref part="U$67" gate="G$1" pin="LED_VDD"/>
-<wire x1="687.22" y1="89.36" x2="695.96" y2="89.36" width="0.1524" layer="91"/>
-<wire x1="695.96" y1="89.36" x2="695.96" y2="96.52" width="0.1524" layer="91"/>
-</segment>
-</net>
 </nets>
 </sheet>
 </sheets>
 <errors>
 <approved hash="104,1,576.58,76.2,U1,3V3,VCC,,,"/>
 <approved hash="104,1,698.5,154.94,U2,VIN,B+,,,"/>
+<approved hash="104,1,687.22,89.36,U$67,LED_VDD,VCC,,,"/>
+<approved hash="104,1,674.72,83.36,U$67,LED_GND,GND,,,"/>
 <approved hash="208,1,523.24,104.14,VCC,sup,,,,"/>
 <approved hash="208,1,604.52,185.42,VCC,sup,,,,"/>
 <approved hash="208,1,637.54,147.32,VCC,sup,,,,"/>
@@ -7085,6 +7093,7 @@ You are welcome to use this library for commercial purposes. For attribution, we
 <approved hash="208,1,754.38,160.02,VCC,sup,,,,"/>
 <approved hash="208,1,523.24,73.66,VCC,sup,,,,"/>
 <approved hash="208,1,561.34,147.32,VCC,sup,,,,"/>
+<approved hash="208,1,695.96,96.52,VCC,sup,,,,"/>
 <approved hash="113,1,109.22,153.647,D1,,,,,"/>
 <approved hash="113,1,134.62,153.647,D2,,,,,"/>
 <approved hash="113,1,160.02,153.647,D3,,,,,"/>

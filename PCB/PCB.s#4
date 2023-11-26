@@ -6,7 +6,7 @@
 <setting alwaysvectorfont="no"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="0.1" unitdist="inch" unit="inch" style="lines" multiple="1" display="no" altdistance="0.01" altunitdist="inch" altunit="inch"/>
+<grid distance="0.1" unitdist="mm" unit="mm" style="lines" multiple="1" display="yes" altdistance="0.01" altunitdist="inch" altunit="inch"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="no" active="no"/>
 <layer number="2" name="Route2" color="1" fill="3" visible="no" active="no"/>
@@ -3432,6 +3432,102 @@ You are welcome to use this library for commercial purposes. For attribution, we
 </deviceset>
 </devicesets>
 </library>
+<library name="Led-WS2812B">
+<packages>
+<package name="WS2812B5050">
+<wire x1="0" y1="0" x2="5" y2="0" width="0.001" layer="48"/>
+<wire x1="5" y1="0" x2="5" y2="0.4" width="0.001" layer="48"/>
+<wire x1="5" y1="0.4" x2="5" y2="1.4" width="0.001" layer="48"/>
+<wire x1="5" y1="1.4" x2="5" y2="3.6" width="0.001" layer="48"/>
+<wire x1="5" y1="3.6" x2="5" y2="4.6" width="0.001" layer="48"/>
+<wire x1="5" y1="4.6" x2="5" y2="5" width="0.001" layer="48"/>
+<wire x1="5" y1="5" x2="0" y2="5" width="0.001" layer="48"/>
+<wire x1="0" y1="0" x2="0" y2="0.4" width="0.001" layer="48"/>
+<wire x1="0" y1="0.4" x2="0" y2="1.4" width="0.001" layer="48"/>
+<wire x1="0" y1="1.4" x2="0" y2="3.6" width="0.001" layer="48"/>
+<wire x1="0" y1="3.6" x2="0" y2="4.6" width="0.001" layer="48"/>
+<wire x1="0" y1="4.6" x2="0" y2="5" width="0.001" layer="48"/>
+<wire x1="5.5" y1="4.6" x2="5.5" y2="3.6" width="0.001" layer="48"/>
+<wire x1="5.5" y1="3.6" x2="5" y2="3.6" width="0.001" layer="48"/>
+<wire x1="5.5" y1="4.6" x2="5" y2="4.6" width="0.001" layer="48"/>
+<wire x1="5" y1="4.6" x2="4" y2="4.6" width="0.001" layer="48"/>
+<wire x1="4" y1="4.6" x2="4" y2="3.6" width="0.001" layer="48"/>
+<wire x1="4" y1="3.6" x2="5" y2="3.6" width="0.001" layer="48"/>
+<wire x1="5.5" y1="0.4" x2="5.5" y2="1.4" width="0.001" layer="48"/>
+<wire x1="5.5" y1="1.4" x2="5" y2="1.4" width="0.001" layer="48"/>
+<wire x1="5" y1="1.4" x2="4" y2="1.4" width="0.001" layer="48"/>
+<wire x1="4" y1="1.4" x2="4" y2="0.4" width="0.001" layer="48"/>
+<wire x1="4" y1="0.4" x2="5" y2="0.4" width="0.001" layer="48"/>
+<wire x1="5" y1="0.4" x2="5.5" y2="0.4" width="0.001" layer="48"/>
+<wire x1="0" y1="3.6" x2="1" y2="3.6" width="0.001" layer="48"/>
+<wire x1="1" y1="3.6" x2="1" y2="4.6" width="0.001" layer="48"/>
+<wire x1="1" y1="4.6" x2="0" y2="4.6" width="0.001" layer="48"/>
+<wire x1="0" y1="4.6" x2="-0.5" y2="4.6" width="0.001" layer="48"/>
+<wire x1="-0.5" y1="4.6" x2="-0.5" y2="3.6" width="0.001" layer="48"/>
+<wire x1="-0.5" y1="3.6" x2="0" y2="3.6" width="0.001" layer="48"/>
+<wire x1="0" y1="0.4" x2="1" y2="0.4" width="0.001" layer="48"/>
+<wire x1="1" y1="0.4" x2="1" y2="1.4" width="0.001" layer="48"/>
+<wire x1="1" y1="1.4" x2="0" y2="1.4" width="0.001" layer="48"/>
+<wire x1="0" y1="1.4" x2="-0.5" y2="1.4" width="0.001" layer="48"/>
+<wire x1="-0.5" y1="1.4" x2="-0.5" y2="0.4" width="0.001" layer="48"/>
+<wire x1="-0.5" y1="0.4" x2="0" y2="0.4" width="0.001" layer="48"/>
+<smd name="LED_DO" x="0.2" y="0.9" dx="1.4224" dy="0.7112" layer="1"/>
+<smd name="LED_GND" x="4.8" y="0.9" dx="1.4224" dy="0.7112" layer="1"/>
+<smd name="LED_DI" x="4.8" y="4.1" dx="1.4224" dy="0.7112" layer="1"/>
+<smd name="LED_VDD" x="0.2" y="4.1" dx="1.4224" dy="0.7112" layer="1"/>
+<wire x1="0" y1="0" x2="2.8" y2="0" width="0.127" layer="21"/>
+<wire x1="2.8" y1="0" x2="5" y2="0" width="0.127" layer="21"/>
+<wire x1="5" y1="0" x2="5" y2="2.2" width="0.127" layer="21"/>
+<wire x1="5" y1="2.2" x2="5" y2="5" width="0.127" layer="21"/>
+<wire x1="5" y1="5" x2="0" y2="5" width="0.127" layer="21"/>
+<wire x1="0" y1="5" x2="0" y2="0" width="0.127" layer="21"/>
+<wire x1="2.8" y1="0" x2="5" y2="2.2" width="0.127" layer="21"/>
+<circle x="2.5" y="2.5" radius="1.7" width="0.127" layer="21"/>
+</package>
+</packages>
+<symbols>
+<symbol name="WS2812B">
+<wire x1="-3.31" y1="-3.81" x2="3.81" y2="-3.81" width="0.254" layer="94"/>
+<wire x1="3.81" y1="-3.81" x2="3.81" y2="3.81" width="0.254" layer="94"/>
+<wire x1="3.81" y1="3.81" x2="-3.31" y2="3.81" width="0.254" layer="94"/>
+<wire x1="-3.31" y1="3.81" x2="-3.31" y2="-3.81" width="0.254" layer="94"/>
+<wire x1="-0.77" y1="1.27" x2="-0.77" y2="0" width="0.254" layer="94"/>
+<wire x1="-0.77" y1="0" x2="-0.77" y2="-1.27" width="0.254" layer="94"/>
+<wire x1="-0.77" y1="-1.27" x2="1.77" y2="0" width="0.254" layer="94"/>
+<wire x1="1.77" y1="0" x2="-0.77" y2="1.27" width="0.254" layer="94"/>
+<wire x1="1.77" y1="1.27" x2="1.77" y2="0" width="0.254" layer="94"/>
+<wire x1="1.77" y1="0" x2="1.77" y2="-1.27" width="0.254" layer="94"/>
+<wire x1="-2.04" y1="0" x2="-0.77" y2="0" width="0.254" layer="94"/>
+<text x="-3" y="6" size="1.27" layer="95">&gt;VALUE</text>
+<text x="-3" y="-7" size="1.27" layer="95">&gt;NAME</text>
+<pin name="LED_VDD" x="6.5" y="3" visible="pad" length="short" direction="pwr" rot="R180"/>
+<pin name="LED_DI" x="-6" y="-1.04" visible="pad" length="short" direction="in"/>
+<pin name="LED_GND" x="-6" y="-3" visible="pad" length="short" direction="pwr"/>
+<pin name="LED_DO" x="6.5" y="1" visible="pad" length="short" direction="out" rot="R180"/>
+<wire x1="1.5" y1="0" x2="3" y2="0" width="0.254" layer="94"/>
+</symbol>
+</symbols>
+<devicesets>
+<deviceset name="WS2812B5050">
+<gates>
+<gate name="G$1" symbol="WS2812B" x="0" y="0"/>
+</gates>
+<devices>
+<device name="" package="WS2812B5050">
+<connects>
+<connect gate="G$1" pin="LED_DI" pad="LED_DI"/>
+<connect gate="G$1" pin="LED_DO" pad="LED_DO"/>
+<connect gate="G$1" pin="LED_GND" pad="LED_GND"/>
+<connect gate="G$1" pin="LED_VDD" pad="LED_VDD"/>
+</connects>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
+</devicesets>
+</library>
 </libraries>
 <attributes>
 </attributes>
@@ -3689,6 +3785,7 @@ You are welcome to use this library for commercial purposes. For attribution, we
 <part name="BOOT" library="con-headers-jp" deviceset="F-1X04-" device="SIP-100-32" value="BOOT"/>
 <part name="P+3" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="VCC" device=""/>
 <part name="GND12" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="GND" device=""/>
+<part name="U$67" library="Led-WS2812B" deviceset="WS2812B5050" device=""/>
 </parts>
 <sheets>
 <sheet>
@@ -4535,6 +4632,10 @@ You are welcome to use this library for commercial purposes. For attribution, we
 </instance>
 <instance part="GND12" gate="1" x="566.42" y="149.86" smashed="yes" rot="R180">
 <attribute name="VALUE" x="568.96" y="152.4" size="1.778" layer="96" rot="R180"/>
+</instance>
+<instance part="U$67" gate="G$1" x="680.72" y="86.36" smashed="yes">
+<attribute name="VALUE" x="677.72" y="92.36" size="1.27" layer="95"/>
+<attribute name="NAME" x="677.72" y="79.36" size="1.27" layer="95"/>
 </instance>
 </instances>
 <busses>
@@ -6948,6 +7049,20 @@ You are welcome to use this library for commercial purposes. For attribution, we
 <pinref part="U2" gate="A" pin="EN"/>
 <wire x1="734.06" y1="149.86" x2="746.76" y2="149.86" width="0.1524" layer="91"/>
 <label x="746.76" y="149.86" size="1.778" layer="95"/>
+</segment>
+</net>
+<net name="N$35" class="0">
+<segment>
+<pinref part="U$67" gate="G$1" pin="LED_GND"/>
+<wire x1="674.72" y1="83.36" x2="668.02" y2="83.36" width="0.1524" layer="91"/>
+<wire x1="668.02" y1="83.36" x2="668.02" y2="76.2" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="N$79" class="0">
+<segment>
+<pinref part="U$67" gate="G$1" pin="LED_VDD"/>
+<wire x1="687.22" y1="89.36" x2="695.96" y2="89.36" width="0.1524" layer="91"/>
+<wire x1="695.96" y1="89.36" x2="695.96" y2="96.52" width="0.1524" layer="91"/>
 </segment>
 </net>
 </nets>

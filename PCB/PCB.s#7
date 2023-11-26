@@ -3686,7 +3686,7 @@ You are welcome to use this library for commercial purposes. For attribution, we
 <part name="GND17" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="GND" device=""/>
 <part name="P+4" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="VCC" device=""/>
 <part name="R7" library="resistors" deviceset="?" device="1K"/>
-<part name="J1" library="con-headers-jp" deviceset="F-1X04-" device="SIP-100-32" value="BOOT"/>
+<part name="BOOT" library="con-headers-jp" deviceset="F-1X04-" device="SIP-100-32" value="BOOT"/>
 <part name="P+3" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="VCC" device=""/>
 <part name="GND12" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="GND" device=""/>
 </parts>
@@ -4527,8 +4527,7 @@ You are welcome to use this library for commercial purposes. For attribution, we
 <attribute name="NAME" x="533.4" y="74.93" size="1.778" layer="94" rot="MR180" align="top-center"/>
 <attribute name="VALUE" x="533.4" y="72.39" size="1.778" layer="96" align="top-center"/>
 </instance>
-<instance part="J1" gate="G$1" x="579.12" y="137.16" smashed="yes">
-<attribute name="VALUE" x="577.85" y="127" size="1.778" layer="96"/>
+<instance part="BOOT" gate="G$1" x="579.12" y="137.16" smashed="yes">
 <attribute name="NAME" x="577.85" y="143.002" size="1.778" layer="95"/>
 </instance>
 <instance part="P+3" gate="VCC" x="561.34" y="149.86" smashed="yes">
@@ -5996,7 +5995,7 @@ You are welcome to use this library for commercial purposes. For attribution, we
 <wire x1="525.78" y1="58.42" x2="528.32" y2="58.42" width="0.1524" layer="91"/>
 </segment>
 <segment>
-<pinref part="J1" gate="G$1" pin="1"/>
+<pinref part="BOOT" gate="G$1" pin="1"/>
 <wire x1="574.04" y1="139.7" x2="566.42" y2="139.7" width="0.1524" layer="91"/>
 <wire x1="566.42" y1="139.7" x2="566.42" y2="147.32" width="0.1524" layer="91"/>
 <pinref part="GND12" gate="1" pin="GND"/>
@@ -6571,7 +6570,7 @@ You are welcome to use this library for commercial purposes. For attribution, we
 <pinref part="R7" gate="G$1" pin="1"/>
 </segment>
 <segment>
-<pinref part="J1" gate="G$1" pin="2"/>
+<pinref part="BOOT" gate="G$1" pin="2"/>
 <wire x1="574.04" y1="137.16" x2="561.34" y2="137.16" width="0.1524" layer="91"/>
 <wire x1="561.34" y1="137.16" x2="561.34" y2="147.32" width="0.1524" layer="91"/>
 <pinref part="P+3" gate="VCC" pin="VCC"/>
@@ -6632,7 +6631,7 @@ You are welcome to use this library for commercial purposes. For attribution, we
 <label x="622.3" y="66.04" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="J1" gate="G$1" pin="4"/>
+<pinref part="BOOT" gate="G$1" pin="4"/>
 <wire x1="574.04" y1="132.08" x2="553.72" y2="132.08" width="0.1524" layer="91"/>
 <label x="553.72" y="132.08" size="1.778" layer="95"/>
 </segment>
@@ -6644,7 +6643,7 @@ You are welcome to use this library for commercial purposes. For attribution, we
 <label x="622.3" y="68.58" size="1.778" layer="95"/>
 </segment>
 <segment>
-<pinref part="J1" gate="G$1" pin="3"/>
+<pinref part="BOOT" gate="G$1" pin="3"/>
 <wire x1="574.04" y1="134.62" x2="553.72" y2="134.62" width="0.1524" layer="91"/>
 <label x="553.72" y="134.62" size="1.778" layer="95"/>
 </segment>

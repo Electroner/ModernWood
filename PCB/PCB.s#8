@@ -3686,7 +3686,7 @@ You are welcome to use this library for commercial purposes. For attribution, we
 <part name="GND17" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="GND" device=""/>
 <part name="P+4" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="VCC" device=""/>
 <part name="R7" library="resistors" deviceset="?" device="1K"/>
-<part name="J1" library="con-headers-jp" deviceset="F-1X04-" device="SIP-100-32"/>
+<part name="J1" library="con-headers-jp" deviceset="F-1X04-" device="SIP-100-32" value="BOOT"/>
 <part name="P+3" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="VCC" device=""/>
 <part name="GND12" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="GND" device=""/>
 </parts>

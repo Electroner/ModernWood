@@ -3549,7 +3549,7 @@ You are welcome to use this library for commercial purposes. For attribution, we
 <part name="DUPLICADO8" library="cherrymx" deviceset="CHERRY-MX" device=""/>
 <part name="DUPLICADO9" library="cherrymx" deviceset="CHERRY-MX" device=""/>
 <part name="DUPLICADO10" library="cherrymx" deviceset="CHERRY-MX" device=""/>
-<part name="BUTTON" library="switch-omron" library_urn="urn:adsk.eagle:library:377" deviceset="10-XX" device="" package3d_urn="urn:adsk.eagle:package:27496/1"/>
+<part name="BUTTON" library="switch-omron" library_urn="urn:adsk.eagle:library:377" deviceset="10-XX" device="" package3d_urn="urn:adsk.eagle:package:27496/1" value="1"/>
 <part name="GND4" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="GND" device=""/>
 <part name="P+2" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="VCC" device=""/>
 <part name="GND5" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="GND" device=""/>
@@ -3682,7 +3682,7 @@ You are welcome to use this library for commercial purposes. For attribution, we
 <part name="GND15" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="GND" device=""/>
 <part name="GND16" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="GND" device=""/>
 <part name="P+5" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="VCC" device=""/>
-<part name="BUTTON1" library="switch-omron" library_urn="urn:adsk.eagle:library:377" deviceset="10-XX" device="" package3d_urn="urn:adsk.eagle:package:27496/1"/>
+<part name="BUTTON1" library="switch-omron" library_urn="urn:adsk.eagle:library:377" deviceset="10-XX" device="" package3d_urn="urn:adsk.eagle:package:27496/1" value="1"/>
 <part name="GND17" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="GND" device=""/>
 <part name="P+4" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="VCC" device=""/>
 <part name="R7" library="resistors" deviceset="?" device="1K"/>
@@ -6954,6 +6954,16 @@ You are welcome to use this library for commercial purposes. For attribution, we
 </sheet>
 </sheets>
 <errors>
+<approved hash="104,1,576.58,76.2,U1,3V3,VCC,,,"/>
+<approved hash="104,1,698.5,154.94,U2,VIN,B+,,,"/>
+<approved hash="208,1,523.24,104.14,VCC,sup,,,,"/>
+<approved hash="208,1,604.52,185.42,VCC,sup,,,,"/>
+<approved hash="208,1,637.54,147.32,VCC,sup,,,,"/>
+<approved hash="208,1,563.88,86.36,VCC,sup,,,,"/>
+<approved hash="208,1,734.06,154.94,VCC,out,,,,"/>
+<approved hash="208,1,754.38,160.02,VCC,sup,,,,"/>
+<approved hash="208,1,523.24,73.66,VCC,sup,,,,"/>
+<approved hash="208,1,561.34,147.32,VCC,sup,,,,"/>
 <approved hash="113,1,109.22,153.647,D1,,,,,"/>
 <approved hash="113,1,134.62,153.647,D2,,,,,"/>
 <approved hash="113,1,160.02,153.647,D3,,,,,"/>

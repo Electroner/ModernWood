@@ -1106,6 +1106,60 @@ You are welcome to use this library for commercial purposes. For attribution, we
 </package>
 </packages>
 </library>
+<library name="Led-WS2812B">
+<packages>
+<package name="WS2812B5050">
+<wire x1="0" y1="0" x2="5" y2="0" width="0.001" layer="48"/>
+<wire x1="5" y1="0" x2="5" y2="0.4" width="0.001" layer="48"/>
+<wire x1="5" y1="0.4" x2="5" y2="1.4" width="0.001" layer="48"/>
+<wire x1="5" y1="1.4" x2="5" y2="3.6" width="0.001" layer="48"/>
+<wire x1="5" y1="3.6" x2="5" y2="4.6" width="0.001" layer="48"/>
+<wire x1="5" y1="4.6" x2="5" y2="5" width="0.001" layer="48"/>
+<wire x1="5" y1="5" x2="0" y2="5" width="0.001" layer="48"/>
+<wire x1="0" y1="0" x2="0" y2="0.4" width="0.001" layer="48"/>
+<wire x1="0" y1="0.4" x2="0" y2="1.4" width="0.001" layer="48"/>
+<wire x1="0" y1="1.4" x2="0" y2="3.6" width="0.001" layer="48"/>
+<wire x1="0" y1="3.6" x2="0" y2="4.6" width="0.001" layer="48"/>
+<wire x1="0" y1="4.6" x2="0" y2="5" width="0.001" layer="48"/>
+<wire x1="5.5" y1="4.6" x2="5.5" y2="3.6" width="0.001" layer="48"/>
+<wire x1="5.5" y1="3.6" x2="5" y2="3.6" width="0.001" layer="48"/>
+<wire x1="5.5" y1="4.6" x2="5" y2="4.6" width="0.001" layer="48"/>
+<wire x1="5" y1="4.6" x2="4" y2="4.6" width="0.001" layer="48"/>
+<wire x1="4" y1="4.6" x2="4" y2="3.6" width="0.001" layer="48"/>
+<wire x1="4" y1="3.6" x2="5" y2="3.6" width="0.001" layer="48"/>
+<wire x1="5.5" y1="0.4" x2="5.5" y2="1.4" width="0.001" layer="48"/>
+<wire x1="5.5" y1="1.4" x2="5" y2="1.4" width="0.001" layer="48"/>
+<wire x1="5" y1="1.4" x2="4" y2="1.4" width="0.001" layer="48"/>
+<wire x1="4" y1="1.4" x2="4" y2="0.4" width="0.001" layer="48"/>
+<wire x1="4" y1="0.4" x2="5" y2="0.4" width="0.001" layer="48"/>
+<wire x1="5" y1="0.4" x2="5.5" y2="0.4" width="0.001" layer="48"/>
+<wire x1="0" y1="3.6" x2="1" y2="3.6" width="0.001" layer="48"/>
+<wire x1="1" y1="3.6" x2="1" y2="4.6" width="0.001" layer="48"/>
+<wire x1="1" y1="4.6" x2="0" y2="4.6" width="0.001" layer="48"/>
+<wire x1="0" y1="4.6" x2="-0.5" y2="4.6" width="0.001" layer="48"/>
+<wire x1="-0.5" y1="4.6" x2="-0.5" y2="3.6" width="0.001" layer="48"/>
+<wire x1="-0.5" y1="3.6" x2="0" y2="3.6" width="0.001" layer="48"/>
+<wire x1="0" y1="0.4" x2="1" y2="0.4" width="0.001" layer="48"/>
+<wire x1="1" y1="0.4" x2="1" y2="1.4" width="0.001" layer="48"/>
+<wire x1="1" y1="1.4" x2="0" y2="1.4" width="0.001" layer="48"/>
+<wire x1="0" y1="1.4" x2="-0.5" y2="1.4" width="0.001" layer="48"/>
+<wire x1="-0.5" y1="1.4" x2="-0.5" y2="0.4" width="0.001" layer="48"/>
+<wire x1="-0.5" y1="0.4" x2="0" y2="0.4" width="0.001" layer="48"/>
+<smd name="LED_DO" x="0.2" y="0.9" dx="1.4224" dy="0.7112" layer="1"/>
+<smd name="LED_GND" x="4.8" y="0.9" dx="1.4224" dy="0.7112" layer="1"/>
+<smd name="LED_DI" x="4.8" y="4.1" dx="1.4224" dy="0.7112" layer="1"/>
+<smd name="LED_VDD" x="0.2" y="4.1" dx="1.4224" dy="0.7112" layer="1"/>
+<wire x1="0" y1="0" x2="2.8" y2="0" width="0.127" layer="21"/>
+<wire x1="2.8" y1="0" x2="5" y2="0" width="0.127" layer="21"/>
+<wire x1="5" y1="0" x2="5" y2="2.2" width="0.127" layer="21"/>
+<wire x1="5" y1="2.2" x2="5" y2="5" width="0.127" layer="21"/>
+<wire x1="5" y1="5" x2="0" y2="5" width="0.127" layer="21"/>
+<wire x1="0" y1="5" x2="0" y2="0" width="0.127" layer="21"/>
+<wire x1="2.8" y1="0" x2="5" y2="2.2" width="0.127" layer="21"/>
+<circle x="2.5" y="2.5" radius="1.7" width="0.127" layer="21"/>
+</package>
+</packages>
+</library>
 </libraries>
 <attributes>
 </attributes>
@@ -1406,7 +1460,7 @@ design rules under a new name.</description>
 <element name="DUPLICADO8" library="cherrymx" package="CHERRY-MX" value="CHERRY-MX" x="383.05" y="69.45" smashed="yes"/>
 <element name="DUPLICADO9" library="cherrymx" package="CHERRY-MX" value="CHERRY-MX" x="402.05" y="69.45" smashed="yes"/>
 <element name="DUPLICADO10" library="cherrymx" package="CHERRY-MX" value="CHERRY-MX" x="373.55" y="12.5" smashed="yes"/>
-<element name="BUTTON" library="switch-omron" library_urn="urn:adsk.eagle:library:377" package="B3F-10XX" package3d_urn="urn:adsk.eagle:package:27496/1" value="" x="348.9" y="109.7" smashed="yes" rot="R90">
+<element name="BUTTON" library="switch-omron" library_urn="urn:adsk.eagle:library:377" package="B3F-10XX" package3d_urn="urn:adsk.eagle:package:27496/1" value="1" x="348.9" y="109.7" smashed="yes" rot="R90">
 <attribute name="MF" value="" x="348.9" y="109.7" size="1.778" layer="27" rot="R90" display="off"/>
 <attribute name="MPN" value="B3F-1000" x="348.9" y="109.7" size="1.778" layer="27" rot="R90" display="off"/>
 <attribute name="NAME" x="345.417" y="106.152" size="1.27" layer="25" ratio="10" rot="R90"/>
@@ -1836,9 +1890,9 @@ design rules under a new name.</description>
 <attribute name="MOUSER" value="660-RK73H2ATTD1001F" x="404.8" y="112.3" size="1.778" layer="27" display="off"/>
 <attribute name="NAME" x="404.4" y="113.57" size="0.8128" layer="25" ratio="15" rot="R180" align="center"/>
 </element>
-<element name="R4" library="resistors" package="R-0805" value="1K" x="356" y="113.1" smashed="yes">
-<attribute name="MOUSER" value="660-RK73H2ATTD1001F" x="356.4" y="113.1" size="1.778" layer="27" display="off"/>
-<attribute name="NAME" x="356" y="114.37" size="0.8128" layer="25" ratio="15" rot="R180" align="center"/>
+<element name="R4" library="resistors" package="R-0805" value="1K" x="357.7" y="118.7" smashed="yes" rot="R180">
+<attribute name="MOUSER" value="660-RK73H2ATTD1001F" x="357.3" y="118.7" size="1.778" layer="27" rot="R180" display="off"/>
+<attribute name="NAME" x="357.7" y="117.43" size="0.8128" layer="25" ratio="15" align="center"/>
 </element>
 <element name="C4" library="SparkFun-Capacitors" package="1206" value="1.0uF" x="411.1" y="111" smashed="yes">
 <attribute name="NAME" x="411.1" y="112.143" size="0.6096" layer="25" font="vector" ratio="20" align="bottom-center"/>
@@ -1880,7 +1934,7 @@ design rules under a new name.</description>
 <attribute name="PROD_ID" value="CAP-09822" x="422.9" y="102.1" size="1.778" layer="27" rot="R270" display="off"/>
 <attribute name="VALUE" x="421.757" y="102.1" size="0.6096" layer="27" font="vector" ratio="20" rot="R270" align="top-center"/>
 </element>
-<element name="BUTTON1" library="switch-omron" library_urn="urn:adsk.eagle:library:377" package="B3F-10XX" package3d_urn="urn:adsk.eagle:package:27496/1" value="" x="358.4" y="109.1" smashed="yes">
+<element name="BUTTON1" library="switch-omron" library_urn="urn:adsk.eagle:library:377" package="B3F-10XX" package3d_urn="urn:adsk.eagle:package:27496/1" value="1" x="358.4" y="109.1" smashed="yes">
 <attribute name="MF" value="" x="348.3" y="120.3" size="1.778" layer="27" display="off"/>
 <attribute name="MPN" value="B3F-1000" x="348.3" y="120.3" size="1.778" layer="27" display="off"/>
 <attribute name="NAME" x="355.352" y="112.783" size="1.27" layer="25" ratio="10"/>
@@ -1893,9 +1947,10 @@ design rules under a new name.</description>
 <attribute name="MOUSER" value="660-RK73H2ATTD1001F" x="351.5" y="110.3" size="1.778" layer="27" display="off"/>
 <attribute name="NAME" x="361.2" y="102.67" size="0.8128" layer="25" ratio="15" rot="R180" align="center"/>
 </element>
-<element name="J1" library="con-headers-jp" package="SIP-100-04-32" value="BOOT" x="350.3" y="124.1" smashed="yes">
+<element name="BOOT" library="con-headers-jp" package="SIP-100-04-32" value="BOOT" x="350.3" y="124.1" smashed="yes">
 <attribute name="NAME" x="344.585" y="122.83" size="1.016" layer="25" ratio="18" rot="R90"/>
 </element>
+<element name="U$67" library="Led-WS2812B" package="WS2812B5050" value="WS2812B5050" x="350" y="98" smashed="yes"/>
 </elements>
 <signals>
 <signal name="N$11">
@@ -2662,7 +2717,7 @@ design rules under a new name.</description>
 <contactref element="C3" pad="2"/>
 <contactref element="U2" pad="2"/>
 <contactref element="BUTTON1" pad="1"/>
-<contactref element="J1" pad="1"/>
+<contactref element="BOOT" pad="1"/>
 <wire x1="355.1488" y1="111.3606" x2="374.11" y2="122.5" width="0" layer="19" extent="1-1"/>
 <wire x1="346.6394" y1="106.4488" x2="355.1488" y2="111.3606" width="0" layer="19" extent="1-1"/>
 <wire x1="338.5809" y1="119.2537" x2="346.6394" y2="106.4488" width="0" layer="19" extent="1-1"/>
@@ -2695,10 +2750,10 @@ design rules under a new name.</description>
 <contactref element="U2" pad="5"/>
 <contactref element="C5" pad="1"/>
 <contactref element="R7" pad="1"/>
-<contactref element="J1" pad="2"/>
-<wire x1="355.05" y1="113.1" x2="376.65" y2="122.5" width="0" layer="19" extent="1-1"/>
-<wire x1="349.03" y1="124.1" x2="355.05" y2="113.1" width="0" layer="19" extent="1-1"/>
-<wire x1="360.25" y1="101.4" x2="355.05" y2="113.1" width="0" layer="19" extent="1-1"/>
+<contactref element="BOOT" pad="2"/>
+<wire x1="376.65" y1="122.5" x2="358.65" y2="118.7" width="0" layer="19" extent="1-1"/>
+<wire x1="349.03" y1="124.1" x2="358.65" y2="118.7" width="0" layer="19" extent="1-1"/>
+<wire x1="360.25" y1="101.4" x2="358.65" y2="118.7" width="0" layer="19" extent="1-1"/>
 <wire x1="321.4191" y1="117.9837" x2="349.03" y2="124.1" width="0" layer="19" extent="1-1"/>
 <wire x1="311.355" y1="119.085" x2="321.4191" y2="117.9837" width="0" layer="19" extent="1-1"/>
 <wire x1="418.97795" y1="104.9398" x2="376.65" y2="122.5" width="0" layer="19" extent="1-1"/>
@@ -2706,12 +2761,12 @@ design rules under a new name.</description>
 </signal>
 <signal name="RX">
 <contactref element="U1" pad="36"/>
-<contactref element="J1" pad="4"/>
+<contactref element="BOOT" pad="4"/>
 <wire x1="338.5809" y1="114.1737" x2="354.11" y2="124.1" width="0" layer="19" extent="1-1"/>
 </signal>
 <signal name="TX">
 <contactref element="U1" pad="37"/>
-<contactref element="J1" pad="3"/>
+<contactref element="BOOT" pad="3"/>
 <wire x1="338.5809" y1="115.4437" x2="351.57" y2="124.1" width="0" layer="19" extent="1-1"/>
 </signal>
 <signal name="E0">
@@ -2962,6 +3017,8 @@ design rules under a new name.</description>
 </signal>
 <signal name="STDBY">
 <contactref element="U$95" pad="6"/>
+<contactref element="U1" pad="23"/>
+<wire x1="418.665" y1="107.22" x2="333.175" y2="101.6691" width="0" layer="19" extent="1-1"/>
 </signal>
 <signal name="B-">
 <contactref element="BATTERY" pad="1"/>
@@ -3057,7 +3114,7 @@ design rules under a new name.</description>
 <contactref element="U1" pad="27"/>
 <contactref element="BUTTON" pad="4"/>
 <contactref element="R4" pad="2"/>
-<wire x1="351.1606" y1="112.9512" x2="356.95" y2="113.1" width="0" layer="19" extent="1-1"/>
+<wire x1="351.1606" y1="112.9512" x2="356.75" y2="118.7" width="0" layer="19" extent="1-1"/>
 <wire x1="338.5809" y1="102.7437" x2="351.1606" y2="112.9512" width="0" layer="19" extent="1-1"/>
 </signal>
 <signal name="B+">
@@ -3076,6 +3133,12 @@ design rules under a new name.</description>
 <wire x1="416.22205" y1="104.9398" x2="408.95" y2="98.7" width="0" layer="19" extent="1-1"/>
 <wire x1="416.22205" y1="103.0602" x2="416.22205" y2="104.9398" width="0" layer="19" extent="1-1"/>
 <wire x1="416.2" y1="99.2" x2="416.22205" y2="103.0602" width="0" layer="19" extent="1-1"/>
+</signal>
+<signal name="N$35">
+<contactref element="U$67" pad="LED_GND"/>
+</signal>
+<signal name="N$79">
+<contactref element="U$67" pad="LED_VDD"/>
 </signal>
 </signals>
 <mfgpreviewcolors>

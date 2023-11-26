@@ -6712,6 +6712,11 @@ You are welcome to use this library for commercial purposes. For attribution, we
 <wire x1="751.84" y1="254" x2="762" y2="254" width="0.1524" layer="91"/>
 <label x="762" y="254" size="1.778" layer="95"/>
 </segment>
+<segment>
+<pinref part="U1" gate="A" pin="IO21"/>
+<wire x1="612.14" y1="33.02" x2="622.3" y2="33.02" width="0.1524" layer="91"/>
+<label x="622.3" y="33.02" size="1.778" layer="95"/>
+</segment>
 </net>
 <net name="B-" class="0">
 <segment>
