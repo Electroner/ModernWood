@@ -4510,6 +4510,41 @@ design rules under a new name.</description>
 <wire x1="219.3246" y1="20.5554" x2="224.84" y2="15.04" width="0.8128" layer="1"/>
 <wire x1="351.9416875" y1="96.668" x2="332.068" y2="96.668" width="0.8128" layer="16"/>
 <wire x1="332.068" y1="96.668" x2="330.8" y2="95.4" width="0.8128" layer="16"/>
+<polygon width="0.1524" layer="1">
+<vertex x="2.5" y="126.996215625"/>
+<vertex x="319.5" y="128.996215625"/>
+<vertex x="319.5" y="121.8"/>
+<vertex x="320.6" y="120.7"/>
+<vertex x="338.1" y="120.7"/>
+<vertex x="338.1" y="127"/>
+<vertex x="344.5" y="127"/>
+<vertex x="348.9" y="121.9"/>
+<vertex x="356.2" y="121.9"/>
+<vertex x="360.5" y="127"/>
+<vertex x="429.1" y="127"/>
+<vertex x="431" y="125.1"/>
+<vertex x="431" y="4.9"/>
+<vertex x="429" y="3"/>
+<vertex x="4.6" y="3"/>
+<vertex x="2.5" y="4.9"/>
+</polygon>
+<polygon width="0.1524" layer="16">
+<vertex x="2.5" y="127"/>
+<vertex x="319.5" y="127"/>
+<vertex x="319.5" y="120.6"/>
+<vertex x="338.2" y="120.6"/>
+<vertex x="338.2" y="127"/>
+<vertex x="344.5" y="127"/>
+<vertex x="348.9" y="121.9"/>
+<vertex x="356.2" y="121.9"/>
+<vertex x="360.5" y="127"/>
+<vertex x="429.2" y="127"/>
+<vertex x="431" y="125.1"/>
+<vertex x="431" y="4.9"/>
+<vertex x="428.9" y="3"/>
+<vertex x="4.5" y="3"/>
+<vertex x="2.5" y="4.9"/>
+</polygon>
 </signal>
 <signal name="VCC">
 <contactref element="U$94" pad="24"/>
