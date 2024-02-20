@@ -1842,134 +1842,6 @@ Dave.Calaway &lt;a href="https://goo.gl/Muy1Tr"&gt;Eagle Library&lt;/a&gt;</desc
 </deviceset>
 </devicesets>
 </library>
-<library name="FS8205A">
-<packages>
-<package name="SOP65P640X120-8N">
-<circle x="-4.44" y="1.375" radius="0.1" width="0.2" layer="21"/>
-<circle x="-4.44" y="1.375" radius="0.1" width="0.2" layer="51"/>
-<wire x1="-2.25" y1="1.515" x2="2.25" y2="1.515" width="0.127" layer="51"/>
-<wire x1="-2.25" y1="-1.515" x2="2.25" y2="-1.515" width="0.127" layer="51"/>
-<wire x1="-2.25" y1="1.515" x2="2.25" y2="1.515" width="0.127" layer="21"/>
-<wire x1="-2.25" y1="-1.515" x2="2.25" y2="-1.515" width="0.127" layer="21"/>
-<wire x1="-2.25" y1="1.515" x2="-2.25" y2="-1.515" width="0.127" layer="51"/>
-<wire x1="2.25" y1="1.515" x2="2.25" y2="-1.515" width="0.127" layer="51"/>
-<wire x1="-3.91" y1="1.765" x2="3.91" y2="1.765" width="0.05" layer="39"/>
-<wire x1="-3.91" y1="-1.765" x2="3.91" y2="-1.765" width="0.05" layer="39"/>
-<wire x1="-3.91" y1="1.765" x2="-3.91" y2="-1.765" width="0.05" layer="39"/>
-<wire x1="3.91" y1="1.765" x2="3.91" y2="-1.765" width="0.05" layer="39"/>
-<text x="-3.81" y="-1.692" size="1.27" layer="27" align="top-left">&gt;VALUE</text>
-<text x="-3.81" y="1.692" size="1.27" layer="25">&gt;NAME</text>
-<smd name="1" x="-2.88" y="0.975" dx="1.56" dy="0.4" layer="1" roundness="25"/>
-<smd name="2" x="-2.88" y="0.325" dx="1.56" dy="0.4" layer="1" roundness="25"/>
-<smd name="3" x="-2.88" y="-0.325" dx="1.56" dy="0.4" layer="1" roundness="25"/>
-<smd name="4" x="-2.88" y="-0.975" dx="1.56" dy="0.4" layer="1" roundness="25"/>
-<smd name="5" x="2.88" y="-0.975" dx="1.56" dy="0.4" layer="1" roundness="25"/>
-<smd name="6" x="2.88" y="-0.325" dx="1.56" dy="0.4" layer="1" roundness="25"/>
-<smd name="7" x="2.88" y="0.325" dx="1.56" dy="0.4" layer="1" roundness="25"/>
-<smd name="8" x="2.88" y="0.975" dx="1.56" dy="0.4" layer="1" roundness="25"/>
-</package>
-</packages>
-<symbols>
-<symbol name="FS8205A">
-<wire x1="-1.778" y1="-4.318" x2="-1.778" y2="-5.08" width="0.254" layer="94"/>
-<wire x1="-1.778" y1="-5.08" x2="-1.778" y2="-5.842" width="0.254" layer="94"/>
-<wire x1="-1.778" y1="-1.905" x2="-1.778" y2="-2.54" width="0.254" layer="94"/>
-<wire x1="-1.778" y1="-2.54" x2="-1.778" y2="-3.175" width="0.254" layer="94"/>
-<wire x1="-1.778" y1="-5.08" x2="0" y2="-5.08" width="0.1524" layer="94"/>
-<wire x1="0" y1="-5.08" x2="0" y2="-7.62" width="0.1524" layer="94"/>
-<wire x1="-1.778" y1="-6.985" x2="-1.778" y2="-7.62" width="0.254" layer="94"/>
-<wire x1="-1.778" y1="-7.62" x2="-1.778" y2="-8.255" width="0.254" layer="94"/>
-<wire x1="-2.54" y1="-2.54" x2="-2.54" y2="-7.62" width="0.254" layer="94"/>
-<wire x1="0" y1="-7.62" x2="-1.778" y2="-7.62" width="0.1524" layer="94"/>
-<wire x1="1.27" y1="-2.54" x2="1.27" y2="-4.572" width="0.1524" layer="94"/>
-<wire x1="1.27" y1="-4.572" x2="1.27" y2="-7.62" width="0.1524" layer="94"/>
-<wire x1="0" y1="-7.62" x2="1.27" y2="-7.62" width="0.1524" layer="94"/>
-<wire x1="-1.778" y1="-2.54" x2="1.27" y2="-2.54" width="0.1524" layer="94"/>
-<wire x1="1.778" y1="-4.572" x2="1.27" y2="-4.572" width="0.1524" layer="94"/>
-<wire x1="1.27" y1="-4.572" x2="0.762" y2="-4.572" width="0.1524" layer="94"/>
-<circle x="0" y="-7.62" radius="0.3592" width="0" layer="94"/>
-<circle x="1.27" y="-2.54" radius="0.3592" width="0" layer="94"/>
-<text x="-11.43" y="-12.7" size="1.778" layer="96">&gt;VALUE</text>
-<text x="-11.43" y="7.62" size="1.778" layer="95">&gt;NAME</text>
-<polygon width="0.1524" layer="94">
-<vertex x="1.27" y="-4.572"/>
-<vertex x="0.762" y="-5.334"/>
-<vertex x="1.778" y="-5.334"/>
-</polygon>
-<polygon width="0.1524" layer="94">
-<vertex x="-1.524" y="-5.08"/>
-<vertex x="-0.508" y="-4.318"/>
-<vertex x="-0.508" y="-5.842"/>
-</polygon>
-<wire x1="-1.778" y1="5.842" x2="-1.778" y2="5.08" width="0.254" layer="94"/>
-<wire x1="-1.778" y1="5.08" x2="-1.778" y2="4.318" width="0.254" layer="94"/>
-<wire x1="-1.778" y1="8.255" x2="-1.778" y2="7.62" width="0.254" layer="94"/>
-<wire x1="-1.778" y1="7.62" x2="-1.778" y2="6.985" width="0.254" layer="94"/>
-<wire x1="-1.778" y1="5.08" x2="0" y2="5.08" width="0.1524" layer="94"/>
-<wire x1="-1.778" y1="3.175" x2="-1.778" y2="2.54" width="0.254" layer="94"/>
-<wire x1="-1.778" y1="2.54" x2="-1.778" y2="1.905" width="0.254" layer="94"/>
-<wire x1="-2.54" y1="7.62" x2="-2.54" y2="2.54" width="0.254" layer="94"/>
-<wire x1="1.27" y1="2.54" x2="-1.778" y2="2.54" width="0.1524" layer="94"/>
-<wire x1="-1.778" y1="7.62" x2="1.27" y2="7.62" width="0.1524" layer="94"/>
-<circle x="0" y="7.62" radius="0.3592" width="0" layer="94"/>
-<polygon width="0.1524" layer="94">
-<vertex x="-1.524" y="5.08"/>
-<vertex x="-0.508" y="5.842"/>
-<vertex x="-0.508" y="4.318"/>
-</polygon>
-<wire x1="1.27" y1="2.54" x2="1.27" y2="4.572" width="0.1524" layer="94"/>
-<wire x1="1.27" y1="4.572" x2="1.27" y2="7.62" width="0.1524" layer="94"/>
-<wire x1="0.762" y1="4.572" x2="1.27" y2="4.572" width="0.1524" layer="94"/>
-<wire x1="1.27" y1="4.572" x2="1.778" y2="4.572" width="0.1524" layer="94"/>
-<polygon width="0.1524" layer="94">
-<vertex x="1.27" y="4.572"/>
-<vertex x="1.778" y="5.334"/>
-<vertex x="0.762" y="5.334"/>
-</polygon>
-<wire x1="0" y1="7.62" x2="0" y2="5.08" width="0.1524" layer="94"/>
-<circle x="1.27" y="2.54" radius="0.3592" width="0" layer="94"/>
-<wire x1="1.27" y1="-2.54" x2="1.27" y2="0" width="0.1524" layer="94"/>
-<wire x1="1.27" y1="0" x2="1.27" y2="2.54" width="0.1524" layer="94"/>
-<wire x1="1.27" y1="0" x2="2.54" y2="0" width="0.1524" layer="94"/>
-<pin name="S1" x="0" y="-10.16" visible="pad" length="short" direction="pas" rot="R90"/>
-<pin name="G1" x="-5.08" y="-7.62" visible="pad" length="short" direction="pas"/>
-<pin name="D12" x="5.08" y="0" visible="pad" length="short" direction="pas" rot="R180"/>
-<pin name="G2" x="-5.08" y="2.54" visible="pad" length="short" direction="pas"/>
-<pin name="S2" x="0" y="10.16" visible="pad" length="short" direction="pas" rot="R270"/>
-</symbol>
-</symbols>
-<devicesets>
-<deviceset name="FS8205A" prefix="Q">
-<description>N/A &lt;a href="https://pricing.snapeda.com/parts/FS8205A/Fortune%20Semiconductor/view-part?ref=eda"&gt;Check availability&lt;/a&gt;</description>
-<gates>
-<gate name="G$1" symbol="FS8205A" x="0" y="0"/>
-</gates>
-<devices>
-<device name="" package="SOP65P640X120-8N">
-<connects>
-<connect gate="G$1" pin="D12" pad="1 8"/>
-<connect gate="G$1" pin="G1" pad="4"/>
-<connect gate="G$1" pin="G2" pad="5"/>
-<connect gate="G$1" pin="S1" pad="2 3"/>
-<connect gate="G$1" pin="S2" pad="6 7"/>
-</connects>
-<technologies>
-<technology name="">
-<attribute name="AVAILABILITY" value="Not in stock"/>
-<attribute name="CHECK_PRICES" value="https://www.snapeda.com/parts/FS8205A/Fortune+Semiconductor/view-part/?ref=eda"/>
-<attribute name="DESCRIPTION" value=" "/>
-<attribute name="MF" value="Fortune Semiconductor"/>
-<attribute name="MP" value="FS8205A"/>
-<attribute name="PACKAGE" value="Package "/>
-<attribute name="PRICE" value="None"/>
-<attribute name="SNAPEDA_LINK" value="https://www.snapeda.com/parts/FS8205A/Fortune+Semiconductor/view-part/?ref=snap"/>
-</technology>
-</technologies>
-</device>
-</devices>
-</deviceset>
-</devicesets>
-</library>
 <library name="resistors">
 <packages>
 <package name="R-0805">
@@ -3583,6 +3455,135 @@ You are welcome to use this library for commercial purposes. For attribution, we
 </deviceset>
 </devicesets>
 </library>
+<library name="FS8205">
+<packages>
+<package name="SOT95P280X145-6N">
+<wire x1="-0.8" y1="-1.45" x2="-0.8" y2="1.45" width="0.127" layer="51"/>
+<wire x1="-0.8" y1="1.45" x2="0.8" y2="1.45" width="0.127" layer="51"/>
+<wire x1="0.8" y1="1.45" x2="0.8" y2="-1.45" width="0.127" layer="51"/>
+<wire x1="0.8" y1="-1.45" x2="-0.8" y2="-1.45" width="0.127" layer="51"/>
+<wire x1="-2.11" y1="1.7" x2="-2.11" y2="-1.7" width="0.05" layer="39"/>
+<wire x1="-2.11" y1="-1.7" x2="2.11" y2="-1.7" width="0.05" layer="39"/>
+<wire x1="2.11" y1="-1.7" x2="2.11" y2="1.7" width="0.05" layer="39"/>
+<wire x1="2.11" y1="1.7" x2="-2.11" y2="1.7" width="0.05" layer="39"/>
+<circle x="-2.428" y="0.945" radius="0.1" width="0.2" layer="21"/>
+<circle x="-2.428" y="0.945" radius="0.1" width="0.2" layer="51"/>
+<text x="-3.38" y="2.065" size="1.27" layer="25">&gt;NAME</text>
+<text x="-3.507" y="-1.938" size="1.27" layer="27" align="top-left">&gt;VALUE</text>
+<wire x1="-0.8" y1="1.6" x2="0.8" y2="1.6" width="0.127" layer="21"/>
+<wire x1="-0.8" y1="-1.6" x2="0.8" y2="-1.6" width="0.127" layer="21"/>
+<smd name="1" x="-1.255" y="0.95" dx="1.21" dy="0.59" layer="1" roundness="50"/>
+<smd name="2" x="-1.255" y="0" dx="1.21" dy="0.59" layer="1" roundness="50"/>
+<smd name="3" x="-1.255" y="-0.95" dx="1.21" dy="0.59" layer="1" roundness="50"/>
+<smd name="6" x="1.255" y="0.95" dx="1.21" dy="0.59" layer="1" roundness="50"/>
+<smd name="5" x="1.255" y="0" dx="1.21" dy="0.59" layer="1" roundness="50"/>
+<smd name="4" x="1.255" y="-0.95" dx="1.21" dy="0.59" layer="1" roundness="50"/>
+</package>
+</packages>
+<symbols>
+<symbol name="FS8205">
+<wire x1="-1.778" y1="-4.318" x2="-1.778" y2="-5.08" width="0.254" layer="94"/>
+<wire x1="-1.778" y1="-5.08" x2="-1.778" y2="-5.842" width="0.254" layer="94"/>
+<wire x1="-1.778" y1="-1.905" x2="-1.778" y2="-2.54" width="0.254" layer="94"/>
+<wire x1="-1.778" y1="-2.54" x2="-1.778" y2="-3.175" width="0.254" layer="94"/>
+<wire x1="-1.778" y1="-5.08" x2="0" y2="-5.08" width="0.1524" layer="94"/>
+<wire x1="0" y1="-5.08" x2="0" y2="-7.62" width="0.1524" layer="94"/>
+<wire x1="-1.778" y1="-6.985" x2="-1.778" y2="-7.62" width="0.254" layer="94"/>
+<wire x1="-1.778" y1="-7.62" x2="-1.778" y2="-8.255" width="0.254" layer="94"/>
+<wire x1="-2.54" y1="-2.54" x2="-2.54" y2="-7.62" width="0.254" layer="94"/>
+<wire x1="0" y1="-7.62" x2="-1.778" y2="-7.62" width="0.1524" layer="94"/>
+<wire x1="1.27" y1="-2.54" x2="1.27" y2="-4.572" width="0.1524" layer="94"/>
+<wire x1="1.27" y1="-4.572" x2="1.27" y2="-7.62" width="0.1524" layer="94"/>
+<wire x1="0" y1="-7.62" x2="1.27" y2="-7.62" width="0.1524" layer="94"/>
+<wire x1="-1.778" y1="-2.54" x2="0" y2="-2.54" width="0.1524" layer="94"/>
+<wire x1="0" y1="-2.54" x2="1.27" y2="-2.54" width="0.1524" layer="94"/>
+<wire x1="1.778" y1="-4.572" x2="1.27" y2="-4.572" width="0.1524" layer="94"/>
+<wire x1="1.27" y1="-4.572" x2="0.762" y2="-4.572" width="0.1524" layer="94"/>
+<circle x="0" y="-7.62" radius="0.3592" width="0" layer="94"/>
+<circle x="0" y="-2.54" radius="0.3592" width="0" layer="94"/>
+<polygon width="0.1524" layer="94">
+<vertex x="1.27" y="-4.572"/>
+<vertex x="0.762" y="-5.334"/>
+<vertex x="1.778" y="-5.334"/>
+</polygon>
+<polygon width="0.1524" layer="94">
+<vertex x="-1.524" y="-5.08"/>
+<vertex x="-0.508" y="-4.318"/>
+<vertex x="-0.508" y="-5.842"/>
+</polygon>
+<wire x1="-1.778" y1="4.318" x2="-1.778" y2="5.08" width="0.254" layer="94"/>
+<wire x1="-1.778" y1="5.08" x2="-1.778" y2="5.842" width="0.254" layer="94"/>
+<wire x1="-1.778" y1="1.905" x2="-1.778" y2="2.54" width="0.254" layer="94"/>
+<wire x1="-1.778" y1="2.54" x2="-1.778" y2="3.175" width="0.254" layer="94"/>
+<wire x1="-1.778" y1="5.08" x2="0" y2="5.08" width="0.1524" layer="94"/>
+<wire x1="0" y1="5.08" x2="0" y2="7.62" width="0.1524" layer="94"/>
+<wire x1="-1.778" y1="6.985" x2="-1.778" y2="7.62" width="0.254" layer="94"/>
+<wire x1="-1.778" y1="7.62" x2="-1.778" y2="8.255" width="0.254" layer="94"/>
+<wire x1="-2.54" y1="2.54" x2="-2.54" y2="7.62" width="0.254" layer="94"/>
+<wire x1="0" y1="7.62" x2="-1.778" y2="7.62" width="0.1524" layer="94"/>
+<wire x1="1.27" y1="2.54" x2="1.27" y2="4.572" width="0.1524" layer="94"/>
+<wire x1="1.27" y1="4.572" x2="1.27" y2="7.62" width="0.1524" layer="94"/>
+<wire x1="0" y1="7.62" x2="1.27" y2="7.62" width="0.1524" layer="94"/>
+<wire x1="-1.778" y1="2.54" x2="0" y2="2.54" width="0.1524" layer="94"/>
+<wire x1="0" y1="2.54" x2="1.27" y2="2.54" width="0.1524" layer="94"/>
+<wire x1="1.778" y1="4.572" x2="1.27" y2="4.572" width="0.1524" layer="94"/>
+<wire x1="1.27" y1="4.572" x2="0.762" y2="4.572" width="0.1524" layer="94"/>
+<circle x="0" y="7.62" radius="0.3592" width="0" layer="94"/>
+<circle x="0" y="2.54" radius="0.3592" width="0" layer="94"/>
+<polygon width="0.1524" layer="94">
+<vertex x="1.27" y="4.572"/>
+<vertex x="0.762" y="5.334"/>
+<vertex x="1.778" y="5.334"/>
+</polygon>
+<polygon width="0.1524" layer="94">
+<vertex x="-1.524" y="5.08"/>
+<vertex x="-0.508" y="4.318"/>
+<vertex x="-0.508" y="5.842"/>
+</polygon>
+<wire x1="0" y1="2.54" x2="0" y2="0" width="0.1778" layer="94"/>
+<text x="2.54" y="2.286" size="1.778" layer="95" align="top-left">&gt;NAME</text>
+<text x="2.54" y="-2.032" size="1.778" layer="96">&gt;VALUE</text>
+<wire x1="0" y1="0" x2="0" y2="-2.54" width="0.1778" layer="94"/>
+<wire x1="-2.54" y1="0" x2="0" y2="0" width="0.1524" layer="94"/>
+<pin name="S1" x="0" y="-10.16" visible="pad" length="short" direction="pas" rot="R90"/>
+<pin name="D12" x="-5.08" y="0" visible="pad" length="short" direction="pas"/>
+<pin name="S2" x="0" y="10.16" visible="pad" length="short" direction="pas" rot="R270"/>
+<pin name="G1" x="-5.08" y="-5.08" visible="pad" length="short" direction="pas"/>
+<pin name="G2" x="-5.08" y="5.08" visible="pad" length="short" direction="pas"/>
+</symbol>
+</symbols>
+<devicesets>
+<deviceset name="FS8205" prefix="Q">
+<description>Dual N Channel Enhancement Mode Power MOSFET  &lt;a href="https://pricing.snapeda.com/parts/FS8205/Fortune%20Semiconductor/view-part?ref=eda"&gt;Check availability&lt;/a&gt;</description>
+<gates>
+<gate name="G$1" symbol="FS8205" x="0" y="0"/>
+</gates>
+<devices>
+<device name="" package="SOT95P280X145-6N">
+<connects>
+<connect gate="G$1" pin="D12" pad="2 5"/>
+<connect gate="G$1" pin="G1" pad="6"/>
+<connect gate="G$1" pin="G2" pad="4"/>
+<connect gate="G$1" pin="S1" pad="1"/>
+<connect gate="G$1" pin="S2" pad="3"/>
+</connects>
+<technologies>
+<technology name="">
+<attribute name="AVAILABILITY" value="Not in stock"/>
+<attribute name="CHECK_PRICES" value="https://www.snapeda.com/parts/FS8205/Fortune+Semiconductor/view-part/?ref=eda"/>
+<attribute name="DESCRIPTION" value=" Dual N-Channel Enhancement Mode Power MOSFET "/>
+<attribute name="MF" value="Fortune Semiconductor"/>
+<attribute name="MP" value="FS8205"/>
+<attribute name="PACKAGE" value="Package "/>
+<attribute name="PRICE" value="None"/>
+<attribute name="SNAPEDA_LINK" value="https://www.snapeda.com/parts/FS8205/Fortune+Semiconductor/view-part/?ref=snap"/>
+</technology>
+</technologies>
+</device>
+</devices>
+</deviceset>
+</devicesets>
+</library>
 </libraries>
 <attributes>
 </attributes>
@@ -3804,7 +3805,6 @@ You are welcome to use this library for commercial purposes. For attribution, we
 <part name="USB" library="con-headers-jp" deviceset="F-1X04-" device="SIP-100-32"/>
 <part name="U$95" library="TP4056" deviceset="TP4056" device=""/>
 <part name="U$96" library="DW01A" deviceset="DW01A" device=""/>
-<part name="Q1" library="FS8205A" deviceset="FS8205A" device=""/>
 <part name="BATTERY" library="con-headers-jp" deviceset="F-1X02-" device="SIP-100-40"/>
 <part name="GND1" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="GND" device=""/>
 <part name="GND2" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="GND" device=""/>
@@ -3873,12 +3873,13 @@ You are welcome to use this library for commercial purposes. For attribution, we
 <part name="GND27" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="GND" device=""/>
 <part name="P+17" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="VCC" device=""/>
 <part name="FRAME1" library="frames" library_urn="urn:adsk.eagle:library:229" deviceset="FRAME_D_L" device=""/>
+<part name="Q2" library="FS8205" deviceset="FS8205" device=""/>
 </parts>
 <sheets>
 <sheet>
 <plain>
 <text x="655.42" y="45.02" size="3.81" layer="94">ModernWood</text>
-<text x="734.42" y="34.02" size="3.81" layer="94">1</text>
+<text x="734.42" y="34.02" size="3.81" layer="94">3</text>
 <text x="686.42" y="36.02" size="3.81" layer="94">Document 1</text>
 <text x="645.42" y="55.02" size="3.81" layer="94">By Carlos Lopez Martinez</text>
 <wire x1="17" y1="28" x2="743" y2="28" width="0.1524" layer="94"/>
@@ -4626,10 +4627,6 @@ You are welcome to use this library for commercial purposes. For attribution, we
 <attribute name="NAME" x="675.52" y="300.08" size="1.778" layer="95"/>
 </instance>
 <instance part="U$96" gate="G$1" x="680.6" y="279.76" smashed="yes"/>
-<instance part="Q1" gate="G$1" x="688.22" y="239.12" smashed="yes" rot="R270">
-<attribute name="VALUE" x="675.52" y="250.55" size="1.778" layer="96" rot="R270"/>
-<attribute name="NAME" x="695.84" y="250.55" size="1.778" layer="95" rot="R270"/>
-</instance>
 <instance part="BATTERY" gate="G$1" x="619.64" y="239.12" smashed="yes" rot="R180">
 <attribute name="NAME" x="620.91" y="235.818" size="1.778" layer="95" rot="R180"/>
 </instance>
@@ -4829,6 +4826,10 @@ You are welcome to use this library for commercial purposes. For attribution, we
 <instance part="FRAME1" gate="G$2" x="641.34" y="28.02" smashed="yes">
 <attribute name="LAST_DATE_TIME" x="654.04" y="29.29" size="2.54" layer="94"/>
 <attribute name="SHEET" x="727.7" y="29.29" size="2.54" layer="94"/>
+</instance>
+<instance part="Q2" gate="G$1" x="682.22" y="246.51" smashed="yes" rot="R270">
+<attribute name="NAME" x="684.506" y="243.97" size="1.778" layer="95" rot="R270" align="top-left"/>
+<attribute name="VALUE" x="680.188" y="243.97" size="1.778" layer="96" rot="R270"/>
 </instance>
 </instances>
 <busses>
@@ -6221,12 +6222,12 @@ You are welcome to use this library for commercial purposes. For attribution, we
 </segment>
 <segment>
 <pinref part="GND6" gate="1" pin="GND"/>
-<wire x1="700.92" y1="256.9" x2="700.92" y2="239.12" width="0.1524" layer="91"/>
-<pinref part="Q1" gate="G$1" pin="S2"/>
-<wire x1="700.92" y1="239.12" x2="700.92" y2="231.5" width="0.1524" layer="91"/>
-<wire x1="698.38" y1="239.12" x2="700.92" y2="239.12" width="0.1524" layer="91"/>
-<junction x="700.92" y="239.12"/>
+<wire x1="700.92" y1="256.9" x2="700.92" y2="231.5" width="0.1524" layer="91"/>
 <pinref part="R3" gate="G$1" pin="2"/>
+<pinref part="Q2" gate="G$1" pin="S2"/>
+<wire x1="692.38" y1="246.51" x2="700.92" y2="246.51" width="0.1524" layer="91"/>
+<wire x1="700.92" y1="246.51" x2="700.92" y2="256.9" width="0.1524" layer="91"/>
+<junction x="700.92" y="256.9"/>
 </segment>
 <segment>
 <pinref part="GND7" gate="1" pin="GND"/>
@@ -7141,14 +7142,14 @@ You are welcome to use this library for commercial purposes. For attribution, we
 <segment>
 <pinref part="U$96" gate="G$1" pin="GND"/>
 <wire x1="670.44" y1="274.68" x2="660.28" y2="274.68" width="0.1524" layer="91"/>
-<pinref part="Q1" gate="G$1" pin="S1"/>
-<wire x1="678.06" y1="239.12" x2="660.28" y2="239.12" width="0.1524" layer="91"/>
 <wire x1="660.28" y1="239.12" x2="660.28" y2="274.68" width="0.1524" layer="91"/>
 <wire x1="660.28" y1="239.12" x2="652.66" y2="239.12" width="0.1524" layer="91"/>
-<junction x="660.28" y="239.12"/>
 <label x="652.66" y="239.12" size="1.778" layer="95"/>
 <pinref part="C2" gate="G$1" pin="2"/>
 <junction x="660.28" y="274.68"/>
+<pinref part="Q2" gate="G$1" pin="S1"/>
+<wire x1="660.28" y1="274.68" x2="660.28" y2="246.51" width="0.1524" layer="91"/>
+<wire x1="660.28" y1="246.51" x2="672.06" y2="246.51" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="TPPROG" class="0">
@@ -7165,23 +7166,6 @@ You are welcome to use this library for commercial purposes. For attribution, we
 <wire x1="700.92" y1="267.06" x2="700.92" y2="274.68" width="0.1524" layer="91"/>
 <pinref part="R3" gate="G$1" pin="1"/>
 <label x="700.92" y="274.68" size="1.778" layer="95"/>
-</segment>
-</net>
-<net name="DWOD" class="0">
-<segment>
-<pinref part="Q1" gate="G$1" pin="G1"/>
-<pinref part="U$96" gate="G$1" pin="OD"/>
-<wire x1="680.6" y1="244.2" x2="680.6" y2="261.98" width="0.1524" layer="91"/>
-<wire x1="680.6" y1="261.98" x2="685.68" y2="261.98" width="0.1524" layer="91"/>
-<label x="680.6" y="254.36" size="1.778" layer="95"/>
-</segment>
-</net>
-<net name="DWOC" class="0">
-<segment>
-<pinref part="Q1" gate="G$1" pin="G2"/>
-<pinref part="U$96" gate="G$1" pin="OC"/>
-<wire x1="690.76" y1="244.2" x2="690.76" y2="261.98" width="0.1524" layer="91"/>
-<label x="690.76" y="254.36" size="1.778" layer="95"/>
 </segment>
 </net>
 <net name="DWVCC" class="0">
@@ -7447,6 +7431,22 @@ You are welcome to use this library for commercial purposes. For attribution, we
 <pinref part="U$97" gate="G$1" pin="LED_DI"/>
 <wire x1="633.76" y1="143.6" x2="644.12" y2="143.6" width="0.1524" layer="91"/>
 <wire x1="644.12" y1="143.6" x2="644.12" y2="141.56" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="N$31" class="0">
+<segment>
+<pinref part="Q2" gate="G$1" pin="G1"/>
+<pinref part="U$96" gate="G$1" pin="OD"/>
+<wire x1="677.14" y1="251.59" x2="677.14" y2="261.98" width="0.1524" layer="91"/>
+<wire x1="677.14" y1="261.98" x2="685.68" y2="261.98" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="N$32" class="0">
+<segment>
+<pinref part="U$96" gate="G$1" pin="OC"/>
+<pinref part="Q2" gate="G$1" pin="G2"/>
+<wire x1="690.76" y1="261.98" x2="690.76" y2="251.59" width="0.1524" layer="91"/>
+<wire x1="690.76" y1="251.59" x2="687.3" y2="251.59" width="0.1524" layer="91"/>
 </segment>
 </net>
 </nets>
