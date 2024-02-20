@@ -8602,7 +8602,7 @@
 <wire x1="4.5" y1="127" x2="2.5" y2="125" width="0.01" layer="20" curve="90"/>
 <wire x1="431" y1="125" x2="429" y2="127" width="0.01" layer="20" curve="90"/>
 <wire x1="429" y1="2" x2="431" y2="4" width="0.01" layer="20" curve="90"/>
-<text x="409.6" y="4.9" size="1.5" layer="28" rot="MR0">JLCJLCJLCJLC</text>
+<text x="409.6" y="4.9" size="1.5" layer="22" rot="MR0">JLCJLCJLCJLC</text>
 </plain>
 <libraries>
 <library name="cherrymx">
