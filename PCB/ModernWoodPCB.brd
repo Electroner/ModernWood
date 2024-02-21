@@ -6,7 +6,7 @@
 <setting alwaysvectorfont="no"/>
 <setting verticaltext="up"/>
 </settings>
-<grid distance="0.05" unitdist="mm" unit="mm" style="lines" multiple="1" display="yes" altdistance="5" altunitdist="mil" altunit="mil"/>
+<grid distance="0.1" unitdist="mm" unit="mm" style="lines" multiple="1" display="yes" altdistance="5" altunitdist="mil" altunit="mil"/>
 <layers>
 <layer number="1" name="Top" color="4" fill="1" visible="yes" active="yes"/>
 <layer number="2" name="Route2" color="16" fill="1" visible="no" active="no"/>
@@ -297,7 +297,7 @@
 <text x="402.5" y="103.4" size="0.8128" layer="21" ratio="31" distance="249">1.0uF</text>
 <text x="402.5" y="107.1" size="0.8128" layer="21" ratio="31" distance="249">1.0uF</text>
 <text x="402.3" y="118.7" size="0.8128" layer="21" ratio="31" distance="249">TP4056</text>
-<text x="411.5" y="122.9" size="0.8128" layer="21" ratio="31" distance="249" rot="R270">FS8205A</text>
+<text x="414.7" y="122.8" size="0.8128" layer="21" ratio="31" distance="249" rot="R270">FS8205A</text>
 <text x="419.4" y="122.7" size="0.8128" layer="21" ratio="31" distance="249">DW01A</text>
 <text x="419.7" y="101.6" size="0.8128" layer="21" ratio="31" distance="249">1.0uF</text>
 <text x="419.7" y="105.3" size="0.8128" layer="21" ratio="31" distance="249">1.0uF</text>
@@ -8602,6 +8602,10 @@
 <wire x1="4.5" y1="127" x2="2.5" y2="125" width="0.01" layer="20" curve="90"/>
 <wire x1="431" y1="125" x2="429" y2="127" width="0.01" layer="20" curve="90"/>
 <wire x1="429" y1="2" x2="431" y2="4" width="0.01" layer="20" curve="90"/>
+<text x="407.5" y="124.6" size="0.8128" layer="21" ratio="31" distance="249">1MΩ</text>
+<text x="404.7" y="124.6" size="0.8128" layer="21" ratio="31" distance="249">2MΩ</text>
+<text x="401.9" y="124.6" size="0.8128" layer="21" ratio="31" distance="249">1MΩ</text>
+<text x="399.1" y="124.6" size="0.8128" layer="21" ratio="31" distance="249">2MΩ</text>
 </plain>
 <libraries>
 <library name="cherrymx">
