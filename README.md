@@ -23,7 +23,9 @@ Schematic:
 
 ### Piezas (Electronica)
 
+```plaintext
 ![PIEZAS](https://github.com/Electroner/ModernWood/blob/main/Electronics/PARTS.txt)
+```
 
 ## Recursos Usados
 
