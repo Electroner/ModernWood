@@ -24,7 +24,7 @@ Schematic:
 ### Piezas (Electronica)
 
 ```plaintext
-![PARTS.txt](Electronics/PARTS.txt)
+$(curl -sSL https://raw.githubusercontent.com/Electroner/ModernWood/main/Electronics/PARTS.txt)
 ````
 
 ## Recursos Usados
