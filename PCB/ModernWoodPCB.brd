@@ -304,9 +304,9 @@
 <text x="419.4" y="111" size="0.8128" layer="21" ratio="31" distance="249" rot="R90">ME6211C33</text>
 <text x="412" y="116.4" size="0.8128" layer="21" ratio="31" distance="249">1KΩ</text>
 <text x="412" y="113" size="0.8128" layer="21" ratio="31" distance="249">1KΩ</text>
-<text x="412" y="109.6" size="0.8128" layer="21" ratio="31" distance="249">1KΩ</text>
+<text x="412" y="109.6" size="0.8128" layer="21" ratio="31" distance="249">4MΩ</text>
 <text x="412" y="106.2" size="0.8128" layer="21" ratio="31" distance="249">1KΩ</text>
-<text x="412" y="102.8" size="0.8128" layer="21" ratio="31" distance="249">1KΩ</text>
+<text x="412" y="102.8" size="0.8128" layer="21" ratio="31" distance="249">1MΩ</text>
 <text x="357.7" y="103.7" size="0.8128" layer="21" ratio="31" distance="249">1KΩ</text>
 <text x="345.7" y="103.7" size="0.8128" layer="21" ratio="31" distance="249">1KΩ</text>
 <text x="303.8" y="102.5" size="0.8128" layer="21" ratio="31" distance="249">74HC154D</text>

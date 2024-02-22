@@ -3885,7 +3885,7 @@ You are welcome to use this library for commercial purposes. For attribution, we
 <sheet>
 <plain>
 <text x="693.52" y="45.02" size="3.81" layer="94">ModernWood</text>
-<text x="772.52" y="34.02" size="3.81" layer="94">5</text>
+<text x="772.52" y="34.02" size="3.81" layer="94">6</text>
 <text x="724.52" y="36.02" size="3.81" layer="94">Document 1</text>
 <text x="683.52" y="55.02" size="3.81" layer="94">By Carlos Lopez Martinez</text>
 <wire x1="17" y1="28" x2="781.1" y2="28" width="0.1524" layer="94"/>
