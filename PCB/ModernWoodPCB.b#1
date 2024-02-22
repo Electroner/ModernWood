@@ -3,7 +3,7 @@
 <eagle version="9.6.2">
 <drawing>
 <settings>
-<setting alwaysvectorfont="yes"/>
+<setting alwaysvectorfont="no"/>
 <setting verticaltext="up"/>
 </settings>
 <grid distance="0.1" unitdist="mm" unit="mm" style="lines" multiple="1" display="yes" altdistance="5" altunitdist="mil" altunit="mil"/>
@@ -223,6 +223,7 @@
 <hole x="283.12" y="71.83" drill="3"/>
 <hole x="280.82" y="95.5" drill="3"/>
 <hole x="257.18" y="95.5" drill="3"/>
+<wire x1="331.5" y1="116.41" x2="331.538" y2="116.448" width="0.5" layer="21"/>
 <wire x1="398" y1="105.149990625" x2="368" y2="105.149990625" width="0.001" layer="48"/>
 <wire x1="398" y1="118.849990625" x2="368" y2="118.849990625" width="0.001" layer="48"/>
 <circle x="370.5" y="102.499990625" radius="1" width="0.001" layer="48"/>
