@@ -11,29 +11,21 @@ Este además dispone de una pantalla donde se encontraran todas las configuracio
 
 ## Imagenes
 
-![TECLADO](https://github.com/Electroner/ModernWood/tree/main/Images/ModernLogo.png)
+![TECLADO](https://github.com/Electroner/ModernWood/blob/main/Images/ModernLogo.png)
 
-Teclado Finalizado (Leds):
+Vista Previa de la PCB:
 
-![TECLADO](https://github.com/Electroner/Teclado/blob/main/Imagenes/Keyboard5.jpg)
+![PLANO](https://github.com/Electroner/ModernWood/blob/main/Images/PCB/Board.png)
 
-### Contenido del archivo PARTS.txt
+Schematic:
+
+![PLANO](https://github.com/Electroner/ModernWood/blob/main/Images/PCB/Schematic.png)
+
+### Piezas (Electronica)
 
 ```plaintext
 ![PARTS.txt](Electronics/PARTS.txt)
 ````
-
-Vista Previa de la PCB:
-
-![PLANO](https://github.com/Electroner/Teclado/blob/main/PCB/Board.png)
-
-Schematic:
-
-![PLANO](https://github.com/Electroner/Teclado/blob/main/PCB/Schematic.png)
-
-Plano Plancha Superior (Plate):
-
-![PLANO](https://github.com/Electroner/Teclado/blob/main/Planos/Planos%20Plancha/Plancha.png)
 
 ## Recursos Usados
 
