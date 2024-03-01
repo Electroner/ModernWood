@@ -61,6 +61,8 @@ Y varias paginas para datos concretos como funciones en eagle,ayuda con el bootl
 -   [Compra de los componentes](https://lcsc.com/)
 -   [Corte de metacrilato (Tienda Local)](https://ecoplasticlaser.com/)
 
+## Actualizar las librerias
+
 > [!IMPORTANT]  
 > Si las librerias se actualizan en PlatformIO:
 ```
