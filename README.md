@@ -61,14 +61,12 @@ Y varias paginas para datos concretos como funciones en eagle,ayuda con el bootl
 -   [Compra de los componentes](https://lcsc.com/)
 -   [Corte de metacrilato (Tienda Local)](https://ecoplasticlaser.com/)
 
-> [!UPDATING:LIBRARIES]  
-> Ejecucion con el comando:
+> [!IMPORTANT]  
+> Si las librerias se actualizan en PlatformIO:
 ```
-Change 
-#include <User_Setup.h> // in User_Setup_Select.h to:
+Cambiar 
+#include <User_Setup.h> // en User_Setup_Select.h a:
 
 //#include <User_Setup.h>
 #include <../TFT_eSPI_Setups/Setup_ST7735_ESP80x160.h>
-
-If library is updated
 ```
