@@ -18,7 +18,7 @@ int *SubMenuConfigVar[SizeSubMenuConfig] = {&DisplayEnabled, &KeyboardEnabled, &
 int *SubMenuBrightnessVar[SizeSubMenuBrightness] = {&LedsBrightness, &DisplayBrightness};
 int *SubMenuLedsVar[SizeSubMenuLeds] = {&LedsActive, &LedsColor.color, &LedsMode, &LedsSpeed};
 int *SubMenuEnergyVar[SizeSubMenuEnergy] = {&BatteryEnabled, &DisplayBatteryMode};
-int *SubMenuConnectionVar[SizeSubMenuConnection] = {&BLEEnabled, &USBEnabled, &isBLEPreferred, &isUSBPreferred};
+int *SubMenuConnectionVar[SizeSubMenuConnection] = {&BLEEnabled, &isBLEPreferred, &isUSBPreferred};
 
 // MAIN FUNCTIONS
 //  ################################################## LED INDICATOR ##################################################
@@ -49,20 +49,21 @@ void IRAM_ATTR checkBatteryLevel()
 
 // ################################################## USB HID ##################################################
 
-int BLEEnabled = 0;
-int USBEnabled = 1;
+int BLEEnabled = 0;		// 1 if BLE is enabled 0 if not
 int isBLEPreferred = 0;
 int isUSBPreferred = 1;
 
 bool volatile isUSBConnected = true;
 bool volatile isBLEConnected = false;
 
+//Set the USB and BLE connected flags when Pin <PIN_USB_CONNECTED> is triggered RISSING
 void IRAM_ATTR USBConnected()
 {
 	isUSBConnected = true;
 	isBLEConnected = false;
 }
 
+//Set the USB and BLE connected flags when Pin <PIN_USB_CONNECTED> is triggered FALLING
 void IRAM_ATTR USBDisconnected()
 {
 	isUSBConnected = false;
@@ -86,6 +87,7 @@ unsigned int volatile last_interrupt_FN_time = 0;
 
 int KeyboardEnabled = 1;
 
+// Swap bettwen the keyboard and the display mode when the FN key is pressed
 void IRAM_ATTR FNKeyboardDisplay()
 {
 	unsigned int interrupt_time = millis();
@@ -141,7 +143,7 @@ void WorkingInExternalFunctionMode(TFT_eSPI &tft, BleKeyboard &bleKeyboard, USBH
 void WorkingModeKeyboard(TFT_eSPI &tft, BleKeyboard &bleKeyboard, USBHIDKeyboard &Keyboard, bool volatile &isBLEConnected, bool volatile &isUSBConnected)
 {
 	bool SwicthFastState;
-	if (isUSBConnected)
+	if (isUSBConnected && !isBLEPreferred)
 	{
 		for (int i = 0; i < KEYBOARDWIDTH; i++)
 		{
@@ -168,7 +170,7 @@ void WorkingModeKeyboard(TFT_eSPI &tft, BleKeyboard &bleKeyboard, USBHIDKeyboard
 			}
 		}
 	}
-	else
+	else if(!isUSBConnected && !isUSBPreferred)
 	{
 		for (int i = 0; i < KEYBOARDWIDTH; i++)
 		{

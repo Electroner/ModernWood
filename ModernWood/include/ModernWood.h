@@ -57,7 +57,6 @@ void IRAM_ATTR checkBatteryLevel();
 #define PIN_USB_CONNECTED 2 //Pin used by the tp4056 to indicate that the battery is charging and the USB is connected
 
 extern int BLEEnabled;
-extern int USBEnabled;
 extern int isBLEPreferred;
 extern int isUSBPreferred;
 
@@ -164,9 +163,9 @@ const String SubMenuEnergyText[SizeSubMenuEnergy] = {"Disable Battery", "Display
 const String SubMenuEnergyVarType[SizeSubMenuEnergy] = {"bool", "int"};
 extern int* SubMenuEnergyVar[SizeSubMenuEnergy];
 
-enum SubMenuConnection {_DisableBle, _DisableUSB, _PreferenceBle, _PreferenceUSB, SizeSubMenuConnection};
-const String SubMenuConnectionText[SizeSubMenuConnection] = {"Disable Ble", "Disable USB", "Preference Ble", "Preference USB"};
-const String SubMenuConnectionVarType[SizeSubMenuConnection] = {"bool", "bool", "bool", "bool"};
+enum SubMenuConnection {_DisableBle, _PreferenceBle, _PreferenceUSB, SizeSubMenuConnection};
+const String SubMenuConnectionText[SizeSubMenuConnection] = {"Disable Ble", "Preference Ble", "Preference USB"};
+const String SubMenuConnectionVarType[SizeSubMenuConnection] = {"bool", "bool", "bool"};
 extern int* SubMenuConnectionVar[SizeSubMenuConnection];
 
 enum SubMenuInfoHelp {_Info, _Help, SizeSubMenuInfoHelp};

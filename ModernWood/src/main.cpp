@@ -188,7 +188,7 @@ void loop()
 		}
 #endif
 
-		// Check if keyboard is working as Display Mode or Keyboard Mode
+		// Check if keyboard is executing a custom function
 		if (inExternalFunctionMode)
 		{
 			if (executingCustomFunction)
@@ -214,6 +214,8 @@ void loop()
 		}
 		else
 		{
+			// Check if keyboard is working as Display Mode or Keyboard Mode
+			// Also check if is USBPreferred or BLEPreferred
 			if (WorkingAsKeyboard)
 			{
 				if (interrupted_FN)
@@ -237,6 +239,18 @@ void loop()
 					for (int i = 0; i < 6; i++)
 					{
 						printMenuOptionNumber(tft, i, false);
+					}
+
+					// Function to set configuration of the keyboard (check BLEEnabled)
+					if(!BLEEnabled && btStarted())
+					{
+						bleKeyboard.end();
+						btStop();
+					}
+					else if(BLEEnabled && !btStarted())
+					{
+						btStart();
+						bleKeyboard.begin();
 					}
 				}
 				WorkingModeKeyboard(tft, bleKeyboard, Keyboard, isBLEConnected, isUSBConnected);
@@ -279,6 +293,18 @@ void loop()
 					InMenu = true;
 					// Print the option selected
 					printMenuOptionNumber(tft, option_selected, true);
+
+					// Function to set configuration of the keyboard (check BLEEnabled)
+					if(!BLEEnabled && btStarted())
+					{
+						bleKeyboard.end();
+						btStop();
+					}
+					else if(BLEEnabled && !btStarted())
+					{
+						btStart();
+						bleKeyboard.begin();
+					}
 				}
 				WorkingModeDisplay(tft, bleKeyboard, Keyboard, isBLEConnected, isUSBConnected);
 			}
@@ -286,6 +312,5 @@ void loop()
 	}
 }
 
-// TODO: review if bluethoot disconnect and connect wih usb wired
 // TODO: make int menu options max and min with another category
 // TODO: make preferences save in the flash using preferences.h
