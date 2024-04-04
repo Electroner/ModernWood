@@ -3880,12 +3880,13 @@ You are welcome to use this library for commercial purposes. For attribution, we
 <part name="R10" library="resistors" deviceset="?" device="1K" value="1M"/>
 <part name="R11" library="resistors" deviceset="?" device="1K" value="2M"/>
 <part name="GND29" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="GND" device=""/>
+<part name="DIODE" library="bt_diode" deviceset="ZENER-DIODE" device="-SOD123"/>
 </parts>
 <sheets>
 <sheet>
 <plain>
 <text x="693.52" y="45.02" size="3.81" layer="94">ModernWood</text>
-<text x="772.52" y="34.02" size="3.81" layer="94">8</text>
+<text x="772.52" y="34.02" size="3.81" layer="94">9</text>
 <text x="724.52" y="36.02" size="3.81" layer="94">Document 1</text>
 <text x="683.52" y="55.02" size="3.81" layer="94">By Carlos Lopez Martinez</text>
 <wire x1="17" y1="28" x2="781.1" y2="28" width="0.1524" layer="94"/>
@@ -4858,6 +4859,10 @@ You are welcome to use this library for commercial purposes. For attribution, we
 </instance>
 <instance part="GND29" gate="1" x="749.18" y="188.32" smashed="yes">
 <attribute name="VALUE" x="746.64" y="185.78" size="1.778" layer="96"/>
+</instance>
+<instance part="DIODE" gate="D1" x="662.82" y="223.88" smashed="yes" rot="R180">
+<attribute name="NAME" x="664.598" y="221.975" size="1.778" layer="95" rot="R180"/>
+<attribute name="VALUE" x="664.598" y="227.309" size="1.778" layer="96" rot="R180"/>
 </instance>
 </instances>
 <busses>
@@ -6956,6 +6961,10 @@ You are welcome to use this library for commercial purposes. For attribution, we
 <wire x1="700.92" y1="211.18" x2="700.92" y2="216.26" width="0.1524" layer="91"/>
 <junction x="700.92" y="211.18"/>
 <pinref part="P+5" gate="VCC" pin="VCC"/>
+<pinref part="DIODE" gate="D1" pin="A"/>
+<wire x1="665.36" y1="223.88" x2="680.6" y2="223.88" width="0.1524" layer="91"/>
+<wire x1="680.6" y1="223.88" x2="680.6" y2="211.18" width="0.1524" layer="91"/>
+<junction x="680.6" y="211.18"/>
 </segment>
 <segment>
 <pinref part="P+4" gate="VCC" pin="VCC"/>
@@ -7385,6 +7394,10 @@ You are welcome to use this library for commercial purposes. For attribution, we
 <wire x1="629.8" y1="211.18" x2="645.04" y2="211.18" width="0.1524" layer="91"/>
 <junction x="629.8" y="211.18"/>
 <label x="617.1" y="211.18" size="1.778" layer="95"/>
+<pinref part="DIODE" gate="D1" pin="C"/>
+<wire x1="645.04" y1="211.18" x2="645.04" y2="223.88" width="0.1524" layer="91"/>
+<wire x1="645.04" y1="223.88" x2="660.28" y2="223.88" width="0.1524" layer="91"/>
+<junction x="645.04" y="211.18"/>
 </segment>
 <segment>
 <pinref part="R5" gate="G$1" pin="1"/>
