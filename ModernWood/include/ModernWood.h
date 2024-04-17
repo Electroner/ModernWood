@@ -144,8 +144,8 @@ enum Menus {MenuConfig, MenuBrightness, MenuLeds, MenuEnergy, MenuConnection, Me
 
 //Size of the Submenus (number of options, the last one is the size of the submenu, and has to be the last one)
 enum SubMenuConfig {_DissableDisplayOption, _DissableKeyboardOption, _ScreensaverOption, _LanguageMenuOption, SizeSubMenuConfig};
-const String SubMenuConfigText[SizeSubMenuConfig] = {"Disable Display", "Disable Keyboard", "Screensaver", "Language"};
-const String SubMenuConfigVarType[SizeSubMenuConfig] = {"bool", "bool", "bool", "int"};
+const String SubMenuConfigText[SizeSubMenuConfig] = {"Enable Display", "Enable Keyboard", "Screensaver", "Language"};
+const String SubMenuConfigVarType[SizeSubMenuConfig] = {"bool", "bool", "bool", "language"};
 extern int* SubMenuConfigVar[SizeSubMenuConfig];
 
 enum SubMenuBrightness {_BrightnessLeds, _BrightnessDisplay, SizeSubMenuBrightness}; 
@@ -154,23 +154,23 @@ const String SubMenuBrightnessVarType[SizeSubMenuBrightness] = {"int", "int"};
 extern int* SubMenuBrightnessVar[SizeSubMenuBrightness];
 
 enum SubMenuLeds {_DisableLeds, _LedsColor, _LedsMode, _LedsSpeed, SizeSubMenuLeds};
-const String SubMenuLedsText[SizeSubMenuLeds] = {"Disable Leds", "Leds Color", "Leds Mode", "Leds Speed"};
+const String SubMenuLedsText[SizeSubMenuLeds] = {"Enable Leds", "Leds Color", "Leds Mode", "Leds Speed"};
 const String SubMenuLedsVarType[SizeSubMenuLeds] = {"bool", "rgb", "int", "int"};
 extern int* SubMenuLedsVar[SizeSubMenuLeds];
 
 enum SubMenuEnergy {_DisableBattery, _DisplayMode, SizeSubMenuEnergy};
-const String SubMenuEnergyText[SizeSubMenuEnergy] = {"Disable Battery", "Display Mode"};
+const String SubMenuEnergyText[SizeSubMenuEnergy] = {"Enable Battery", "Display Mode"};
 const String SubMenuEnergyVarType[SizeSubMenuEnergy] = {"bool", "int"};
 extern int* SubMenuEnergyVar[SizeSubMenuEnergy];
 
 enum SubMenuConnection {_DisableBle, _PreferenceBle, _PreferenceUSB, SizeSubMenuConnection};
-const String SubMenuConnectionText[SizeSubMenuConnection] = {"Disable Ble", "Preference Ble", "Preference USB"};
+const String SubMenuConnectionText[SizeSubMenuConnection] = {"Enable Ble", "Preference Ble", "Preference USB"};
 const String SubMenuConnectionVarType[SizeSubMenuConnection] = {"bool", "bool", "bool"};
 extern int* SubMenuConnectionVar[SizeSubMenuConnection];
 
-enum SubMenuInfoHelp {_Info, _Help, SizeSubMenuInfoHelp};
-const String SubMenuInfoHelpText[SizeSubMenuInfoHelp] = {"Info", "Help"};
-const String SubMenuInfoHelpVarType[SizeSubMenuInfoHelp] = {"none", "none"};
+enum SubMenuInfoHelp {_EspecialMode, _Info, _Help, SizeSubMenuInfoHelp};
+const String SubMenuInfoHelpText[SizeSubMenuInfoHelp] = {"Especial Modes", "Info", "Help"};
+const String SubMenuInfoHelpVarType[SizeSubMenuInfoHelp] = {"none", "none", "none"};
 
 //What are the positions of the keys that control the menu
 #define KeyMenuEnterRow 2 //index
@@ -277,6 +277,9 @@ void ChangeConfig(int Menu, int SubMenu, bool &changed_option_subMenu, bool righ
 
 //Change the var depending on the type
 void ChangeVar(String varType, int *var, bool &changed_option_subMenu, bool right);
+
+//Apply the changes
+void ApplyChanges(int Menu, int SubMenu);
 
 //Exit the special Function Mode (Macros, Media, etc)
 void exitModule();

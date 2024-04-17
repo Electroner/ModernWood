@@ -69,7 +69,7 @@ void setup()
 
 	// Led Configuration
 	RgbLED.begin();
-	RgbLED.setBrightness(0);
+	RgbLED.setBrightness(30);
 	// Set color to blue (0,0,255)
 	RgbLED.setPixelColor(0, 0, 0, 255);
 	RgbLED.show();
@@ -170,22 +170,71 @@ void loop()
 
 #ifdef DEBUG
 		// for debug purposes show how many times the loop is executed per second
-		loop_counter++;
-		if (millis() - last_loop_time > 1000)
+		// loop_counter++;
+		// if (millis() - last_loop_time > 1000)
+		// {
+		// 	Serial.print("Loop executed ");
+		// 	Serial.print(loop_counter);
+		// 	Serial.println(" times per second");
+
+		// 	Serial.print("Temperature: ");
+		// 	float result = 0;
+		// 	temp_sensor_read_celsius(&result);
+		// 	Serial.print(result);
+		// 	Serial.println(" °C");
+
+		// 	loop_counter = 0;
+		// 	last_loop_time = millis();
+		// }
+
+		//Read from serial
+		char c = 'N';
+		if (Serial.available())
 		{
-			Serial.print("Loop executed ");
-			Serial.print(loop_counter);
-			Serial.println(" times per second");
-
-			Serial.print("Temperature: ");
-			float result = 0;
-			temp_sensor_read_celsius(&result);
-			Serial.print(result);
-			Serial.println(" °C");
-
-			loop_counter = 0;
-			last_loop_time = millis();
+			c= Serial.read();
+			Serial.print("Read from serial: ");
+			Serial.println(c);
 		}
+		//wasd -> ARRIBA ABAJO DERECHA IZQUIERDA
+		//Espace -> Enter
+		//E -> Escape
+		//Q -> MODO ESPECIAL
+		switch (c)
+		{
+		case 'Q':
+			WorkingAsKeyboard = !WorkingAsKeyboard;
+			interrupted_FN = true;
+			break;
+		
+		case 'E':
+			MenuPressed[ArrEsc] = true;
+			break;
+
+		case ' ':
+			MenuPressed[ArrEnter] = true;
+			break;
+
+		case 'W':
+			MenuPressed[ArrUp] = true;
+			break;
+
+		case 'S':
+			MenuPressed[ArrDown] = true;
+			MenuPressed[ArrDown] = true;
+			break;
+
+		case 'A':	
+			MenuPressed[ArrLeft] = true;
+			break;
+
+		case 'D':	
+			MenuPressed[ArrRight] = true;
+			break;
+
+		default:
+			break;
+		}
+		
 #endif
 
 		// Check if keyboard is executing a custom function
@@ -314,3 +363,5 @@ void loop()
 
 // TODO: make int menu options max and min with another category
 // TODO: make preferences save in the flash using preferences.h
+// TODO: Make SubMenuVars take effect on control variables
+// TODO: Finish Battery voltage check

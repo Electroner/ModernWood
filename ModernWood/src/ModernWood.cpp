@@ -851,6 +851,17 @@ String varToText(String varType, int *var)
 	{
 		ret = "+";
 	}
+	else if (varType == "language")
+	{
+		if (*var == 0)
+		{
+			ret = "ENG";
+		}
+		else
+		{
+			ret = "ES";
+		}
+	}
 
 	return ret;
 }
@@ -920,6 +931,9 @@ void ChangeConfig(int Menu, int SubMenu, bool &changed_option_subMenu, bool righ
 	default:
 		break;
 	}
+
+	//Apply the changes
+	ApplyChanges(Menu, SubMenu);
 }
 
 void ChangeVar(String varType, int *var, bool &changed_option_subMenu, bool right)
@@ -936,11 +950,11 @@ void ChangeVar(String varType, int *var, bool &changed_option_subMenu, bool righ
 	{
 		if (right)
 		{
-			*var = modulo_p((*var + 1), 100);
+			*var = modulo_p((*var + 1), 101);
 		}
 		else
 		{
-			*var = modulo_p((*var - 1), 100);
+			*var = modulo_p((*var - 1), 101);
 		}
 		changed_option_subMenu = true;
 	}
@@ -959,6 +973,33 @@ void ChangeVar(String varType, int *var, bool &changed_option_subMenu, bool righ
 			LedsColor.CalculateRGB();
 		}
 		changed_option_subMenu = true;
+	}
+
+	// language variable : Change the language
+	else if (varType == "language")
+	{
+		if (right)
+		{
+			*var = modulo_p((*var + 1), 2);
+		}
+		else
+		{
+			*var = modulo_p((*var - 1), 2);
+		}
+		changed_option_subMenu = true;
+	}
+}
+
+// Apply the changes of the configuration selected that have been changed
+void ApplyChanges(int Menu, int SubMenu)
+{
+	if((Menu == 1 && SubMenu == 0) || (Menu == 2))
+	{
+		float brightness = (*SubMenuBrightnessVar[0]/100.0f);	
+		RgbLED.setPixelColor(0, (int)(LedsColor.r*brightness), 
+								(int)(LedsColor.g*brightness), 
+								(int)(LedsColor.b*brightness));
+		RgbLED.show();
 	}
 }
 
