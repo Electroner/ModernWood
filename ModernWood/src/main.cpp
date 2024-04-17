@@ -155,7 +155,10 @@ void loop()
 	USBHIDKeyboard Keyboard;
 
 	// Start USB and BLE Keyboards
-	bleKeyboard.begin();
+	if(BLEEnabled)
+	{
+		bleKeyboard.begin();
+	}
 	Keyboard.begin();
 	USB.begin();
 
@@ -237,6 +240,24 @@ void loop()
 		
 #endif
 
+		if(*SubMenuLedsVar[_EnableLeds] != 0)
+		{
+			//Check for special functions like led control
+			if(*SubMenuLedsVar[_LedsMode] != 0)
+			{
+				//Check if the led mode is rainbow
+				if(*SubMenuLedsVar[_LedsMode] == 1)
+				{
+					//Check if the led mode is rainbow
+					rainbowEffect(RgbLED);
+				}
+			}
+		}
+		else
+		{
+			RgbLED.clear();
+		}
+		
 		// Check if keyboard is executing a custom function
 		if (inExternalFunctionMode)
 		{
@@ -293,11 +314,17 @@ void loop()
 					// Function to set configuration of the keyboard (check BLEEnabled)
 					if(!BLEEnabled && btStarted())
 					{
+						#ifdef DEBUG
+						Serial.println("BLE Keyboard Stopped");
+						#endif
 						bleKeyboard.end();
 						btStop();
 					}
 					else if(BLEEnabled && !btStarted())
 					{
+						#ifdef DEBUG
+						Serial.println("BLE Keyboard Started");
+						#endif
 						btStart();
 						bleKeyboard.begin();
 					}
@@ -346,11 +373,17 @@ void loop()
 					// Function to set configuration of the keyboard (check BLEEnabled)
 					if(!BLEEnabled && btStarted())
 					{
+						#ifdef DEBUG
+						Serial.println("BLE Keyboard Stopped");
+						#endif
 						bleKeyboard.end();
 						btStop();
 					}
 					else if(BLEEnabled && !btStarted())
 					{
+						#ifdef DEBUG
+						Serial.println("BLE Keyboard Started");
+						#endif
 						btStart();
 						bleKeyboard.begin();
 					}
@@ -365,3 +398,4 @@ void loop()
 // TODO: make preferences save in the flash using preferences.h
 // TODO: Make SubMenuVars take effect on control variables
 // TODO: Finish Battery voltage check
+// TODO: Ble start and stop make it working

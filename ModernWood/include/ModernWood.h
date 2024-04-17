@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Arduino.h>
+#include <math.h>
 #include <USB.h>
 #include <USBHIDKeyboard.h>
 #include <BleKeyboard.h>
@@ -32,6 +33,9 @@ extern int LedsActive;
 extern RGB LedsColor;
 extern int LedsMode;
 extern int LedsSpeed;
+
+extern int interval;
+extern unsigned long lastUpdateTimeRainbow;
 
 // ################################################## BATTERY ##################################################
 
@@ -143,7 +147,7 @@ enum KeysDistribution {ArrEnter, ArrUp, ArrLeft, ArrDown, ArrRight, ArrEsc};
 enum Menus {MenuConfig, MenuBrightness, MenuLeds, MenuEnergy, MenuConnection, MenuInfoHelp};
 
 //Size of the Submenus (number of options, the last one is the size of the submenu, and has to be the last one)
-enum SubMenuConfig {_DissableDisplayOption, _DissableKeyboardOption, _ScreensaverOption, _LanguageMenuOption, SizeSubMenuConfig};
+enum SubMenuConfig {_EnableDisplayOption, _EnableKeyboardOption, _ScreensaverOption, _LanguageMenuOption, SizeSubMenuConfig};
 const String SubMenuConfigText[SizeSubMenuConfig] = {"Enable Display", "Enable Keyboard", "Screensaver", "Language"};
 const String SubMenuConfigVarType[SizeSubMenuConfig] = {"bool", "bool", "bool", "language"};
 extern int* SubMenuConfigVar[SizeSubMenuConfig];
@@ -153,17 +157,17 @@ const String SubMenuBrightnessText[SizeSubMenuBrightness] = {"Brightness Leds", 
 const String SubMenuBrightnessVarType[SizeSubMenuBrightness] = {"int", "int"};
 extern int* SubMenuBrightnessVar[SizeSubMenuBrightness];
 
-enum SubMenuLeds {_DisableLeds, _LedsColor, _LedsMode, _LedsSpeed, SizeSubMenuLeds};
+enum SubMenuLeds {_EnableLeds, _LedsColor, _LedsMode, _LedsSpeed, SizeSubMenuLeds};
 const String SubMenuLedsText[SizeSubMenuLeds] = {"Enable Leds", "Leds Color", "Leds Mode", "Leds Speed"};
 const String SubMenuLedsVarType[SizeSubMenuLeds] = {"bool", "rgb", "int", "int"};
 extern int* SubMenuLedsVar[SizeSubMenuLeds];
 
-enum SubMenuEnergy {_DisableBattery, _DisplayMode, SizeSubMenuEnergy};
+enum SubMenuEnergy {_EnableBattery, _DisplayMode, SizeSubMenuEnergy};
 const String SubMenuEnergyText[SizeSubMenuEnergy] = {"Enable Battery", "Display Mode"};
 const String SubMenuEnergyVarType[SizeSubMenuEnergy] = {"bool", "int"};
 extern int* SubMenuEnergyVar[SizeSubMenuEnergy];
 
-enum SubMenuConnection {_DisableBle, _PreferenceBle, _PreferenceUSB, SizeSubMenuConnection};
+enum SubMenuConnection {_EnableBle, _PreferenceBle, _PreferenceUSB, SizeSubMenuConnection};
 const String SubMenuConnectionText[SizeSubMenuConnection] = {"Enable Ble", "Preference Ble", "Preference USB"};
 const String SubMenuConnectionVarType[SizeSubMenuConnection] = {"bool", "bool", "bool"};
 extern int* SubMenuConnectionVar[SizeSubMenuConnection];
@@ -280,6 +284,11 @@ void ChangeVar(String varType, int *var, bool &changed_option_subMenu, bool righ
 
 //Apply the changes
 void ApplyChanges(int Menu, int SubMenu);
+
+// Leds Functions for rainbow effect
+uint32_t Wheel(byte WheelPos);
+
+void rainbowEffect(Adafruit_NeoPixel& leds);
 
 //Exit the special Function Mode (Macros, Media, etc)
 void exitModule();

@@ -30,6 +30,9 @@ RGB LedsColor(129, 84, 56);
 int LedsMode = 0;
 int LedsSpeed = 0;
 
+int interval = 250;
+unsigned long lastUpdateTimeRainbow = 0;
+
 // ################################################## BATTERY ##################################################
 
 int BatteryEnabled = 1;
@@ -995,12 +998,56 @@ void ApplyChanges(int Menu, int SubMenu)
 {
 	if((Menu == 1 && SubMenu == 0) || (Menu == 2))
 	{
-		float brightness = (*SubMenuBrightnessVar[0]/100.0f);	
+		float brightness = (*SubMenuBrightnessVar[_BrightnessLeds]/100.0f);	
 		RgbLED.setPixelColor(0, (int)(LedsColor.r*brightness), 
 								(int)(LedsColor.g*brightness), 
 								(int)(LedsColor.b*brightness));
+
+		//If led is on
+		if(*SubMenuLedsVar[_EnableLeds] == 0)
+		{
+			RgbLED.clear();
+		}
+	
 		RgbLED.show();
 	}
+}
+
+uint32_t Wheel(uint8_t j) {
+  float r, g, b;
+  
+  float angle = j * 0.7068583470577; // Convertir a radianes (j / 255 * 3.14159 * 2)
+
+  r = sin(angle) * 127 + 128;
+  g = sin(angle + 2.09439510239) * 127 + 128;
+  b = sin(angle + 4.18879020479) * 127 + 128;
+
+  return ((uint32_t)r << 16) | ((uint32_t)g << 8) | (uint32_t)b;
+}
+
+void rainbowEffect(Adafruit_NeoPixel& leds)
+{
+    unsigned long currentTime = millis();
+
+    if (currentTime - lastUpdateTimeRainbow >= interval-(*SubMenuLedsVar[_LedsSpeed]/80.0f))
+    {
+        lastUpdateTimeRainbow = currentTime;
+        for (int j = 0; j < 256; j++)
+        {
+            for (int i = 0; i < leds.numPixels(); i++)
+            {
+                //Make the rainbow effect with the brightness of the leds (*SubMenuBrightnessVar[_BrightnessLeds]/100.0f)
+				//Use the Wheel function to get the color of the rainbow and then split it into rgb
+				RGB temp;
+				temp.color = Wheel((i + j) & 255);
+				temp.CalculateRGB();
+				leds.setPixelColor(i, (int)(temp.r*(*SubMenuBrightnessVar[_BrightnessLeds]/100.0f)),
+									(int)(temp.g*(*SubMenuBrightnessVar[_BrightnessLeds]/100.0f)),
+									(int)(temp.b*(*SubMenuBrightnessVar[_BrightnessLeds]/100.0f)));
+            }
+            leds.show();
+        }
+    }
 }
 
 void exitModule()

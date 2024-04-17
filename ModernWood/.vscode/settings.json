@@ -1,6 +1,8 @@
 {
     "cmake.configureOnOpen": false,
     "files.associations": {
+        "*.erd": "json",
+        "*.vuerd": "json",
         "array": "cpp",
         "deque": "cpp",
         "list": "cpp",
@@ -10,7 +12,8 @@
         "vector": "cpp",
         "string_view": "cpp",
         "initializer_list": "cpp",
-        "memory": "cpp"
+        "memory": "cpp",
+        "system_error": "cpp"
     },
     "idf.portWin": "COM4"
 }
