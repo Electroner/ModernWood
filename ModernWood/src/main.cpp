@@ -317,7 +317,6 @@ void loop()
 						#ifdef DEBUG
 						Serial.println("BLE Keyboard Stopped");
 						#endif
-						bleKeyboard.end();
 						btStop();
 					}
 					else if(BLEEnabled && !btStarted())
@@ -325,8 +324,8 @@ void loop()
 						#ifdef DEBUG
 						Serial.println("BLE Keyboard Started");
 						#endif
-						btStart();
 						bleKeyboard.begin();
+						btStart();
 					}
 				}
 				WorkingModeKeyboard(tft, bleKeyboard, Keyboard, isBLEConnected, isUSBConnected);
@@ -376,7 +375,6 @@ void loop()
 						#ifdef DEBUG
 						Serial.println("BLE Keyboard Stopped");
 						#endif
-						bleKeyboard.end();
 						btStop();
 					}
 					else if(BLEEnabled && !btStarted())
@@ -384,8 +382,8 @@ void loop()
 						#ifdef DEBUG
 						Serial.println("BLE Keyboard Started");
 						#endif
-						btStart();
 						bleKeyboard.begin();
+						btStart();
 					}
 				}
 				WorkingModeDisplay(tft, bleKeyboard, Keyboard, isBLEConnected, isUSBConnected);
