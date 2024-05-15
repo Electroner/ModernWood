@@ -14,16 +14,139 @@ unsigned long KeysPressedConfigDebounce[6] = {0}; // Enter, Up, Left, Down, Righ
 bool InMenu = true;								  // Check if the user is in the Menu (True)
 bool InSubConfig = false;						  // Check if the user is in the Sub Menu Config Option (True)
 
+// ################################################## USER CONFIGURATION (PREFERENCES) ##################################################
+
 int *SubMenuConfigVar[SizeSubMenuConfig] = {&DisplayEnabled, &KeyboardEnabled, &Screensaver, &LanguageMenu};
 int *SubMenuBrightnessVar[SizeSubMenuBrightness] = {&LedsBrightness, &DisplayBrightness};
 int *SubMenuLedsVar[SizeSubMenuLeds] = {&LedsActive, &LedsColor.color, &LedsMode, &LedsSpeed};
 int *SubMenuEnergyVar[SizeSubMenuEnergy] = {&BatteryEnabled, &DisplayBatteryMode};
 int *SubMenuConnectionVar[SizeSubMenuConnection] = {&BLEEnabled, &isBLEPreferred, &isUSBPreferred};
 
+Preferences configurationModernWood = Preferences();
+bool ChangedConfig = false;
+
+void loadUserConfiguration(int Menu, int Option, bool OpenConfig = true)
+{
+	if (OpenConfig)
+	{
+		configurationModernWood.begin("MWConfig", false);
+	}
+
+	// if the menu is not valid we return (keeping default values)
+	if (GetSizeSubMenu(Menu) < 1)
+	{
+		return;
+	}
+
+	switch (Menu)
+	{
+		case 0:
+			*SubMenuConfigVar[Option] = configurationModernWood.getInt(SubMenuConfigKeys[Option].c_str(), *SubMenuConfigVar[Option]);
+			break;
+
+		case 1:
+			*SubMenuBrightnessVar[Option] = configurationModernWood.getInt(SubMenuBrightnessKeys[Option].c_str(), *SubMenuBrightnessVar[Option]);
+			break;
+
+		case 2:
+			*SubMenuLedsVar[Option] = configurationModernWood.getInt(SubMenuLedsKeys[Option].c_str(), *SubMenuLedsVar[Option]);
+			break;
+
+		case 3:
+			*SubMenuEnergyVar[Option] = configurationModernWood.getInt(SubMenuEnergyKeys[Option].c_str(), *SubMenuEnergyVar[Option]);
+			break;
+
+		case 4:
+			*SubMenuConnectionVar[Option] = configurationModernWood.getInt(SubMenuConnectionKeys[Option].c_str(), *SubMenuConnectionVar[Option]);
+			break;
+
+		case 5:
+			// No configuration to load
+			break;
+
+		default:
+			break;
+	}
+
+	if (OpenConfig)
+	{
+		configurationModernWood.end();
+	}
+}
+
+void loadUserConfiguration()
+{
+	configurationModernWood.begin("MWConfig", false);
+
+	// Load all the configuration
+	for (int i = 0; i < 6; i++)
+	{
+		for (int j = 0; j < GetSizeSubMenu(i); j++)
+		{
+			loadUserConfiguration(i, j, false);
+		}
+	}
+
+	configurationModernWood.end();
+}
+
+void saveUserConfiguration(int Menu, int Option, bool OpenConfig = true)
+{
+	if (OpenConfig)
+	{
+		configurationModernWood.begin("MWConfig", false);
+	}
+
+	switch (Menu)
+	{
+		case 0:
+			configurationModernWood.putInt(SubMenuConfigKeys[Option].c_str(), *SubMenuConfigVar[Option]);
+			break;
+		case 1:
+			configurationModernWood.putInt(SubMenuBrightnessKeys[Option].c_str(), *SubMenuBrightnessVar[Option]);
+			break;
+		case 2:
+			configurationModernWood.putInt(SubMenuLedsKeys[Option].c_str(), *SubMenuLedsVar[Option]);
+			break;
+		case 3:
+			configurationModernWood.putInt(SubMenuEnergyKeys[Option].c_str(), *SubMenuEnergyVar[Option]);
+			break;
+		case 4:
+			configurationModernWood.putInt(SubMenuConnectionKeys[Option].c_str(), *SubMenuConnectionVar[Option]);
+			break;
+		case 5:
+			// No configuration to save
+			break;
+		default:
+			break;
+	}
+
+	if (OpenConfig)
+	{
+		configurationModernWood.end();
+	}
+}
+
+void saveUserConfiguration()
+{
+	configurationModernWood.begin("MWConfig", false);
+
+	// Save all the configuration
+	for (int i = 0; i < 6; i++)
+	{
+		for (int j = 0; j < GetSizeSubMenu(i); j++)
+		{
+			saveUserConfiguration(i, j, false);
+		}
+	}
+
+	configurationModernWood.end();
+}
+
 // MAIN FUNCTIONS
 //  ################################################## LED INDICATOR ##################################################
 
-Adafruit_NeoPixel RgbLED = Adafruit_NeoPixel(1, PIN_LED_INDICATOR, NEO_GRB + NEO_KHZ800);
+Adafruit_NeoPixel RgbLED = Adafruit_NeoPixel(NUMBER_OF_LEDS, PIN_LED_INDICATOR, NEO_GRB + NEO_KHZ800);
 int LedsBrightness = 100;
 int LedsActive = 1;
 RGB LedsColor(129, 84, 56);
@@ -52,21 +175,21 @@ void IRAM_ATTR checkBatteryLevel()
 
 // ################################################## USB HID ##################################################
 
-int BLEEnabled = 0;		// 1 if BLE is enabled 0 if not
+int BLEEnabled = 0; // 1 if BLE is enabled 0 if not
 int isBLEPreferred = 0;
 int isUSBPreferred = 1;
 
 bool volatile isUSBConnected = true;
 bool volatile isBLEConnected = false;
 
-//Set the USB and BLE connected flags when Pin <PIN_USB_CONNECTED> is triggered RISSING
+// Set the USB and BLE connected flags when Pin <PIN_USB_CONNECTED> is triggered RISSING
 void IRAM_ATTR USBConnected()
 {
 	isUSBConnected = true;
 	isBLEConnected = false;
 }
 
-//Set the USB and BLE connected flags when Pin <PIN_USB_CONNECTED> is triggered FALLING
+// Set the USB and BLE connected flags when Pin <PIN_USB_CONNECTED> is triggered FALLING
 void IRAM_ATTR USBDisconnected()
 {
 	isUSBConnected = false;
@@ -125,17 +248,17 @@ void WorkingInExternalFunctionMode(TFT_eSPI &tft, BleKeyboard &bleKeyboard, USBH
 		for (int k = 0; k < KEYBOARDHEIGHT; k++)
 		{
 			SwicthFastState = !(digitalRead(ESwitch[k]));
-			
-			//If any switch is pressed we set the actualFunctionRow and actualFunctionCol
+
+			// If any switch is pressed we set the actualFunctionRow and actualFunctionCol
 			if (SwicthFastState)
 			{
 				actualFunctionRow = k;
 				actualFunctionCol = i;
-				
-				//And set the executingCustomFunction to true
+
+				// And set the executingCustomFunction to true
 				executingCustomFunction = true;
 
-				//We exit the loop
+				// We exit the loop
 				i = KEYBOARDWIDTH;
 				k = KEYBOARDHEIGHT;
 			}
@@ -173,7 +296,7 @@ void WorkingModeKeyboard(TFT_eSPI &tft, BleKeyboard &bleKeyboard, USBHIDKeyboard
 			}
 		}
 	}
-	else if(!isUSBConnected && !isUSBPreferred)
+	else if (!isUSBConnected && !isUSBPreferred)
 	{
 		for (int i = 0; i < KEYBOARDWIDTH; i++)
 		{
@@ -425,6 +548,9 @@ void WorkingModeDisplay(TFT_eSPI &tft, BleKeyboard &bleKeyboard, USBHIDKeyboard 
 			// Print the menu with the new option selected
 			old_option_selected = printSubMenuOptionNumber(tft, old_option_selected, option_selected_submenu, false);
 			option_selected = printSubMenuOptionNumber(tft, option_selected, option_selected_submenu, true);
+
+			// Set the configuration option selected
+			ChangedConfig = true;
 		}
 	}
 }
@@ -824,7 +950,6 @@ void printGeneralDisplay(TFT_eSPI &tft)
 // Transform the variables into Text, Char to String, int to String, RGB to String and bool to True or False String
 String varToText(String varType, int *var)
 {
-
 	String ret = "";
 	// Check the type of the variable it can be "bool" or "int" or "rgb" or "none"
 	if (varType == "bool")
@@ -935,7 +1060,7 @@ void ChangeConfig(int Menu, int SubMenu, bool &changed_option_subMenu, bool righ
 		break;
 	}
 
-	//Apply the changes
+	// Apply the changes
 	ApplyChanges(Menu, SubMenu);
 }
 
@@ -996,58 +1121,59 @@ void ChangeVar(String varType, int *var, bool &changed_option_subMenu, bool righ
 // Apply the changes of the configuration selected that have been changed
 void ApplyChanges(int Menu, int SubMenu)
 {
-	if((Menu == 1 && SubMenu == 0) || (Menu == 2))
+	if ((Menu == 1 && SubMenu == 0) || (Menu == 2))
 	{
-		float brightness = (*SubMenuBrightnessVar[_BrightnessLeds]/100.0f);	
-		RgbLED.setPixelColor(0, (int)(LedsColor.r*brightness), 
-								(int)(LedsColor.g*brightness), 
-								(int)(LedsColor.b*brightness));
+		float brightness = (*SubMenuBrightnessVar[_BrightnessLeds] / 100.0f);
+		RgbLED.setPixelColor(0, (int)(LedsColor.r * brightness),
+							 (int)(LedsColor.g * brightness),
+							 (int)(LedsColor.b * brightness));
 
-		//If led is on
-		if(*SubMenuLedsVar[_EnableLeds] == 0)
+		// If led is on
+		if (*SubMenuLedsVar[_EnableLeds] == 0)
 		{
 			RgbLED.clear();
 		}
-	
+
 		RgbLED.show();
 	}
 }
 
-uint32_t Wheel(uint8_t j) {
-  float r, g, b;
-  
-  float angle = j * 0.7068583470577; // Convertir a radianes (j / 255 * 3.14159 * 2)
+uint32_t Wheel(uint8_t j)
+{
+	float r, g, b;
 
-  r = sin(angle) * 127 + 128;
-  g = sin(angle + 2.09439510239) * 127 + 128;
-  b = sin(angle + 4.18879020479) * 127 + 128;
+	float angle = j * 0.7068583470577; // Convertir a radianes (j / 255 * 3.14159 * 2)
 
-  return ((uint32_t)r << 16) | ((uint32_t)g << 8) | (uint32_t)b;
+	r = sin(angle) * 127 + 128;
+	g = sin(angle + 2.09439510239) * 127 + 128;
+	b = sin(angle + 4.18879020479) * 127 + 128;
+
+	return ((uint32_t)r << 16) | ((uint32_t)g << 8) | (uint32_t)b;
 }
 
-void rainbowEffect(Adafruit_NeoPixel& leds)
+void rainbowEffect(Adafruit_NeoPixel &leds)
 {
-    unsigned long currentTime = millis();
+	unsigned long currentTime = millis();
 
-    if (currentTime - lastUpdateTimeRainbow >= interval-(*SubMenuLedsVar[_LedsSpeed]/80.0f))
-    {
-        lastUpdateTimeRainbow = currentTime;
-        for (int j = 0; j < 256; j++)
-        {
-            for (int i = 0; i < leds.numPixels(); i++)
-            {
-                //Make the rainbow effect with the brightness of the leds (*SubMenuBrightnessVar[_BrightnessLeds]/100.0f)
-				//Use the Wheel function to get the color of the rainbow and then split it into rgb
+	if (currentTime - lastUpdateTimeRainbow >= interval - (*SubMenuLedsVar[_LedsSpeed] / 80.0f))
+	{
+		lastUpdateTimeRainbow = currentTime;
+		for (int j = 0; j < 256; j++)
+		{
+			for (int i = 0; i < leds.numPixels(); i++)
+			{
+				// Make the rainbow effect with the brightness of the leds (*SubMenuBrightnessVar[_BrightnessLeds]/100.0f)
+				// Use the Wheel function to get the color of the rainbow and then split it into rgb
 				RGB temp;
 				temp.color = Wheel((i + j) & 255);
 				temp.CalculateRGB();
-				leds.setPixelColor(i, (int)(temp.r*(*SubMenuBrightnessVar[_BrightnessLeds]/100.0f)),
-									(int)(temp.g*(*SubMenuBrightnessVar[_BrightnessLeds]/100.0f)),
-									(int)(temp.b*(*SubMenuBrightnessVar[_BrightnessLeds]/100.0f)));
-            }
-            leds.show();
-        }
-    }
+				leds.setPixelColor(i, (int)(temp.r * (*SubMenuBrightnessVar[_BrightnessLeds] / 100.0f)),
+								   (int)(temp.g * (*SubMenuBrightnessVar[_BrightnessLeds] / 100.0f)),
+								   (int)(temp.b * (*SubMenuBrightnessVar[_BrightnessLeds] / 100.0f)));
+			}
+			leds.show();
+		}
+	}
 }
 
 void exitModule()

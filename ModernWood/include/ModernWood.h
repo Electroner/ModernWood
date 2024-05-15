@@ -22,10 +22,22 @@
 //Modules
 #include "ModulesMap.h"
 
+// ################################################## CONFIGURATION PREFERENCES ##################################################
+
+extern Preferences configurationModernWood;
+extern bool ChangedConfig;
+
+void loadUserConfiguration(int Menu, int Option);
+void loadUserConfiguration();
+
+void saveUserConfiguration(int Menu, int Option);
+void saveUserConfiguration();
+
 // ################################################## LED INDICATOR ##################################################
 
 #define LED_INDICATOR_ENABLED
-#define PIN_LED_INDICATOR 48 //Pin used to control the leds
+#define PIN_LED_INDICATOR 48 //Pin used to control the 
+#define NUMBER_OF_LEDS 1
 extern Adafruit_NeoPixel RgbLED;
 
 extern int LedsBrightness;
@@ -137,7 +149,7 @@ extern int actualFunctionCol;
 // Array de lectura de Fila
 const unsigned int ESwitch[KEYBOARDHEIGHT] = {E0, E1, E2, E3, E4, E5}; 
 
-const long TiempoDebounce = 5;
+const long TiempoDebounce = 8;
 extern bool SwitchState[KEYBOARDHEIGHT][KEYBOARDWIDTH];
 extern bool SwitchLastState[KEYBOARDHEIGHT][KEYBOARDWIDTH];
 extern unsigned long Debounce[KEYBOARDHEIGHT][KEYBOARDWIDTH];
@@ -149,31 +161,37 @@ enum Menus {MenuConfig, MenuBrightness, MenuLeds, MenuEnergy, MenuConnection, Me
 //Size of the Submenus (number of options, the last one is the size of the submenu, and has to be the last one)
 enum SubMenuConfig {_EnableDisplayOption, _EnableKeyboardOption, _ScreensaverOption, _LanguageMenuOption, SizeSubMenuConfig};
 const String SubMenuConfigText[SizeSubMenuConfig] = {"Enable Display", "Enable Keyboard", "Screensaver", "Language"};
+const String SubMenuConfigKeys[SizeSubMenuConfig] = {"ENADIS", "ENAKEY", "SCSAVE", "LANGUA"};
 const String SubMenuConfigVarType[SizeSubMenuConfig] = {"bool", "bool", "bool", "language"};
 extern int* SubMenuConfigVar[SizeSubMenuConfig];
 
 enum SubMenuBrightness {_BrightnessLeds, _BrightnessDisplay, SizeSubMenuBrightness}; 
 const String SubMenuBrightnessText[SizeSubMenuBrightness] = {"Brightness Leds", "Brightness Display"};
+const String SubMenuBrightnessKeys[SizeSubMenuBrightness] = {"BRILED", "BRIDIS"};
 const String SubMenuBrightnessVarType[SizeSubMenuBrightness] = {"int", "int"};
 extern int* SubMenuBrightnessVar[SizeSubMenuBrightness];
 
 enum SubMenuLeds {_EnableLeds, _LedsColor, _LedsMode, _LedsSpeed, SizeSubMenuLeds};
 const String SubMenuLedsText[SizeSubMenuLeds] = {"Enable Leds", "Leds Color", "Leds Mode", "Leds Speed"};
+const String SubMenuLedsKeys[SizeSubMenuLeds] = {"ENALED", "LEDCOL", "LEDMOD", "LEDSPE"};
 const String SubMenuLedsVarType[SizeSubMenuLeds] = {"bool", "rgb", "int", "int"};
 extern int* SubMenuLedsVar[SizeSubMenuLeds];
 
 enum SubMenuEnergy {_EnableBattery, _DisplayMode, SizeSubMenuEnergy};
 const String SubMenuEnergyText[SizeSubMenuEnergy] = {"Enable Battery", "Display Mode"};
+const String SubMenuEnergyKeys[SizeSubMenuEnergy] = {"ENABAT", "DISMOD"};
 const String SubMenuEnergyVarType[SizeSubMenuEnergy] = {"bool", "int"};
 extern int* SubMenuEnergyVar[SizeSubMenuEnergy];
 
 enum SubMenuConnection {_EnableBle, _PreferenceBle, _PreferenceUSB, SizeSubMenuConnection};
 const String SubMenuConnectionText[SizeSubMenuConnection] = {"Enable Ble", "Preference Ble", "Preference USB"};
+const String SubMenuConnectionKeys[SizeSubMenuConnection] = {"ENABLE", "PREBLE", "PREUSB"};
 const String SubMenuConnectionVarType[SizeSubMenuConnection] = {"bool", "bool", "bool"};
 extern int* SubMenuConnectionVar[SizeSubMenuConnection];
 
 enum SubMenuInfoHelp {_EspecialMode, _Info, _Help, SizeSubMenuInfoHelp};
 const String SubMenuInfoHelpText[SizeSubMenuInfoHelp] = {"Especial Modes", "Info", "Help"};
+const String SubMenuInfoHelpKeys[SizeSubMenuInfoHelp] = {"ESPMODE", "KSINFO", "KSHELP"};
 const String SubMenuInfoHelpVarType[SizeSubMenuInfoHelp] = {"none", "none", "none"};
 
 //What are the positions of the keys that control the menu

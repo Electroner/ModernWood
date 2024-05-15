@@ -10,6 +10,11 @@
 
 void setup()
 {
+	// Load the all User Preferences configuration from the EEPROM
+	configurationModernWood.begin("MWConfig", false);
+	loadUserConfiguration();
+	configurationModernWood.end();
+
 #ifdef DEBUG
 	//TEMPERATURE SENSOR ON CHIP
 	temp_sensor_config_t temp_sensor = TSENS_CONFIG_DEFAULT();
@@ -69,9 +74,12 @@ void setup()
 
 	// Led Configuration
 	RgbLED.begin();
-	RgbLED.setBrightness(30);
-	// Set color to blue (0,0,255)
-	RgbLED.setPixelColor(0, 0, 0, 255);
+	RgbLED.setBrightness(*SubMenuBrightnessVar[_BrightnessLeds]);
+	RgbLED.setPixelColor(0,*SubMenuLedsVar[_LedsColor]);
+	if (*SubMenuLedsVar[_EnableLeds] == 0)
+	{
+		RgbLED.clear();
+	}
 	RgbLED.show();
 
 	// Display
@@ -240,6 +248,7 @@ void loop()
 		
 #endif
 
+		// Check if the leds are enabled
 		if(*SubMenuLedsVar[_EnableLeds] != 0)
 		{
 			//Check for special functions like led control
@@ -252,6 +261,7 @@ void loop()
 					rainbowEffect(RgbLED);
 				}
 			}
+			RgbLED.show();
 		}
 		else
 		{
@@ -288,6 +298,7 @@ void loop()
 			// Also check if is USBPreferred or BLEPreferred
 			if (WorkingAsKeyboard)
 			{
+				// From Display to Keyboard Mode
 				if (interrupted_FN)
 				{
 					tft.fillRect(KeyboardFN_display_image.x,
@@ -327,11 +338,24 @@ void loop()
 						bleKeyboard.begin();
 						btStart();
 					}
+
+					// Here in the back to the Keyboard Mode we save the configuration if changed has been made
+					// Save the changes in the EEPROM opening the configuration descriptor
+					if(ChangedConfig)
+					{
+						saveUserConfiguration();
+						ChangedConfig = false;
+
+						#ifdef DEBUG
+						Serial.println("Configuration Saved");
+						#endif
+					}
 				}
 				WorkingModeKeyboard(tft, bleKeyboard, Keyboard, isBLEConnected, isUSBConnected);
 			}
 			else
 			{
+				// From Keyboard to Display Mode
 				if (interrupted_FN)
 				{
 					tft.fillRect(DisplaydFN_display_image.x,
@@ -392,8 +416,5 @@ void loop()
 	}
 }
 
-// TODO: make int menu options max and min with another category
-// TODO: make preferences save in the flash using preferences.h
-// TODO: Make SubMenuVars take effect on control variables
+// TODO: make pixel color and brightness actually work with eeeprom values and start with color and brightness
 // TODO: Finish Battery voltage check
-// TODO: Ble start and stop make it working
