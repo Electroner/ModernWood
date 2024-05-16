@@ -166,9 +166,9 @@ portMUX_TYPE timerMux = portMUX_INITIALIZER_UNLOCKED;
 void IRAM_ATTR checkBatteryLevel()
 {
 	portENTER_CRITICAL_ISR(&timerMux);
-	// We are going to use a voltage divider to measure the battery with a resistance of 1M and another of 270K and the voltage is 3.7V
-	// 3.7*((8200000)/(1000000+8200000)) = ~3.3 , 3.7V -> 4095 , 3.3V -> 3650 (2.94130434783V whit the divider)
-	batteryLevel = map(static_cast<long>(analogRead(PIN_BATTERY)), 3650.0f, 4095.0f, 0.0, 100.0);
+	// We are going to use a voltage divider to measure the battery with a resistance of 1M and another of 1M and the voltage is 4.2V (100%) and 3.7V (0%)
+	//Ranges from 2296 to 2606 (1.85V to 2.1V)
+	batteryLevel = static_cast<int>(map(analogRead(PIN_BATTERY), 2296, 2606, 0.0, 100.0));
 	// Serial.println(batteryLevel);
 	portEXIT_CRITICAL_ISR(&timerMux);
 }

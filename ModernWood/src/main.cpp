@@ -73,9 +73,12 @@ void setup()
 	pinMode(E5, INPUT_PULLUP);
 
 	// Led Configuration
+	LedsColor.CalculateRGB(); // Color is in int format from the EEPROM
 	RgbLED.begin();
-	RgbLED.setBrightness(*SubMenuBrightnessVar[_BrightnessLeds]);
-	RgbLED.setPixelColor(0,*SubMenuLedsVar[_LedsColor]);
+	float brightness = (*SubMenuBrightnessVar[_BrightnessLeds] / 100.0f);
+	RgbLED.setPixelColor(0, (int)(LedsColor.r * brightness),
+							(int)(LedsColor.g * brightness),
+							(int)(LedsColor.b * brightness));
 	if (*SubMenuLedsVar[_EnableLeds] == 0)
 	{
 		RgbLED.clear();
@@ -261,11 +264,6 @@ void loop()
 					rainbowEffect(RgbLED);
 				}
 			}
-			RgbLED.show();
-		}
-		else
-		{
-			RgbLED.clear();
 		}
 		
 		// Check if keyboard is executing a custom function
@@ -415,6 +413,3 @@ void loop()
 		}
 	}
 }
-
-// TODO: make pixel color and brightness actually work with eeeprom values and start with color and brightness
-// TODO: Finish Battery voltage check
