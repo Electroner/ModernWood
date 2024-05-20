@@ -161,6 +161,8 @@ unsigned long lastUpdateTimeRainbow = 0;
 int BatteryEnabled = 1;
 int DisplayBatteryMode = 0;
 uint8_t volatile batteryLevel = 100;
+uint8_t volatile batteryLevelLast = 100;
+bool batteryLevelChanged = true;
 portMUX_TYPE timerMux = portMUX_INITIALIZER_UNLOCKED;
 
 void IRAM_ATTR checkBatteryLevel()
@@ -169,7 +171,23 @@ void IRAM_ATTR checkBatteryLevel()
 	// We are going to use a voltage divider to measure the battery with a resistance of 1M and another of 1M and the voltage is 4.2V (100%) and 3.7V (0%)
 	//Ranges from 2296 to 2606 (1.85V to 2.1V)
 	batteryLevel = static_cast<int>(map(analogRead(PIN_BATTERY), 2296, 2606, 0.0, 100.0));
-	// Serial.println(batteryLevel);
+	
+	//If the battery level is less than 0% set it to 0%
+	if(batteryLevel < 0)
+	{
+		batteryLevel = 0;
+	}
+	//If the battery level is more than 100% set it to 100%
+	if(batteryLevel > 100)
+	{
+		batteryLevel = 100;
+	}
+
+	if(batteryLevel != batteryLevelLast)
+	{
+		batteryLevelLast = batteryLevel;
+		batteryLevelChanged = true;
+	}
 	portEXIT_CRITICAL_ISR(&timerMux);
 }
 
@@ -178,6 +196,7 @@ void IRAM_ATTR checkBatteryLevel()
 int BLEEnabled = 0; // 1 if BLE is enabled 0 if not
 int isBLEPreferred = 0;
 int isUSBPreferred = 1;
+bool connectionChanged = false;
 
 bool volatile isUSBConnected = true;
 bool volatile isBLEConnected = false;
@@ -203,6 +222,7 @@ int DisplayEnabled = 1;
 int Screensaver = 0;
 int LanguageMenu = 0;
 int DisplayBrightness = 100;
+bool displayChanged = true;
 
 // ################################################## KEYBOARD ##################################################
 
@@ -1042,14 +1062,20 @@ void ChangeConfig(int Menu, int SubMenu, bool &changed_option_subMenu, bool righ
 
 	case 1:
 		ChangeVar(SubMenuBrightnessVarType[SubMenu], SubMenuBrightnessVar[SubMenu], changed_option_subMenu, right);
+		displayChanged = true;
 		break;
 
 	case 2:
 		ChangeVar(SubMenuLedsVarType[SubMenu], SubMenuLedsVar[SubMenu], changed_option_subMenu, right);
 		break;
 
+	case 3:
+		ChangeVar(SubMenuEnergyVarType[SubMenu], SubMenuEnergyVar[SubMenu], changed_option_subMenu, right);
+		break;
+
 	case 4:
 		ChangeVar(SubMenuConnectionVarType[SubMenu], SubMenuConnectionVar[SubMenu], changed_option_subMenu, right);
+		connectionChanged = true;
 		break;
 
 	case 5:

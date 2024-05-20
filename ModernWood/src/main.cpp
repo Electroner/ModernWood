@@ -1,6 +1,6 @@
 #include <ModernWood.h>
 
-#define DEBUG
+//#define DEBUG
 
 #ifdef DEBUG
 #include "driver/temp_sensor.h"
@@ -44,7 +44,7 @@ void setup()
 	// true : Count up
 	timer = timerBegin(0, 80, true);
 	timerAttachInterrupt(timer, &checkBatteryLevel, true);
-	timerAlarmWrite(timer, BATTERY_CHECK_INTERVAL * 1000, true);
+	timerAlarmWrite(timer, BATTERY_CHECK_INTERVAL * 1000, true); // 60 seconds interval
 	// Enable our timer.
 	timerAlarmEnable(timer);
 #endif
@@ -127,7 +127,7 @@ void setup()
 				  KeyboardFN_display_image.height,
 				  image_KeyboardFN, 0);
 
-	// Position the cursor in the position 80,12 and print the text "100%"
+	// Position the cursor in the position 75,22 and print the text "100%"
 	tft.setCursor(BATTERY_LEVEL_X, BATTERY_LEVEL_Y);
 	tft.print("100%");
 
@@ -137,6 +137,11 @@ void setup()
 				  Battery_display_image.width,
 				  Battery_display_image.height,
 				  image_Battery, 0);
+
+	tft.fillRect(Battery_Inside_display_image.x, 
+						 Battery_Inside_display_image.y,
+						 Battery_Inside_display_image.width, 
+						 Battery_Inside_display_image.height, TFT_GREEN);
 
 	// MENU
 	// configuration icons
@@ -183,23 +188,23 @@ void loop()
 	{
 
 #ifdef DEBUG
-		// for debug purposes show how many times the loop is executed per second
-		// loop_counter++;
-		// if (millis() - last_loop_time > 1000)
-		// {
-		// 	Serial.print("Loop executed ");
-		// 	Serial.print(loop_counter);
-		// 	Serial.println(" times per second");
+		// For debug purposes show how many times the loop is executed per second
+		loop_counter++;
+		if (millis() - last_loop_time > 1000)
+		{
+			Serial.print("Loop executed ");
+			Serial.print(loop_counter);
+			Serial.println(" times per second");
 
-		// 	Serial.print("Temperature: ");
-		// 	float result = 0;
-		// 	temp_sensor_read_celsius(&result);
-		// 	Serial.print(result);
-		// 	Serial.println(" °C");
+			Serial.print("Temperature: ");
+			float result = 0;
+			temp_sensor_read_celsius(&result);
+			Serial.print(result);
+			Serial.println(" °C");
 
-		// 	loop_counter = 0;
-		// 	last_loop_time = millis();
-		// }
+			loop_counter = 0;
+			last_loop_time = millis();
+		}
 
 		//Read from serial
 		char c = 'N';
@@ -245,11 +250,98 @@ void loop()
 			MenuPressed[ArrRight] = true;
 			break;
 
+		case '1':
+			batteryLevel--;
+			batteryLevelChanged = true;
+			break;
+
+		case '2':
+			batteryLevel++;
+			batteryLevelChanged = true;
+			break;
+
+		case '3':
+			connectionChanged = true;
+			isUSBPreferred = !isUSBPreferred;
+			isBLEPreferred = !isBLEPreferred;
+			break;
+
+		case '4':
+			connectionChanged = true;
+			isBLEConnected = !isBLEConnected;
+			break;
+
 		default:
 			break;
 		}
 		
 #endif
+
+		// ################################################## LOOP LOGIC ##################################################
+		//Battery logic to update the battery level
+		if(batteryLevelChanged && BatteryEnabled)
+		{
+			#ifdef DEBUG
+			//If the battery level is less than 0% set it to 0%
+			if(batteryLevel < 0)
+			{
+				batteryLevel = 0;
+			}
+			//If the battery level is more than 100% set it to 100%
+			if(batteryLevel > 100)
+			{
+				batteryLevel = 100;
+			}
+			#endif
+
+			tft.setFreeFont(&FreeSansBold9pt7b); // Altura de la fuente 12
+			tft.setTextColor(TFT_WHITE);
+
+			// Print black the battery level in the screen and the percentage
+			tft.fillRect(Battery_Inside_display_image.x, 
+						 Battery_Inside_display_image.y,
+						 Battery_Inside_display_image.width, 
+						 Battery_Inside_display_image.height, TFT_BLACK);
+			tft.fillRect(BATTERY_LEVEL_X,
+						 BATTERY_LEVEL_Y - BATTERY_LEVEL_HEIGHT - 1,
+						 BATTERY_LEVEL_WIDTH, 
+						 BATTERY_LEVEL_HEIGHT + 2, TFT_BLACK);
+			
+			tft.setCursor(BATTERY_LEVEL_X, BATTERY_LEVEL_Y);
+			if(batteryLevel == 100)
+			{
+				tft.print(String(batteryLevel) + "%");
+			}
+			else if(batteryLevel < 100 && batteryLevel >= 10)
+			{
+				tft.print(String(batteryLevel) + " %");
+			}
+			else if(batteryLevel < 10)
+			{
+				tft.print(String(batteryLevel) + "  %");
+			}
+			batteryLevelChanged = false;
+			
+			//Print black rectangle to erase the battery level
+			tft.fillRect(Battery_Inside_display_image.x, 
+							Battery_Inside_display_image.y,
+							Battery_Inside_display_image.width, 
+							Battery_Inside_display_image.height, TFT_BLACK);
+			RGB percolor;
+			percolor.r = 255 - (255 * batteryLevel) / 100;
+			percolor.g = (255 * batteryLevel) / 100;
+			percolor.b = 0;
+			percolor.CalculateColor();
+			// Print the battery level in the screen
+			tft.fillRect(Battery_Inside_display_image.x, 
+							Battery_Inside_display_image.y,
+							static_cast<int>(Battery_Inside_display_image.width * (batteryLevel/100.0f)), 
+							Battery_Inside_display_image.height, percolor.color);
+
+			// Reset the font to the default
+			tft.setFreeFont(NULL);
+			tft.setTextSize(1);
+		}
 
 		// Check if the leds are enabled
 		if(*SubMenuLedsVar[_EnableLeds] != 0)
@@ -266,6 +358,73 @@ void loop()
 			}
 		}
 		
+		// Connection logic to update the connection status
+		if(*SubMenuConnectionVar[_PreferenceUSB] && connectionChanged)
+		{
+			tft.fillRect(BLE_display_image.x,
+				 BLE_display_image.y,
+				 BLE_display_image.width,
+				 BLE_display_image.height,
+				 TFT_BLACK);
+			tft.fillRect(Connection_display_image.x,
+				 Connection_display_image.y,
+				 Connection_display_image.width,
+				 Connection_display_image.height,
+				 TFT_BLACK);
+			tft.pushImage(USB_display_image.x,
+				  USB_display_image.y,
+				  USB_display_image.width,
+				  USB_display_image.height,
+				  image_USB, 0);
+			connectionChanged = false;
+		}
+		else if(connectionChanged)
+		{
+			tft.fillRect(USB_display_image.x,
+				 USB_display_image.y,
+				 USB_display_image.width,
+				 USB_display_image.height,
+				 TFT_BLACK);
+			tft.pushImage(BLE_display_image.x,
+				  BLE_display_image.y,
+				  BLE_display_image.width,
+				  BLE_display_image.height,
+				  image_BLE, 0);
+			// If bluetooth has a connection show the bluetooth connection image
+			if(isBLEConnected)
+			{
+				tft.pushImage(Connection_display_image.x,
+				  Connection_display_image.y,
+				  Connection_display_image.width,
+				  Connection_display_image.height,
+				  image_Connection, 0);
+			}
+			else
+			{
+				tft.fillRect(Connection_display_image.x,
+				 Connection_display_image.y,
+				 Connection_display_image.width,
+				 Connection_display_image.height,
+				 TFT_BLACK);
+			}
+			connectionChanged = false;
+		}
+
+		// Display logic to update the display on/off and brightness
+		if(*SubMenuConfigVar[_EnableDisplayOption] && displayChanged)
+		{
+			// Set the brightness of the screen (ON)
+			analogWrite(BLK_SCREEN, *SubMenuBrightnessVar[_BrightnessDisplay] * 2.55);
+			displayChanged = false;
+		}
+		else if(displayChanged)
+		{
+			// Display OFF
+			analogWrite(BLK_SCREEN, LOW);
+			displayChanged = false;
+		}
+
+		// ################################################## KEYBOARD LOGIC ##################################################
 		// Check if keyboard is executing a custom function
 		if (inExternalFunctionMode)
 		{
@@ -277,6 +436,8 @@ void loop()
 			{
 				if (interrupted_FN)
 				{
+					displayChanged = true;
+
 					// Erase all the screen and print the general display
 					printGeneralDisplay(tft);
 
@@ -299,6 +460,8 @@ void loop()
 				// From Display to Keyboard Mode
 				if (interrupted_FN)
 				{
+					displayChanged = true;
+
 					tft.fillRect(KeyboardFN_display_image.x,
 								 KeyboardFN_display_image.y,
 								 KeyboardFN_display_image.width,
@@ -356,6 +519,8 @@ void loop()
 				// From Keyboard to Display Mode
 				if (interrupted_FN)
 				{
+					analogWrite(BLK_SCREEN, 255);
+
 					tft.fillRect(DisplaydFN_display_image.x,
 								 DisplaydFN_display_image.y,
 								 DisplaydFN_display_image.width,

@@ -58,11 +58,13 @@ extern unsigned long lastUpdateTimeRainbow;
 
 #define BATTERY_DIVIDER_RESISTOR1 270000
 #define BATTERY_DIVIDER_RESISTOR2 1000000
-#define BATTERY_CHECK_INTERVAL 10000 // ms
+#define BATTERY_CHECK_INTERVAL 60000 // ms
 
 extern int BatteryEnabled;
 extern int DisplayBatteryMode;
 extern uint8_t volatile batteryLevel;
+extern uint8_t volatile batteryLevelLast;
+extern bool batteryLevelChanged;
 extern portMUX_TYPE timerMux;
 
 void IRAM_ATTR checkBatteryLevel();
@@ -75,6 +77,7 @@ void IRAM_ATTR checkBatteryLevel();
 extern int BLEEnabled;
 extern int isBLEPreferred;
 extern int isUSBPreferred;
+extern bool connectionChanged;
 
 extern bool volatile isUSBConnected;
 extern bool volatile isBLEConnected;
@@ -111,6 +114,7 @@ extern int DisplayEnabled;
 extern int Screensaver;
 extern int LanguageMenu;
 extern int DisplayBrightness;
+extern bool displayChanged;
 
 // ################################################## KEYBOARD ##################################################
 
@@ -134,17 +138,17 @@ extern bool executingCustomFunction; //To know if we are executing a custom func
 extern int actualFunctionRow; 
 extern int actualFunctionCol;
 
-#define COD0 4  //Asignacino del pin de salida X0 (GPIO4)
-#define COD1 5  //Asignacino del pin de salida X1 (GPIO5)
-#define COD2 6  //Asignacino del pin de salida X2 (GPIO6)
-#define COD3 7  //Asignacino del pin de salida X3 (GPIO7)
+#define COD0 4  //Output pin X0 (GPIO4)
+#define COD1 5  //Output pin X1 (GPIO5)
+#define COD2 6  //Output pin X2 (GPIO6)
+#define COD3 7  //Output pin X3 (GPIO7)
 
-#define E0 15   //Asignacino del pin de Entrada E0 
-#define E1 16   //Asignacino del pin de Entrada E1 
-#define E2 17   //Asignacino del pin de Entrada E2 
-#define E3 18   //Asignacino del pin de Entrada E3
-#define E4 8    //Asignacino del pin de Entrada E4
-#define E5 9    //Asignacino del pin de Entrada E5
+#define E0 15   //Input pin E0 
+#define E1 16   //Input pin E1 
+#define E2 17   //Input pin E2 
+#define E3 18   //Input pin E3
+#define E4 8    //Input pin E4
+#define E5 9    //Input pin E5
 
 // Array de lectura de Fila
 const unsigned int ESwitch[KEYBOARDHEIGHT] = {E0, E1, E2, E3, E4, E5}; 

@@ -534,9 +534,9 @@ static const uint8_t image_Menu_InfoHelp_Inverted[1152] PROGMEM= {
 #define SPLIT_LINE 24 //Line to split the screen in two parts
 
 #define BATTERY_LEVEL_X 75 //Position of the battery level text
-#define BATTERY_LEVEL_Y 17
+#define BATTERY_LEVEL_Y 18
 #define BATTERY_LEVEL_WIDTH 48
-#define BATTERY_LEVEL_HEIGHT 16
+#define BATTERY_LEVEL_HEIGHT 17
 
 const struct USB_display_image{
     const uint8_t x = 2;
@@ -551,6 +551,13 @@ const struct Battery_display_image{
     const uint8_t width = 34;
     const uint8_t height = 19;
 }Battery_display_image;
+
+const struct Battery_Inside_display_image{
+    const uint8_t x = Battery_display_image.x + 3;
+    const uint8_t y = Battery_display_image.y + 3;
+    const uint8_t width = 24;
+    const uint8_t height = 13;
+}Battery_Inside_display_image;
 
 const struct BLE_display_image{
     const uint8_t x = 2;
