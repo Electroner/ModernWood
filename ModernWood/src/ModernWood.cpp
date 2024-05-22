@@ -1,5 +1,6 @@
 #include <ModernWood.h>
 
+int TiempoDebounce = 8; // Debounce time
 bool SwitchState[KEYBOARDHEIGHT][KEYBOARDWIDTH] = {false};
 bool SwitchLastState[KEYBOARDHEIGHT][KEYBOARDWIDTH] = {false};
 unsigned long Debounce[KEYBOARDHEIGHT][KEYBOARDWIDTH] = {0};
@@ -16,7 +17,7 @@ bool InSubConfig = false;						  // Check if the user is in the Sub Menu Config 
 
 // ################################################## USER CONFIGURATION (PREFERENCES) ##################################################
 
-int *SubMenuConfigVar[SizeSubMenuConfig] = {&DisplayEnabled, &KeyboardEnabled, &Screensaver, &LanguageMenu};
+int *SubMenuConfigVar[SizeSubMenuConfig] = {&DisplayEnabled, &KeyboardEnabled, &TiempoDebounce, &LanguageMenu};
 int *SubMenuBrightnessVar[SizeSubMenuBrightness] = {&LedsBrightness, &DisplayBrightness};
 int *SubMenuLedsVar[SizeSubMenuLeds] = {&LedsActive, &LedsColor.color, &LedsMode, &LedsSpeed};
 int *SubMenuEnergyVar[SizeSubMenuEnergy] = {&BatteryEnabled, &DisplayBatteryMode};
@@ -149,7 +150,7 @@ void saveUserConfiguration()
 Adafruit_NeoPixel RgbLED = Adafruit_NeoPixel(NUMBER_OF_LEDS, PIN_LED_INDICATOR, NEO_GRB + NEO_KHZ800);
 int LedsBrightness = 100;
 int LedsActive = 1;
-RGB LedsColor(129, 84, 56);
+RGB LedsColor = RGB();
 int LedsMode = 0;
 int LedsSpeed = 0;
 
@@ -219,7 +220,6 @@ void IRAM_ATTR USBDisconnected()
 
 TFT_eSPI tft = TFT_eSPI(DISPLAY_WIDTH, DISPLAY_HEIGHT); // Invoke custom library
 int DisplayEnabled = 1;
-int Screensaver = 0;
 int LanguageMenu = 0;
 int DisplayBrightness = 100;
 bool displayChanged = true;
@@ -1092,6 +1092,12 @@ void ChangeConfig(int Menu, int SubMenu, bool &changed_option_subMenu, bool righ
 
 void ChangeVar(String varType, int *var, bool &changed_option_subMenu, bool right)
 {
+	// None variable: Do nothing
+	if (varType == "none" && changed_option_subMenu == _DefaultConfig)
+	{
+		configurationModernWood.clear(); //TODO: Clear the configuration
+	}
+
 	// Bool variable: True to False and False to True
 	if (varType == "bool")
 	{
@@ -1118,13 +1124,25 @@ void ChangeVar(String varType, int *var, bool &changed_option_subMenu, bool righ
 	{
 		if (right)
 		{
-			LedsColor.color = modulo_p((LedsColor.color + 100), 0xFFFFFF);
-			LedsColor.CalculateRGB();
+			// Using HSV
+			LedsColor.h += 0.01;
+			if (LedsColor.h >= 1.0)
+			{
+				LedsColor.h -= 1.0;
+			}
+			LedsColor.hsvToRgb();
+			LedsColor.CalculateColor();
 		}
 		else
 		{
-			LedsColor.color = modulo_p((LedsColor.color - 100), 0xFFFFFF);
-			LedsColor.CalculateRGB();
+			// Using HSV
+			LedsColor.h -= 0.01;
+			if (LedsColor.h <= -1.0)
+			{
+				LedsColor.h += 1.0;
+			}
+			LedsColor.hsvToRgb();
+			LedsColor.CalculateColor();
 		}
 		changed_option_subMenu = true;
 	}

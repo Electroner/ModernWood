@@ -2,6 +2,7 @@
 
 #include <Arduino.h>
 #include <math.h>
+#include <algorithm>
 #include <USB.h>
 #include <USBHIDKeyboard.h>
 #include <BleKeyboard.h>
@@ -45,6 +46,9 @@ extern int LedsActive;
 extern RGB LedsColor;
 extern int LedsMode;
 extern int LedsSpeed;
+const float HueStep = 0.01;
+const float Saturation = 1.0;
+const float ValueBrightness = 1.0;
 
 extern int interval;
 extern unsigned long lastUpdateTimeRainbow;
@@ -111,7 +115,6 @@ void IRAM_ATTR USBDisconnected();
 #define DISPLAY_ROTATION 0
 extern TFT_eSPI tft;
 extern int DisplayEnabled;
-extern int Screensaver;
 extern int LanguageMenu;
 extern int DisplayBrightness;
 extern bool displayChanged;
@@ -153,7 +156,7 @@ extern int actualFunctionCol;
 // Array de lectura de Fila
 const unsigned int ESwitch[KEYBOARDHEIGHT] = {E0, E1, E2, E3, E4, E5}; 
 
-const long TiempoDebounce = 8;
+extern int TiempoDebounce;
 extern bool SwitchState[KEYBOARDHEIGHT][KEYBOARDWIDTH];
 extern bool SwitchLastState[KEYBOARDHEIGHT][KEYBOARDWIDTH];
 extern unsigned long Debounce[KEYBOARDHEIGHT][KEYBOARDWIDTH];
@@ -163,10 +166,10 @@ enum KeysDistribution {ArrEnter, ArrUp, ArrLeft, ArrDown, ArrRight, ArrEsc};
 enum Menus {MenuConfig, MenuBrightness, MenuLeds, MenuEnergy, MenuConnection, MenuInfoHelp};
 
 //Size of the Submenus (number of options, the last one is the size of the submenu, and has to be the last one)
-enum SubMenuConfig {_EnableDisplayOption, _EnableKeyboardOption, _ScreensaverOption, _LanguageMenuOption, SizeSubMenuConfig};
-const String SubMenuConfigText[SizeSubMenuConfig] = {"Enable Display", "Enable Keyboard", "Screensaver", "Language"};
-const String SubMenuConfigKeys[SizeSubMenuConfig] = {"ENADIS", "ENAKEY", "SCSAVE", "LANGUA"};
-const String SubMenuConfigVarType[SizeSubMenuConfig] = {"bool", "bool", "bool", "language"};
+enum SubMenuConfig {_EnableDisplayOption, _EnableKeyboardOption, _DebounceOption, _LanguageMenuOption, SizeSubMenuConfig};
+const String SubMenuConfigText[SizeSubMenuConfig] = {"Enable Display", "Enable Keyboard", "Debounce (ms)", "Language"};
+const String SubMenuConfigKeys[SizeSubMenuConfig] = {"ENADIS", "ENAKEY", "DEBNCE", "LANGUA"};
+const String SubMenuConfigVarType[SizeSubMenuConfig] = {"bool", "bool", "int", "language"};
 extern int* SubMenuConfigVar[SizeSubMenuConfig];
 
 enum SubMenuBrightness {_BrightnessLeds, _BrightnessDisplay, SizeSubMenuBrightness}; 
@@ -193,10 +196,10 @@ const String SubMenuConnectionKeys[SizeSubMenuConnection] = {"ENABLE", "PREBLE",
 const String SubMenuConnectionVarType[SizeSubMenuConnection] = {"bool", "bool", "bool"};
 extern int* SubMenuConnectionVar[SizeSubMenuConnection];
 
-enum SubMenuInfoHelp {_EspecialMode, _Info, _Help, SizeSubMenuInfoHelp};
-const String SubMenuInfoHelpText[SizeSubMenuInfoHelp] = {"Especial Modes", "Info", "Help"};
-const String SubMenuInfoHelpKeys[SizeSubMenuInfoHelp] = {"ESPMODE", "KSINFO", "KSHELP"};
-const String SubMenuInfoHelpVarType[SizeSubMenuInfoHelp] = {"none", "none", "none"};
+enum SubMenuInfoHelp {_EspecialMode, _DefaultConfig, _Info, _Help, SizeSubMenuInfoHelp};
+const String SubMenuInfoHelpText[SizeSubMenuInfoHelp] = {"Especial Modes", "Default Config", "Info", "Help"};
+const String SubMenuInfoHelpKeys[SizeSubMenuInfoHelp] = {"ESPMODE", "DEFCON", "KSINFO", "KSHELP"};
+const String SubMenuInfoHelpVarType[SizeSubMenuInfoHelp] = {"none", "none", "none", "none"};
 
 //What are the positions of the keys that control the menu
 #define KeyMenuEnterRow 2 //index
