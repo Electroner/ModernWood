@@ -165,10 +165,10 @@ uint8_t volatile batteryLevelLast = 100;
 bool batteryLevelChanged = true;
 portMUX_TYPE timerMux = portMUX_INITIALIZER_UNLOCKED;
 
-//Energy Save Mode
+// Energy Save Mode
 int EnergySaveMode = 0;
+bool timerSetupDone = false;
 hw_timer_t *timer = NULL;
-volatile bool keyPressed = false;
 unsigned long lastKeyPressTime = 0;
 
 void IRAM_ATTR checkBatteryLevel()
@@ -195,6 +195,59 @@ void IRAM_ATTR checkBatteryLevel()
 		batteryLevelChanged = true;
 	}
 	portEXIT_CRITICAL_ISR(&timerMux);
+}
+
+void IRAM_ATTR onKeyPress()
+{
+	lastKeyPressTime = millis();
+}
+
+void setupTimer()
+{
+	// Set and activate the timer to check the power saving mode every 1 second
+	timer = timerBegin(0, 80, true); // 80 prescaler for 1 MHz clock
+	timerAttachInterrupt(timer, &checkEnergySaveMode, true);
+	timerAlarmWrite(timer, 10000000, true); // 10 sec
+	timerAlarmEnable(timer);
+}
+
+void checkEnergySaveMode()
+{
+	// If no key has been pressed in 5 minutes, activate power saving mode
+	if (millis() - lastKeyPressTime >= 5 * 60 * 1000)
+	{
+		enterEnergySaveMode();
+	}
+}
+
+void enterEnergySaveMode()
+{
+	// Turn off the screen
+	analogWrite(BLK_SCREEN, 0);
+
+	// Turn off the RGB LEDs
+	RgbLED.clear();
+	RgbLED.show();
+
+	// Configure interrupt pins to wake up from sleep mode
+	esp_sleep_enable_ext1_wakeup((gpio_num_t)E0 |
+								 (gpio_num_t)E1 | 
+								 (gpio_num_t)E2 | 
+								 (gpio_num_t)E3 | 
+								 (gpio_num_t)E4 | 
+								 (gpio_num_t)E5, ESP_EXT1_WAKEUP_ANY_LOW);
+
+	// Enter deep sleep mode
+	esp_deep_sleep_start();
+
+	// When the device wakes up, it will continue from here
+	wakeupHandler();
+}
+
+void wakeupHandler()
+{
+	// To ensure that the device does not enter power saving mode again
+	lastKeyPressTime = millis();
 }
 
 // ################################################## USB HID ##################################################
@@ -1169,10 +1222,12 @@ void ApplyChanges(int Menu, int SubMenu)
 	if ((Menu == 1 && SubMenu == _BrightnessLeds) || (Menu == 2))
 	{
 		float brightness = (*SubMenuBrightnessVar[_BrightnessLeds] / 100.0f);
-		RgbLED.setPixelColor(0, (int)(LedsColor.r * brightness),
-							 (int)(LedsColor.g * brightness),
-							 (int)(LedsColor.b * brightness));
-
+		for (int i = 0; i < NUMBER_OF_LEDS; i++)
+		{
+			RgbLED.setPixelColor(0, (int)(LedsColor.r * brightness),
+								 (int)(LedsColor.g * brightness),
+								 (int)(LedsColor.b * brightness));
+		}
 		// If led is on
 		if (*SubMenuLedsVar[_EnableLeds] == 0)
 		{

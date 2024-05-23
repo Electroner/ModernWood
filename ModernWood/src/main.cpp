@@ -164,6 +164,18 @@ void setup()
 	actualFunctionCol = 0;
 
 	// Energy Save mode
+	attachInterrupt(digitalPinToInterrupt(E0), onKeyPress, FALLING);
+    attachInterrupt(digitalPinToInterrupt(E1), onKeyPress, FALLING);
+    attachInterrupt(digitalPinToInterrupt(E2), onKeyPress, FALLING);
+    attachInterrupt(digitalPinToInterrupt(E3), onKeyPress, FALLING);
+    attachInterrupt(digitalPinToInterrupt(E4), onKeyPress, FALLING);
+    attachInterrupt(digitalPinToInterrupt(E5), onKeyPress, FALLING);
+
+	// Set and activate timer only if EnergySaveMode is true
+    if (EnergySaveMode)
+	{
+        setupTimer();
+    }
 }
 
 void loop()
@@ -280,6 +292,25 @@ void loop()
 #endif
 
 		// ################################################## LOOP LOGIC ##################################################
+		// Energy Save mode logic
+		// If the Energy Save mode is enabled, enable the timer
+		if (EnergySaveMode && !timerSetupDone)
+		{
+			setupTimer();
+			timerSetupDone = true;
+		}
+		else if (!EnergySaveMode && timerSetupDone)
+		{
+			// If the Energy Save mode is disabled, disable the timer
+			if (timer != NULL)
+			{
+				timerAlarmDisable(timer);
+				timerEnd(timer);
+				timer = NULL;
+				timerSetupDone = false;
+			}
+		}
+		
 		//Battery logic to update the battery level
 		if(batteryLevelChanged && BatteryEnabled)
 		{

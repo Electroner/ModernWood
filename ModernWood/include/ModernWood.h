@@ -75,10 +75,15 @@ void IRAM_ATTR checkBatteryLevel();
 
 //Energy Save Mode
 extern int EnergySaveMode;
+extern bool timerSetupDone;
 extern hw_timer_t *timer;
-extern volatile bool keyPressed;
 extern unsigned long lastKeyPressTime;
-const unsigned long timeoutPeriod = 5 * 60 * 1000; // 5 minutes
+
+void IRAM_ATTR onKeyPress();
+void setupTimer();
+void checkEnergySaveMode();
+void enterEnergySaveMode();
+void wakeupHandler();
 
 // ################################################## USB HID ##################################################
 
