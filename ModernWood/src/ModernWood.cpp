@@ -20,7 +20,7 @@ bool InSubConfig = false;						  // Check if the user is in the Sub Menu Config 
 int *SubMenuConfigVar[SizeSubMenuConfig] = {&DisplayEnabled, &KeyboardEnabled, &TiempoDebounce, &LanguageMenu};
 int *SubMenuBrightnessVar[SizeSubMenuBrightness] = {&LedsBrightness, &DisplayBrightness};
 int *SubMenuLedsVar[SizeSubMenuLeds] = {&LedsActive, &LedsColor.color, &LedsMode, &LedsSpeed};
-int *SubMenuEnergyVar[SizeSubMenuEnergy] = {&BatteryEnabled, &DisplayBatteryMode};
+int *SubMenuEnergyVar[SizeSubMenuEnergy] = {&BatteryEnabled, &EnergySaveMode};
 int *SubMenuConnectionVar[SizeSubMenuConnection] = {&BLEEnabled, &isBLEPreferred, &isUSBPreferred};
 
 Preferences configurationModernWood = Preferences();
@@ -41,32 +41,32 @@ void loadUserConfiguration(int Menu, int Option, bool OpenConfig = true)
 
 	switch (Menu)
 	{
-		case 0:
-			*SubMenuConfigVar[Option] = configurationModernWood.getInt(SubMenuConfigKeys[Option].c_str(), *SubMenuConfigVar[Option]);
-			break;
+	case 0:
+		*SubMenuConfigVar[Option] = configurationModernWood.getInt(SubMenuConfigKeys[Option].c_str(), *SubMenuConfigVar[Option]);
+		break;
 
-		case 1:
-			*SubMenuBrightnessVar[Option] = configurationModernWood.getInt(SubMenuBrightnessKeys[Option].c_str(), *SubMenuBrightnessVar[Option]);
-			break;
+	case 1:
+		*SubMenuBrightnessVar[Option] = configurationModernWood.getInt(SubMenuBrightnessKeys[Option].c_str(), *SubMenuBrightnessVar[Option]);
+		break;
 
-		case 2:
-			*SubMenuLedsVar[Option] = configurationModernWood.getInt(SubMenuLedsKeys[Option].c_str(), *SubMenuLedsVar[Option]);
-			break;
+	case 2:
+		*SubMenuLedsVar[Option] = configurationModernWood.getInt(SubMenuLedsKeys[Option].c_str(), *SubMenuLedsVar[Option]);
+		break;
 
-		case 3:
-			*SubMenuEnergyVar[Option] = configurationModernWood.getInt(SubMenuEnergyKeys[Option].c_str(), *SubMenuEnergyVar[Option]);
-			break;
+	case 3:
+		*SubMenuEnergyVar[Option] = configurationModernWood.getInt(SubMenuEnergyKeys[Option].c_str(), *SubMenuEnergyVar[Option]);
+		break;
 
-		case 4:
-			*SubMenuConnectionVar[Option] = configurationModernWood.getInt(SubMenuConnectionKeys[Option].c_str(), *SubMenuConnectionVar[Option]);
-			break;
+	case 4:
+		*SubMenuConnectionVar[Option] = configurationModernWood.getInt(SubMenuConnectionKeys[Option].c_str(), *SubMenuConnectionVar[Option]);
+		break;
 
-		case 5:
-			// No configuration to load
-			break;
+	case 5:
+		// No configuration to load
+		break;
 
-		default:
-			break;
+	default:
+		break;
 	}
 
 	if (OpenConfig)
@@ -100,26 +100,26 @@ void saveUserConfiguration(int Menu, int Option, bool OpenConfig = true)
 
 	switch (Menu)
 	{
-		case 0:
-			configurationModernWood.putInt(SubMenuConfigKeys[Option].c_str(), *SubMenuConfigVar[Option]);
-			break;
-		case 1:
-			configurationModernWood.putInt(SubMenuBrightnessKeys[Option].c_str(), *SubMenuBrightnessVar[Option]);
-			break;
-		case 2:
-			configurationModernWood.putInt(SubMenuLedsKeys[Option].c_str(), *SubMenuLedsVar[Option]);
-			break;
-		case 3:
-			configurationModernWood.putInt(SubMenuEnergyKeys[Option].c_str(), *SubMenuEnergyVar[Option]);
-			break;
-		case 4:
-			configurationModernWood.putInt(SubMenuConnectionKeys[Option].c_str(), *SubMenuConnectionVar[Option]);
-			break;
-		case 5:
-			// No configuration to save
-			break;
-		default:
-			break;
+	case 0:
+		configurationModernWood.putInt(SubMenuConfigKeys[Option].c_str(), *SubMenuConfigVar[Option]);
+		break;
+	case 1:
+		configurationModernWood.putInt(SubMenuBrightnessKeys[Option].c_str(), *SubMenuBrightnessVar[Option]);
+		break;
+	case 2:
+		configurationModernWood.putInt(SubMenuLedsKeys[Option].c_str(), *SubMenuLedsVar[Option]);
+		break;
+	case 3:
+		configurationModernWood.putInt(SubMenuEnergyKeys[Option].c_str(), *SubMenuEnergyVar[Option]);
+		break;
+	case 4:
+		configurationModernWood.putInt(SubMenuConnectionKeys[Option].c_str(), *SubMenuConnectionVar[Option]);
+		break;
+	case 5:
+		// No configuration to save
+		break;
+	default:
+		break;
 	}
 
 	if (OpenConfig)
@@ -152,39 +152,44 @@ int LedsBrightness = 100;
 int LedsActive = 1;
 RGB LedsColor = RGB();
 int LedsMode = 0;
-int LedsSpeed = 0;
+int LedsSpeed = 50;
 
 int interval = 250;
 unsigned long lastUpdateTimeRainbow = 0;
 
 // ################################################## BATTERY ##################################################
 
-int BatteryEnabled = 1;
-int DisplayBatteryMode = 0;
+int BatteryEnabled = 0;
 uint8_t volatile batteryLevel = 100;
 uint8_t volatile batteryLevelLast = 100;
 bool batteryLevelChanged = true;
 portMUX_TYPE timerMux = portMUX_INITIALIZER_UNLOCKED;
 
+//Energy Save Mode
+int EnergySaveMode = 0;
+hw_timer_t *timer = NULL;
+volatile bool keyPressed = false;
+unsigned long lastKeyPressTime = 0;
+
 void IRAM_ATTR checkBatteryLevel()
 {
 	portENTER_CRITICAL_ISR(&timerMux);
 	// We are going to use a voltage divider to measure the battery with a resistance of 1M and another of 1M and the voltage is 4.2V (100%) and 3.7V (0%)
-	//Ranges from 2296 to 2606 (1.85V to 2.1V)
+	// Ranges from 2296 to 2606 (1.85V to 2.1V)
 	batteryLevel = static_cast<int>(map(analogRead(PIN_BATTERY), 2296, 2606, 0.0, 100.0));
-	
-	//If the battery level is less than 0% set it to 0%
-	if(batteryLevel < 0)
+
+	// If the battery level is less than 0% set it to 0%
+	if (batteryLevel < 0)
 	{
 		batteryLevel = 0;
 	}
-	//If the battery level is more than 100% set it to 100%
-	if(batteryLevel > 100)
+	// If the battery level is more than 100% set it to 100%
+	if (batteryLevel > 100)
 	{
 		batteryLevel = 100;
 	}
 
-	if(batteryLevel != batteryLevelLast)
+	if (batteryLevel != batteryLevelLast)
 	{
 		batteryLevelLast = batteryLevel;
 		batteryLevelChanged = true;
@@ -253,6 +258,8 @@ bool executingCustomFunction = false; // To know if we are executing a custom fu
 // If there is a actual function begin exectued, which is the row and col of the key
 int actualFunctionRow = 0;
 int actualFunctionCol = 0;
+
+bool configurationReseted = false; // To know if the configuration has been reseted
 
 // ################################################## MODES ##################################################
 
@@ -1092,12 +1099,6 @@ void ChangeConfig(int Menu, int SubMenu, bool &changed_option_subMenu, bool righ
 
 void ChangeVar(String varType, int *var, bool &changed_option_subMenu, bool right)
 {
-	// None variable: Do nothing
-	if (varType == "none" && changed_option_subMenu == _DefaultConfig)
-	{
-		configurationModernWood.clear(); //TODO: Clear the configuration
-	}
-
 	// Bool variable: True to False and False to True
 	if (varType == "bool")
 	{
@@ -1165,7 +1166,7 @@ void ChangeVar(String varType, int *var, bool &changed_option_subMenu, bool righ
 // Apply the changes of the configuration selected that have been changed
 void ApplyChanges(int Menu, int SubMenu)
 {
-	if ((Menu == 1 && SubMenu == 0) || (Menu == 2))
+	if ((Menu == 1 && SubMenu == _BrightnessLeds) || (Menu == 2))
 	{
 		float brightness = (*SubMenuBrightnessVar[_BrightnessLeds] / 100.0f);
 		RgbLED.setPixelColor(0, (int)(LedsColor.r * brightness),
@@ -1180,43 +1181,40 @@ void ApplyChanges(int Menu, int SubMenu)
 
 		RgbLED.show();
 	}
-}
 
-uint32_t Wheel(uint8_t j)
-{
-	float r, g, b;
-
-	float angle = j * 0.7068583470577; // Convertir a radianes (j / 255 * 3.14159 * 2)
-
-	r = sin(angle) * 127 + 128;
-	g = sin(angle + 2.09439510239) * 127 + 128;
-	b = sin(angle + 4.18879020479) * 127 + 128;
-
-	return ((uint32_t)r << 16) | ((uint32_t)g << 8) | (uint32_t)b;
+	if (Menu == 5 && SubMenu == _DefaultConfig && configurationReseted)
+	{
+		// Reset the configurationReseted variable
+		configurationModernWood.begin("MWConfig", false);
+		configurationModernWood.clear();
+		configurationModernWood.end();
+		// Reset the board
+		ESP.restart();
+	}
+	else if (Menu == 5 && SubMenu == _DefaultConfig)
+	{
+		configurationReseted = true;
+	}
 }
 
 void rainbowEffect(Adafruit_NeoPixel &leds)
 {
-	unsigned long currentTime = millis();
+	static unsigned long lastUpdate = 0;
+	unsigned long now = millis();
+	float hueStep = 1.0 / NUMBER_OF_LEDS;
+	float speed = LedsSpeed / 50000.0;		   // Ajusta la velocidad
+	float brightness = LedsBrightness / 100.0; // Ajusta el brillo
 
-	if (currentTime - lastUpdateTimeRainbow >= interval - (*SubMenuLedsVar[_LedsSpeed] / 80.0f))
-	{
-		lastUpdateTimeRainbow = currentTime;
-		for (int j = 0; j < 256; j++)
+	if (now - lastUpdate > 20)
+	{ // Actualizar cada 20ms
+		lastUpdate = now;
+		for (int i = 0; i < leds.numPixels(); i++)
 		{
-			for (int i = 0; i < leds.numPixels(); i++)
-			{
-				// Make the rainbow effect with the brightness of the leds (*SubMenuBrightnessVar[_BrightnessLeds]/100.0f)
-				// Use the Wheel function to get the color of the rainbow and then split it into rgb
-				RGB temp;
-				temp.color = Wheel((i + j) & 255);
-				temp.CalculateRGB();
-				leds.setPixelColor(i, (int)(temp.r * (*SubMenuBrightnessVar[_BrightnessLeds] / 100.0f)),
-								   (int)(temp.g * (*SubMenuBrightnessVar[_BrightnessLeds] / 100.0f)),
-								   (int)(temp.b * (*SubMenuBrightnessVar[_BrightnessLeds] / 100.0f)));
-			}
-			leds.show();
+			float hue = fmod(now * speed + i * hueStep, 1.0);
+			RGB color(hue, 1.0, brightness); // Hue, Saturation, Brightness
+			leds.setPixelColor(i, leds.Color(color.r, color.g, color.b));
 		}
+		leds.show();
 	}
 }
 

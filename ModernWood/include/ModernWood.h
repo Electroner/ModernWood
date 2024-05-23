@@ -19,6 +19,7 @@
 #include <customRGB.h>
 
 #include <Preferences.h>
+#include <esp_sleep.h>
 
 //Modules
 #include "ModulesMap.h"
@@ -65,13 +66,19 @@ extern unsigned long lastUpdateTimeRainbow;
 #define BATTERY_CHECK_INTERVAL 60000 // ms
 
 extern int BatteryEnabled;
-extern int DisplayBatteryMode;
 extern uint8_t volatile batteryLevel;
 extern uint8_t volatile batteryLevelLast;
 extern bool batteryLevelChanged;
 extern portMUX_TYPE timerMux;
 
 void IRAM_ATTR checkBatteryLevel();
+
+//Energy Save Mode
+extern int EnergySaveMode;
+extern hw_timer_t *timer;
+extern volatile bool keyPressed;
+extern unsigned long lastKeyPressTime;
+const unsigned long timeoutPeriod = 5 * 60 * 1000; // 5 minutes
 
 // ################################################## USB HID ##################################################
 
@@ -141,6 +148,8 @@ extern bool executingCustomFunction; //To know if we are executing a custom func
 extern int actualFunctionRow; 
 extern int actualFunctionCol;
 
+extern bool configurationReseted;
+
 #define COD0 4  //Output pin X0 (GPIO4)
 #define COD1 5  //Output pin X1 (GPIO5)
 #define COD2 6  //Output pin X2 (GPIO6)
@@ -185,8 +194,8 @@ const String SubMenuLedsVarType[SizeSubMenuLeds] = {"bool", "rgb", "int", "int"}
 extern int* SubMenuLedsVar[SizeSubMenuLeds];
 
 enum SubMenuEnergy {_EnableBattery, _DisplayMode, SizeSubMenuEnergy};
-const String SubMenuEnergyText[SizeSubMenuEnergy] = {"Enable Battery", "Display Mode"};
-const String SubMenuEnergyKeys[SizeSubMenuEnergy] = {"ENABAT", "DISMOD"};
+const String SubMenuEnergyText[SizeSubMenuEnergy] = {"Enable Battery", "Energy Save"};
+const String SubMenuEnergyKeys[SizeSubMenuEnergy] = {"ENABAT", "ENGSAV"};
 const String SubMenuEnergyVarType[SizeSubMenuEnergy] = {"bool", "int"};
 extern int* SubMenuEnergyVar[SizeSubMenuEnergy];
 
@@ -196,9 +205,9 @@ const String SubMenuConnectionKeys[SizeSubMenuConnection] = {"ENABLE", "PREBLE",
 const String SubMenuConnectionVarType[SizeSubMenuConnection] = {"bool", "bool", "bool"};
 extern int* SubMenuConnectionVar[SizeSubMenuConnection];
 
-enum SubMenuInfoHelp {_EspecialMode, _DefaultConfig, _Info, _Help, SizeSubMenuInfoHelp};
-const String SubMenuInfoHelpText[SizeSubMenuInfoHelp] = {"Especial Modes", "Default Config", "Info", "Help"};
-const String SubMenuInfoHelpKeys[SizeSubMenuInfoHelp] = {"ESPMODE", "DEFCON", "KSINFO", "KSHELP"};
+enum SubMenuInfoHelp {_DefaultConfig, _EspecialMode, _Info, _Help, SizeSubMenuInfoHelp};
+const String SubMenuInfoHelpText[SizeSubMenuInfoHelp] = {"Default Config", "Especial Modes", "Info", "Help"};
+const String SubMenuInfoHelpKeys[SizeSubMenuInfoHelp] = {"DEFCON", "ESPMODE", "KSINFO", "KSHELP"};
 const String SubMenuInfoHelpVarType[SizeSubMenuInfoHelp] = {"none", "none", "none", "none"};
 
 //What are the positions of the keys that control the menu
@@ -311,8 +320,6 @@ void ChangeVar(String varType, int *var, bool &changed_option_subMenu, bool righ
 void ApplyChanges(int Menu, int SubMenu);
 
 // Leds Functions for rainbow effect
-uint32_t Wheel(byte WheelPos);
-
 void rainbowEffect(Adafruit_NeoPixel& leds);
 
 //Exit the special Function Mode (Macros, Media, etc)

@@ -162,6 +162,9 @@ void setup()
 	executingCustomFunction = false;
 	actualFunctionRow = 0;
 	actualFunctionCol = 0;
+
+	// Energy Save mode
+	//TODO: Energy save mode
 }
 
 void loop()
@@ -349,8 +352,25 @@ void loop()
 			//Check for special functions like led control
 			if(*SubMenuLedsVar[_LedsMode] != 0)
 			{
-				//Check if the led mode is rainbow
+				//Check if the led mode is white
 				if(*SubMenuLedsVar[_LedsMode] == 1)
+				{
+					//Show white color
+					float brightness = (*SubMenuBrightnessVar[_BrightnessLeds] / 100.0f);
+					for(int i = 0; i < NUMBER_OF_LEDS; i++)
+					{
+						RgbLED.setPixelColor(i, (int)(255 * brightness),
+												(int)(255 * brightness),
+												(int)(255 * brightness));
+					}
+					if (*SubMenuLedsVar[_EnableLeds] == 0)
+					{
+						RgbLED.clear();
+					}
+					RgbLED.show();
+				}
+				//Check if the led mode is rainbow
+				if(*SubMenuLedsVar[_LedsMode] == 2)
 				{
 					//Check if the led mode is rainbow
 					rainbowEffect(RgbLED);
@@ -504,12 +524,20 @@ void loop()
 					// Save the changes in the EEPROM opening the configuration descriptor
 					if(ChangedConfig)
 					{
-						saveUserConfiguration();
-						ChangedConfig = false;
+						if(!configurationReseted)
+						{
+							saveUserConfiguration();
+							#ifdef DEBUG
+							Serial.println("Configuration Saved");
+							#endif
+						}
+						else
+						{
+							// If no double press we dont reset the configuration
+							configurationReseted = false;
+						}
 
-						#ifdef DEBUG
-						Serial.println("Configuration Saved");
-						#endif
+						ChangedConfig = false;
 					}
 				}
 				WorkingModeKeyboard(tft, bleKeyboard, Keyboard, isBLEConnected, isUSBConnected);
@@ -578,3 +606,5 @@ void loop()
 		}
 	}
 }
+
+// TODO: Energy save mode
