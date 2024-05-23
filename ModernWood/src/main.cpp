@@ -164,7 +164,6 @@ void setup()
 	actualFunctionCol = 0;
 
 	// Energy Save mode
-	//TODO: Energy save mode
 }
 
 void loop()
