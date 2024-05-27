@@ -75,12 +75,13 @@ void IRAM_ATTR checkBatteryLevel();
 
 //Energy Save Mode
 extern int EnergySaveMode;
+extern bool goingToSleep;
 extern bool timerSetupDone;
-extern hw_timer_t *timer;
+extern hw_timer_t *EnergyModetimer;
 extern unsigned long lastKeyPressTime;
 
 void IRAM_ATTR onKeyPress();
-void setupTimer();
+void setupTimerEnergySave();
 void checkEnergySaveMode();
 void enterEnergySaveMode();
 void wakeupHandler();
@@ -201,7 +202,7 @@ extern int* SubMenuLedsVar[SizeSubMenuLeds];
 enum SubMenuEnergy {_EnableBattery, _DisplayMode, SizeSubMenuEnergy};
 const String SubMenuEnergyText[SizeSubMenuEnergy] = {"Enable Battery", "Energy Save"};
 const String SubMenuEnergyKeys[SizeSubMenuEnergy] = {"ENABAT", "ENGSAV"};
-const String SubMenuEnergyVarType[SizeSubMenuEnergy] = {"bool", "int"};
+const String SubMenuEnergyVarType[SizeSubMenuEnergy] = {"bool", "bool"};
 extern int* SubMenuEnergyVar[SizeSubMenuEnergy];
 
 enum SubMenuConnection {_EnableBle, _PreferenceBle, _PreferenceUSB, SizeSubMenuConnection};

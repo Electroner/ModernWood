@@ -16,11 +16,11 @@ void setup()
 	configurationModernWood.end();
 
 #ifdef DEBUG
-	//TEMPERATURE SENSOR ON CHIP
+	// TEMPERATURE SENSOR ON CHIP
 	temp_sensor_config_t temp_sensor = TSENS_CONFIG_DEFAULT();
-    temp_sensor.dac_offset = TSENS_DAC_L2;  // TSENS_DAC_L2 is default; L4(-40°C ~ 20°C), L2(-10°C ~ 80°C), L1(20°C ~ 100°C), L0(50°C ~ 125°C)
-    temp_sensor_set_config(temp_sensor);
-    temp_sensor_start();
+	temp_sensor.dac_offset = TSENS_DAC_L2; // TSENS_DAC_L2 is default; L4(-40°C ~ 20°C), L2(-10°C ~ 80°C), L1(20°C ~ 100°C), L0(50°C ~ 125°C)
+	temp_sensor_set_config(temp_sensor);
+	temp_sensor_start();
 #endif
 
 	// Disable WiFi
@@ -37,16 +37,16 @@ void setup()
 	// Battery
 #ifdef BATTERY_CHECK
 	// Create a timer object using hw_timer_t
-	hw_timer_t *timer = NULL;
+	hw_timer_t *BatteryChecktimer = NULL;
 	// Attach onTimer function to our timer.
 	// 0 : timer number
 	// 80 : 80 divider. 1 tick = 1 micro second. So this will make our timer run at 1Mhz
 	// true : Count up
-	timer = timerBegin(0, 80, true);
-	timerAttachInterrupt(timer, &checkBatteryLevel, true);
-	timerAlarmWrite(timer, BATTERY_CHECK_INTERVAL * 1000, true); // 60 seconds interval
+	BatteryChecktimer = timerBegin(0, 80, true);
+	timerAttachInterrupt(BatteryChecktimer, &checkBatteryLevel, true);
+	timerAlarmWrite(BatteryChecktimer, BATTERY_CHECK_INTERVAL * 1000, true); // 60 seconds interval
 	// Enable our timer.
-	timerAlarmEnable(timer);
+	timerAlarmEnable(BatteryChecktimer);
 #endif
 
 	// USB
@@ -77,8 +77,8 @@ void setup()
 	RgbLED.begin();
 	float brightness = (*SubMenuBrightnessVar[_BrightnessLeds] / 100.0f);
 	RgbLED.setPixelColor(0, (int)(LedsColor.r * brightness),
-							(int)(LedsColor.g * brightness),
-							(int)(LedsColor.b * brightness));
+						 (int)(LedsColor.g * brightness),
+						 (int)(LedsColor.b * brightness));
 	if (*SubMenuLedsVar[_EnableLeds] == 0)
 	{
 		RgbLED.clear();
@@ -138,10 +138,10 @@ void setup()
 				  Battery_display_image.height,
 				  image_Battery, 0);
 
-	tft.fillRect(Battery_Inside_display_image.x, 
-						 Battery_Inside_display_image.y,
-						 Battery_Inside_display_image.width, 
-						 Battery_Inside_display_image.height, TFT_GREEN);
+	tft.fillRect(Battery_Inside_display_image.x,
+				 Battery_Inside_display_image.y,
+				 Battery_Inside_display_image.width,
+				 Battery_Inside_display_image.height, TFT_GREEN);
 
 	// MENU
 	// configuration icons
@@ -165,17 +165,18 @@ void setup()
 
 	// Energy Save mode
 	attachInterrupt(digitalPinToInterrupt(E0), onKeyPress, FALLING);
-    attachInterrupt(digitalPinToInterrupt(E1), onKeyPress, FALLING);
-    attachInterrupt(digitalPinToInterrupt(E2), onKeyPress, FALLING);
-    attachInterrupt(digitalPinToInterrupt(E3), onKeyPress, FALLING);
-    attachInterrupt(digitalPinToInterrupt(E4), onKeyPress, FALLING);
-    attachInterrupt(digitalPinToInterrupt(E5), onKeyPress, FALLING);
+	attachInterrupt(digitalPinToInterrupt(E1), onKeyPress, FALLING);
+	attachInterrupt(digitalPinToInterrupt(E2), onKeyPress, FALLING);
+	attachInterrupt(digitalPinToInterrupt(E3), onKeyPress, FALLING);
+	attachInterrupt(digitalPinToInterrupt(E4), onKeyPress, FALLING);
+	attachInterrupt(digitalPinToInterrupt(E5), onKeyPress, FALLING);
 
 	// Set and activate timer only if EnergySaveMode is true
-    if (EnergySaveMode)
+	if (EnergySaveMode)
 	{
-        setupTimer();
-    }
+		setupTimerEnergySave();
+		timerSetupDone = true;
+	}
 }
 
 void loop()
@@ -185,7 +186,7 @@ void loop()
 	USBHIDKeyboard Keyboard;
 
 	// Start USB and BLE Keyboards
-	if(BLEEnabled)
+	if (BLEEnabled)
 	{
 		bleKeyboard.begin();
 	}
@@ -196,6 +197,7 @@ void loop()
 	Serial.println("USB and BLE Keyboards Started");
 	unsigned int loop_counter = 0;
 	unsigned int last_loop_time = millis();
+	unsigned int secs = 0;
 #endif
 
 	while (true)
@@ -218,27 +220,31 @@ void loop()
 
 			loop_counter = 0;
 			last_loop_time = millis();
+
+			secs++;
+			Serial.print("Seconds: ");
+			Serial.println(secs);
 		}
 
-		//Read from serial
+		// Read from serial
 		char c = 'N';
 		if (Serial.available())
 		{
-			c= Serial.read();
+			c = Serial.read();
 			Serial.print("Read from serial: ");
 			Serial.println(c);
 		}
-		//wasd -> ARRIBA ABAJO DERECHA IZQUIERDA
-		//Espace -> Enter
-		//E -> Escape
-		//Q -> MODO ESPECIAL
+		// wasd -> ARRIBA ABAJO DERECHA IZQUIERDA
+		// Espace -> Enter
+		// E -> Escape
+		// Q -> MODO ESPECIAL
 		switch (c)
 		{
 		case 'Q':
 			WorkingAsKeyboard = !WorkingAsKeyboard;
 			interrupted_FN = true;
 			break;
-		
+
 		case 'E':
 			MenuPressed[ArrEsc] = true;
 			break;
@@ -256,11 +262,11 @@ void loop()
 			MenuPressed[ArrDown] = true;
 			break;
 
-		case 'A':	
+		case 'A':
 			MenuPressed[ArrLeft] = true;
 			break;
 
-		case 'D':	
+		case 'D':
 			MenuPressed[ArrRight] = true;
 			break;
 
@@ -288,7 +294,7 @@ void loop()
 		default:
 			break;
 		}
-		
+
 #endif
 
 		// ################################################## LOOP LOGIC ##################################################
@@ -296,80 +302,94 @@ void loop()
 		// If the Energy Save mode is enabled, enable the timer
 		if (EnergySaveMode && !timerSetupDone)
 		{
-			setupTimer();
+#ifdef DEBUG
+			Serial.println("Energy Save Mode Enabled");
+#endif
+			setupTimerEnergySave();
 			timerSetupDone = true;
 		}
 		else if (!EnergySaveMode && timerSetupDone)
 		{
+#ifdef DEBUG
+			Serial.println("Energy Save Mode Disabled");
+#endif
 			// If the Energy Save mode is disabled, disable the timer
-			if (timer != NULL)
+			if (EnergyModetimer != NULL)
 			{
-				timerAlarmDisable(timer);
-				timerEnd(timer);
-				timer = NULL;
+				timerAlarmDisable(EnergyModetimer);
+				timerEnd(EnergyModetimer);
+				EnergyModetimer = NULL;
 				timerSetupDone = false;
+#ifdef DEBUG
+				Serial.println("Timer Disabled");
+#endif
 			}
 		}
-		
-		//Battery logic to update the battery level
-		if(batteryLevelChanged && BatteryEnabled)
+		if(goingToSleep)
 		{
-			#ifdef DEBUG
-			//If the battery level is less than 0% set it to 0%
-			if(batteryLevel < 0)
+			// Call the function to go to sleep
+			enterEnergySaveMode();
+		}
+
+		// Battery logic to update the battery level
+		if (batteryLevelChanged && BatteryEnabled)
+		{
+#ifdef DEBUG
+			// If the battery level is less than 0% set it to 0%
+			if (batteryLevel < 0)
 			{
 				batteryLevel = 0;
 			}
-			//If the battery level is more than 100% set it to 100%
-			if(batteryLevel > 100)
+			// If the battery level is more than 100% set it to 100%
+			if (batteryLevel > 100)
 			{
 				batteryLevel = 100;
 			}
-			#endif
+#endif
 
 			tft.setFreeFont(&FreeSansBold9pt7b); // Altura de la fuente 12
 			tft.setTextColor(TFT_WHITE);
 
 			// Print black the battery level in the screen and the percentage
-			tft.fillRect(Battery_Inside_display_image.x, 
+			tft.fillRect(Battery_Inside_display_image.x,
 						 Battery_Inside_display_image.y,
-						 Battery_Inside_display_image.width, 
+						 Battery_Inside_display_image.width,
 						 Battery_Inside_display_image.height, TFT_BLACK);
 			tft.fillRect(BATTERY_LEVEL_X,
 						 BATTERY_LEVEL_Y - BATTERY_LEVEL_HEIGHT - 1,
-						 BATTERY_LEVEL_WIDTH, 
+						 BATTERY_LEVEL_WIDTH,
 						 BATTERY_LEVEL_HEIGHT + 2, TFT_BLACK);
-			
+
 			tft.setCursor(BATTERY_LEVEL_X, BATTERY_LEVEL_Y);
-			if(batteryLevel == 100)
+			if (batteryLevel == 100)
 			{
 				tft.print(String(batteryLevel) + "%");
 			}
-			else if(batteryLevel < 100 && batteryLevel >= 10)
+			else if (batteryLevel < 100 && batteryLevel >= 10)
 			{
 				tft.print(String(batteryLevel) + " %");
 			}
-			else if(batteryLevel < 10)
+			else if (batteryLevel < 10)
 			{
 				tft.print(String(batteryLevel) + "  %");
 			}
 			batteryLevelChanged = false;
-			
-			//Print black rectangle to erase the battery level
-			tft.fillRect(Battery_Inside_display_image.x, 
-							Battery_Inside_display_image.y,
-							Battery_Inside_display_image.width, 
-							Battery_Inside_display_image.height, TFT_BLACK);
+
+			// Print black rectangle to erase the battery level
+			tft.fillRect(Battery_Inside_display_image.x,
+						 Battery_Inside_display_image.y,
+						 Battery_Inside_display_image.width,
+						 Battery_Inside_display_image.height, TFT_BLACK);
 			RGB percolor;
 			percolor.r = 255 - (255 * batteryLevel) / 100;
 			percolor.g = (255 * batteryLevel) / 100;
 			percolor.b = 0;
 			percolor.CalculateColor();
 			// Print the battery level in the screen
-			tft.fillRect(Battery_Inside_display_image.x, 
-							Battery_Inside_display_image.y,
-							static_cast<int>(Battery_Inside_display_image.width * (batteryLevel/100.0f)), 
-							Battery_Inside_display_image.height, percolor.color);
+			tft.fillRect(Battery_Inside_display_image.x,
+						 Battery_Inside_display_image.y,
+						 static_cast<int>(Battery_Inside_display_image.width * (batteryLevel / 100.0f)),
+						 Battery_Inside_display_image.height, percolor.color);
 
 			// Reset the font to the default
 			tft.setFreeFont(NULL);
@@ -377,21 +397,21 @@ void loop()
 		}
 
 		// Check if the leds are enabled
-		if(*SubMenuLedsVar[_EnableLeds] != 0)
+		if (*SubMenuLedsVar[_EnableLeds] != 0)
 		{
-			//Check for special functions like led control
-			if(*SubMenuLedsVar[_LedsMode] != 0)
+			// Check for special functions like led control
+			if (*SubMenuLedsVar[_LedsMode] != 0)
 			{
-				//Check if the led mode is white
-				if(*SubMenuLedsVar[_LedsMode] == 1)
+				// Check if the led mode is white
+				if (*SubMenuLedsVar[_LedsMode] == 1)
 				{
-					//Show white color
+					// Show white color
 					float brightness = (*SubMenuBrightnessVar[_BrightnessLeds] / 100.0f);
-					for(int i = 0; i < NUMBER_OF_LEDS; i++)
+					for (int i = 0; i < NUMBER_OF_LEDS; i++)
 					{
 						RgbLED.setPixelColor(i, (int)(255 * brightness),
-												(int)(255 * brightness),
-												(int)(255 * brightness));
+											 (int)(255 * brightness),
+											 (int)(255 * brightness));
 					}
 					if (*SubMenuLedsVar[_EnableLeds] == 0)
 					{
@@ -399,75 +419,75 @@ void loop()
 					}
 					RgbLED.show();
 				}
-				//Check if the led mode is rainbow
-				if(*SubMenuLedsVar[_LedsMode] == 2)
+				// Check if the led mode is rainbow
+				if (*SubMenuLedsVar[_LedsMode] == 2)
 				{
-					//Check if the led mode is rainbow
+					// Check if the led mode is rainbow
 					rainbowEffect(RgbLED);
 				}
 			}
 		}
-		
+
 		// Connection logic to update the connection status
-		if(*SubMenuConnectionVar[_PreferenceUSB] && connectionChanged)
+		if (*SubMenuConnectionVar[_PreferenceUSB] && connectionChanged)
 		{
 			tft.fillRect(BLE_display_image.x,
-				 BLE_display_image.y,
-				 BLE_display_image.width,
-				 BLE_display_image.height,
-				 TFT_BLACK);
+						 BLE_display_image.y,
+						 BLE_display_image.width,
+						 BLE_display_image.height,
+						 TFT_BLACK);
 			tft.fillRect(Connection_display_image.x,
-				 Connection_display_image.y,
-				 Connection_display_image.width,
-				 Connection_display_image.height,
-				 TFT_BLACK);
+						 Connection_display_image.y,
+						 Connection_display_image.width,
+						 Connection_display_image.height,
+						 TFT_BLACK);
 			tft.pushImage(USB_display_image.x,
-				  USB_display_image.y,
-				  USB_display_image.width,
-				  USB_display_image.height,
-				  image_USB, 0);
+						  USB_display_image.y,
+						  USB_display_image.width,
+						  USB_display_image.height,
+						  image_USB, 0);
 			connectionChanged = false;
 		}
-		else if(connectionChanged)
+		else if (connectionChanged)
 		{
 			tft.fillRect(USB_display_image.x,
-				 USB_display_image.y,
-				 USB_display_image.width,
-				 USB_display_image.height,
-				 TFT_BLACK);
+						 USB_display_image.y,
+						 USB_display_image.width,
+						 USB_display_image.height,
+						 TFT_BLACK);
 			tft.pushImage(BLE_display_image.x,
-				  BLE_display_image.y,
-				  BLE_display_image.width,
-				  BLE_display_image.height,
-				  image_BLE, 0);
+						  BLE_display_image.y,
+						  BLE_display_image.width,
+						  BLE_display_image.height,
+						  image_BLE, 0);
 			// If bluetooth has a connection show the bluetooth connection image
-			if(isBLEConnected)
+			if (isBLEConnected)
 			{
 				tft.pushImage(Connection_display_image.x,
-				  Connection_display_image.y,
-				  Connection_display_image.width,
-				  Connection_display_image.height,
-				  image_Connection, 0);
+							  Connection_display_image.y,
+							  Connection_display_image.width,
+							  Connection_display_image.height,
+							  image_Connection, 0);
 			}
 			else
 			{
 				tft.fillRect(Connection_display_image.x,
-				 Connection_display_image.y,
-				 Connection_display_image.width,
-				 Connection_display_image.height,
-				 TFT_BLACK);
+							 Connection_display_image.y,
+							 Connection_display_image.width,
+							 Connection_display_image.height,
+							 TFT_BLACK);
 			}
 			connectionChanged = false;
 		}
 
 		// Display logic to update the display on/off and brightness
-		if(*SubMenuConfigVar[_EnableDisplayOption] && displayChanged)
+		if (*SubMenuConfigVar[_EnableDisplayOption] && displayChanged)
 		{
 			// Set the brightness of the screen (ON)
 			analogWrite(BLK_SCREEN, *SubMenuBrightnessVar[_BrightnessDisplay] * 2.55);
 			displayChanged = false;
 		}
-		else if(displayChanged)
+		else if (displayChanged)
 		{
 			// Display OFF
 			analogWrite(BLK_SCREEN, LOW);
@@ -534,32 +554,32 @@ void loop()
 					}
 
 					// Function to set configuration of the keyboard (check BLEEnabled)
-					if(!BLEEnabled && btStarted())
+					if (!BLEEnabled && btStarted())
 					{
-						#ifdef DEBUG
+#ifdef DEBUG
 						Serial.println("BLE Keyboard Stopped");
-						#endif
+#endif
 						btStop();
 					}
-					else if(BLEEnabled && !btStarted())
+					else if (BLEEnabled && !btStarted())
 					{
-						#ifdef DEBUG
+#ifdef DEBUG
 						Serial.println("BLE Keyboard Started");
-						#endif
+#endif
 						bleKeyboard.begin();
 						btStart();
 					}
 
 					// Here in the back to the Keyboard Mode we save the configuration if changed has been made
 					// Save the changes in the EEPROM opening the configuration descriptor
-					if(ChangedConfig)
+					if (ChangedConfig)
 					{
-						if(!configurationReseted)
+						if (!configurationReseted)
 						{
 							saveUserConfiguration();
-							#ifdef DEBUG
+#ifdef DEBUG
 							Serial.println("Configuration Saved");
-							#endif
+#endif
 						}
 						else
 						{
@@ -615,18 +635,18 @@ void loop()
 					printMenuOptionNumber(tft, option_selected, true);
 
 					// Function to set configuration of the keyboard (check BLEEnabled)
-					if(!BLEEnabled && btStarted())
+					if (!BLEEnabled && btStarted())
 					{
-						#ifdef DEBUG
+#ifdef DEBUG
 						Serial.println("BLE Keyboard Stopped");
-						#endif
+#endif
 						btStop();
 					}
-					else if(BLEEnabled && !btStarted())
+					else if (BLEEnabled && !btStarted())
 					{
-						#ifdef DEBUG
+#ifdef DEBUG
 						Serial.println("BLE Keyboard Started");
-						#endif
+#endif
 						bleKeyboard.begin();
 						btStart();
 					}
@@ -636,5 +656,3 @@ void loop()
 		}
 	}
 }
-
-// TODO: Energy save mode

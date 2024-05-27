@@ -167,8 +167,9 @@ portMUX_TYPE timerMux = portMUX_INITIALIZER_UNLOCKED;
 
 // Energy Save Mode
 int EnergySaveMode = 0;
+bool goingToSleep = false;
 bool timerSetupDone = false;
-hw_timer_t *timer = NULL;
+hw_timer_t *EnergyModetimer = NULL;
 unsigned long lastKeyPressTime = 0;
 
 void IRAM_ATTR checkBatteryLevel()
@@ -199,24 +200,27 @@ void IRAM_ATTR checkBatteryLevel()
 
 void IRAM_ATTR onKeyPress()
 {
+	portENTER_CRITICAL_ISR(&timerMux);
 	lastKeyPressTime = millis();
+	portEXIT_CRITICAL_ISR(&timerMux);
 }
 
-void setupTimer()
+void setupTimerEnergySave()
 {
 	// Set and activate the timer to check the power saving mode every 1 second
-	timer = timerBegin(0, 80, true); // 80 prescaler for 1 MHz clock
-	timerAttachInterrupt(timer, &checkEnergySaveMode, true);
-	timerAlarmWrite(timer, 10000000, true); // 10 sec
-	timerAlarmEnable(timer);
+	EnergyModetimer = timerBegin(1, 80, true); // 80 prescaler for 1 MHz clock
+	timerAttachInterrupt(EnergyModetimer, &checkEnergySaveMode, true);
+	timerAlarmWrite(EnergyModetimer, 10000000, true); // 10 sec
+	timerAlarmEnable(EnergyModetimer);
 }
 
-void checkEnergySaveMode()
+void IRAM_ATTR checkEnergySaveMode()
 {
 	// If no key has been pressed in 5 minutes, activate power saving mode
-	if (millis() - lastKeyPressTime >= 5 * 60 * 1000)
+	if (millis() - lastKeyPressTime >= 1 * 10 * 1000)
 	{
-		enterEnergySaveMode();
+		// enterEnergySaveMode(); // TODO Remake this with flags
+		goingToSleep = true;
 	}
 }
 
@@ -230,15 +234,21 @@ void enterEnergySaveMode()
 	RgbLED.show();
 
 	// Configure interrupt pins to wake up from sleep mode
-	esp_sleep_enable_ext1_wakeup((gpio_num_t)E0 |
-								 (gpio_num_t)E1 | 
-								 (gpio_num_t)E2 | 
-								 (gpio_num_t)E3 | 
-								 (gpio_num_t)E4 | 
-								 (gpio_num_t)E5, ESP_EXT1_WAKEUP_ANY_LOW);
+	 uint64_t wakeup_pin_mask = 0;
+    wakeup_pin_mask |= ((uint64_t)1 << E0);
+    wakeup_pin_mask |= ((uint64_t)1 << E1);
+    wakeup_pin_mask |= ((uint64_t)1 << E2);
+    wakeup_pin_mask |= ((uint64_t)1 << E3);
+    wakeup_pin_mask |= ((uint64_t)1 << E4);
+    wakeup_pin_mask |= ((uint64_t)1 << E5);
+    esp_sleep_enable_ext1_wakeup(wakeup_pin_mask, ESP_EXT1_WAKEUP_ANY_LOW);
 
-	// Enter deep sleep mode
-	esp_deep_sleep_start();
+	gpio_set_level(GPIO_NUM_47, 0);
+	gpio_hold_en(GPIO_NUM_47);
+	gpio_deep_sleep_hold_en();
+
+	// Enter light sleep mode
+	esp_light_sleep_start();
 
 	// When the device wakes up, it will continue from here
 	wakeupHandler();
@@ -248,6 +258,27 @@ void wakeupHandler()
 {
 	// To ensure that the device does not enter power saving mode again
 	lastKeyPressTime = millis();
+
+	// Turn on the screen
+	analogWrite(BLK_SCREEN, *SubMenuBrightnessVar[_BrightnessDisplay] * 2.55);
+
+	// Turn on the RGB LEDs
+	float brightness = (*SubMenuBrightnessVar[_BrightnessLeds] / 100.0f);
+	RgbLED.setPixelColor(0, (int)(LedsColor.r * brightness),
+						 (int)(LedsColor.g * brightness),
+						 (int)(LedsColor.b * brightness));
+	if (*SubMenuLedsVar[_EnableLeds] == 0)
+	{
+		RgbLED.clear();
+	}
+	RgbLED.show();
+
+	// Turn off the deep sleep hold
+	gpio_deep_sleep_hold_dis();
+	gpio_hold_dis(GPIO_NUM_47);
+
+	// Turn off the power saving mode flag
+	goingToSleep = false;
 }
 
 // ################################################## USB HID ##################################################
