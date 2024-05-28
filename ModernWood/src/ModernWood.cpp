@@ -165,10 +165,12 @@ uint8_t volatile batteryLevelLast = 100;
 bool batteryLevelChanged = true;
 portMUX_TYPE timerMux = portMUX_INITIALIZER_UNLOCKED;
 
-//Energy Save Mode
+// Energy Save Mode
 int EnergySaveMode = 0;
-hw_timer_t *timer = NULL;
-volatile bool keyPressed = false;
+bool goingToSleep = false;
+bool Sleeping = false;
+bool timerSetupDone = false;
+hw_timer_t *EnergyModetimer = NULL;
 unsigned long lastKeyPressTime = 0;
 
 void IRAM_ATTR checkBatteryLevel()
@@ -195,6 +197,79 @@ void IRAM_ATTR checkBatteryLevel()
 		batteryLevelChanged = true;
 	}
 	portEXIT_CRITICAL_ISR(&timerMux);
+}
+
+void IRAM_ATTR onKeyPress()
+{
+	portENTER_CRITICAL_ISR(&timerMux);
+	lastKeyPressTime = millis();
+
+	if(Sleeping)
+	{
+		goingToSleep = false;
+	}
+	portEXIT_CRITICAL_ISR(&timerMux);
+}
+
+void setupTimerEnergySave()
+{
+	// Set and activate the timer to check the power saving mode every 1 second
+	EnergyModetimer = timerBegin(1, 80, true); // 80 prescaler for 1 MHz clock
+	timerAttachInterrupt(EnergyModetimer, &checkEnergySaveMode, true);
+	timerAlarmWrite(EnergyModetimer, 10000000, true); // 10 sec
+	timerAlarmEnable(EnergyModetimer);
+}
+
+void IRAM_ATTR checkEnergySaveMode()
+{
+	portENTER_CRITICAL_ISR(&timerMux);
+	// If no key has been pressed in 5 minutes, activate power saving mode
+	if (millis() - lastKeyPressTime >= ENERGY_SAVE_MODE_TIME * 1000)
+	{
+		goingToSleep = true;
+	}
+	portEXIT_CRITICAL_ISR(&timerMux);
+}
+
+void enterEnergySaveMode()
+{
+	// Turn off the RGB LEDs
+	RgbLED.clear();
+	RgbLED.show();
+
+	// Turn off the screen
+	analogWrite(BLK_SCREEN, LOW);
+	displayChanged = true;
+
+	// Turn on the power saving mode flag
+	Sleeping = true;
+}
+
+void wakeupHandler()
+{
+	// To ensure that the device does not enter power saving mode again
+	lastKeyPressTime = millis();
+
+	// Turn on the screen
+	analogWrite(BLK_SCREEN, *SubMenuBrightnessVar[_BrightnessDisplay] * 2.55);
+
+	// Turn on the RGB LEDs
+	float brightness = (*SubMenuBrightnessVar[_BrightnessLeds] / 100.0f);
+	RgbLED.setPixelColor(0, (int)(LedsColor.r * brightness),
+						 (int)(LedsColor.g * brightness),
+						 (int)(LedsColor.b * brightness));
+	if (*SubMenuLedsVar[_EnableLeds] == 0)
+	{
+		RgbLED.clear();
+	}
+	RgbLED.show();
+
+	// Turn on flags for the modes
+	connectionChanged = true;
+
+	// Turn off the power saving mode flag
+	goingToSleep = false;
+	Sleeping = false;
 }
 
 // ################################################## USB HID ##################################################
@@ -247,6 +322,7 @@ void IRAM_ATTR FNKeyboardDisplay()
 		// Changes the mode of the keyboard and set the interrupt Flag
 		WorkingAsKeyboard = !WorkingAsKeyboard;
 		interrupted_FN = true;
+		lastKeyPressTime = interrupt_time;
 		last_interrupt_FN_time = interrupt_time;
 	}
 }
@@ -1169,10 +1245,12 @@ void ApplyChanges(int Menu, int SubMenu)
 	if ((Menu == 1 && SubMenu == _BrightnessLeds) || (Menu == 2))
 	{
 		float brightness = (*SubMenuBrightnessVar[_BrightnessLeds] / 100.0f);
-		RgbLED.setPixelColor(0, (int)(LedsColor.r * brightness),
-							 (int)(LedsColor.g * brightness),
-							 (int)(LedsColor.b * brightness));
-
+		for (int i = 0; i < NUMBER_OF_LEDS; i++)
+		{
+			RgbLED.setPixelColor(0, (int)(LedsColor.r * brightness),
+								 (int)(LedsColor.g * brightness),
+								 (int)(LedsColor.b * brightness));
+		}
 		// If led is on
 		if (*SubMenuLedsVar[_EnableLeds] == 0)
 		{

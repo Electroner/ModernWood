@@ -74,11 +74,20 @@ extern portMUX_TYPE timerMux;
 void IRAM_ATTR checkBatteryLevel();
 
 //Energy Save Mode
+#define ENERGY_SAVE_MODE_TIME 300 // 5 minutes
+
 extern int EnergySaveMode;
-extern hw_timer_t *timer;
-extern volatile bool keyPressed;
+extern bool goingToSleep;
+extern bool Sleeping;
+extern bool timerSetupDone;
+extern hw_timer_t *EnergyModetimer;
 extern unsigned long lastKeyPressTime;
-const unsigned long timeoutPeriod = 5 * 60 * 1000; // 5 minutes
+
+void IRAM_ATTR onKeyPress();
+void setupTimerEnergySave();
+void checkEnergySaveMode();
+void enterEnergySaveMode();
+void wakeupHandler();
 
 // ################################################## USB HID ##################################################
 
@@ -196,7 +205,7 @@ extern int* SubMenuLedsVar[SizeSubMenuLeds];
 enum SubMenuEnergy {_EnableBattery, _DisplayMode, SizeSubMenuEnergy};
 const String SubMenuEnergyText[SizeSubMenuEnergy] = {"Enable Battery", "Energy Save"};
 const String SubMenuEnergyKeys[SizeSubMenuEnergy] = {"ENABAT", "ENGSAV"};
-const String SubMenuEnergyVarType[SizeSubMenuEnergy] = {"bool", "int"};
+const String SubMenuEnergyVarType[SizeSubMenuEnergy] = {"bool", "bool"};
 extern int* SubMenuEnergyVar[SizeSubMenuEnergy];
 
 enum SubMenuConnection {_EnableBle, _PreferenceBle, _PreferenceUSB, SizeSubMenuConnection};
