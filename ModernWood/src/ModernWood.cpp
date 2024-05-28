@@ -224,7 +224,7 @@ void IRAM_ATTR checkEnergySaveMode()
 {
 	portENTER_CRITICAL_ISR(&timerMux);
 	// If no key has been pressed in 5 minutes, activate power saving mode
-	if (millis() - lastKeyPressTime >= 1 * 10 * 1000)
+	if (millis() - lastKeyPressTime >= ENERGY_SAVE_MODE_TIME * 1000)
 	{
 		goingToSleep = true;
 	}

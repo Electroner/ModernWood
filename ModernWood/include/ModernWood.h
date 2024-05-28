@@ -74,6 +74,8 @@ extern portMUX_TYPE timerMux;
 void IRAM_ATTR checkBatteryLevel();
 
 //Energy Save Mode
+#define ENERGY_SAVE_MODE_TIME 300 // 5 minutes
+
 extern int EnergySaveMode;
 extern bool goingToSleep;
 extern bool Sleeping;

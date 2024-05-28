@@ -1,6 +1,6 @@
 #include <ModernWood.h>
 
-#define DEBUG
+//#define DEBUG
 
 #ifdef DEBUG
 #include "driver/temp_sensor.h"
@@ -402,6 +402,9 @@ void loop()
             // Reset the font to the default
             tft.setFreeFont(NULL);
             tft.setTextSize(1);
+
+            // Update the bleKeyboard battery level
+            bleKeyboard.setBatteryLevel(batteryLevel);
         }
 
         // Check if the leds are enabled
