@@ -168,6 +168,7 @@ portMUX_TYPE timerMux = portMUX_INITIALIZER_UNLOCKED;
 // Energy Save Mode
 int EnergySaveMode = 0;
 bool goingToSleep = false;
+bool Sleeping = false;
 bool timerSetupDone = false;
 hw_timer_t *EnergyModetimer = NULL;
 unsigned long lastKeyPressTime = 0;
@@ -202,6 +203,11 @@ void IRAM_ATTR onKeyPress()
 {
 	portENTER_CRITICAL_ISR(&timerMux);
 	lastKeyPressTime = millis();
+
+	if(Sleeping)
+	{
+		goingToSleep = false;
+	}
 	portEXIT_CRITICAL_ISR(&timerMux);
 }
 
@@ -216,42 +222,27 @@ void setupTimerEnergySave()
 
 void IRAM_ATTR checkEnergySaveMode()
 {
+	portENTER_CRITICAL_ISR(&timerMux);
 	// If no key has been pressed in 5 minutes, activate power saving mode
 	if (millis() - lastKeyPressTime >= 1 * 10 * 1000)
 	{
-		// enterEnergySaveMode(); // TODO Remake this with flags
 		goingToSleep = true;
 	}
+	portEXIT_CRITICAL_ISR(&timerMux);
 }
 
 void enterEnergySaveMode()
 {
-	// Turn off the screen
-	analogWrite(BLK_SCREEN, 0);
-
 	// Turn off the RGB LEDs
 	RgbLED.clear();
 	RgbLED.show();
 
-	// Configure interrupt pins to wake up from sleep mode
-	 uint64_t wakeup_pin_mask = 0;
-    wakeup_pin_mask |= ((uint64_t)1 << E0);
-    wakeup_pin_mask |= ((uint64_t)1 << E1);
-    wakeup_pin_mask |= ((uint64_t)1 << E2);
-    wakeup_pin_mask |= ((uint64_t)1 << E3);
-    wakeup_pin_mask |= ((uint64_t)1 << E4);
-    wakeup_pin_mask |= ((uint64_t)1 << E5);
-    esp_sleep_enable_ext1_wakeup(wakeup_pin_mask, ESP_EXT1_WAKEUP_ANY_LOW);
+	// Turn off the screen
+	analogWrite(BLK_SCREEN, LOW);
+	displayChanged = true;
 
-	gpio_set_level(GPIO_NUM_47, 0);
-	gpio_hold_en(GPIO_NUM_47);
-	gpio_deep_sleep_hold_en();
-
-	// Enter light sleep mode
-	esp_light_sleep_start();
-
-	// When the device wakes up, it will continue from here
-	wakeupHandler();
+	// Turn on the power saving mode flag
+	Sleeping = true;
 }
 
 void wakeupHandler()
@@ -273,12 +264,12 @@ void wakeupHandler()
 	}
 	RgbLED.show();
 
-	// Turn off the deep sleep hold
-	gpio_deep_sleep_hold_dis();
-	gpio_hold_dis(GPIO_NUM_47);
+	// Turn on flags for the modes
+	connectionChanged = true;
 
 	// Turn off the power saving mode flag
 	goingToSleep = false;
+	Sleeping = false;
 }
 
 // ################################################## USB HID ##################################################
@@ -331,6 +322,7 @@ void IRAM_ATTR FNKeyboardDisplay()
 		// Changes the mode of the keyboard and set the interrupt Flag
 		WorkingAsKeyboard = !WorkingAsKeyboard;
 		interrupted_FN = true;
+		lastKeyPressTime = interrupt_time;
 		last_interrupt_FN_time = interrupt_time;
 	}
 }

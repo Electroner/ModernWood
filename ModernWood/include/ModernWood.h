@@ -76,6 +76,7 @@ void IRAM_ATTR checkBatteryLevel();
 //Energy Save Mode
 extern int EnergySaveMode;
 extern bool goingToSleep;
+extern bool Sleeping;
 extern bool timerSetupDone;
 extern hw_timer_t *EnergyModetimer;
 extern unsigned long lastKeyPressTime;
