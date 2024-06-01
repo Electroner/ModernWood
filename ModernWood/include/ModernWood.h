@@ -39,7 +39,7 @@ void saveUserConfiguration();
 
 #define LED_INDICATOR_ENABLED
 #define PIN_LED_INDICATOR 48 //Pin used to control the 
-#define NUMBER_OF_LEDS 1
+#define NUMBER_OF_LEDS 10
 extern Adafruit_NeoPixel RgbLED;
 
 extern int LedsBrightness;

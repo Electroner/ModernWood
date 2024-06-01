@@ -380,6 +380,7 @@ void WorkingModeKeyboard(TFT_eSPI &tft, BleKeyboard &bleKeyboard, USBHIDKeyboard
 			digitalWrite(COD1, nums0_15[i][1]);
 			digitalWrite(COD2, nums0_15[i][2]);
 			digitalWrite(COD3, nums0_15[i][3]);
+			delayMicroseconds(10); // Short delay for signal stabilization
 			for (int k = 0; k < KEYBOARDHEIGHT; k++)
 			{
 				SwicthFastState = !(digitalRead(ESwitch[k]));
@@ -407,6 +408,7 @@ void WorkingModeKeyboard(TFT_eSPI &tft, BleKeyboard &bleKeyboard, USBHIDKeyboard
 			digitalWrite(COD1, nums0_15[i][1]);
 			digitalWrite(COD2, nums0_15[i][2]);
 			digitalWrite(COD3, nums0_15[i][3]);
+			delayMicroseconds(10); // Short delay for signal stabilization
 			for (int k = 0; k < KEYBOARDHEIGHT; k++)
 			{
 				SwicthFastState = !(digitalRead(ESwitch[k]));
@@ -439,6 +441,7 @@ void WorkingModeDisplay(TFT_eSPI &tft, BleKeyboard &bleKeyboard, USBHIDKeyboard 
 		digitalWrite(COD1, nums0_15[i][1]);
 		digitalWrite(COD2, nums0_15[i][2]);
 		digitalWrite(COD3, nums0_15[i][3]);
+		delayMicroseconds(10); // Short delay for signal stabilization
 		for (int k = KeyMenuUpRow; k < KEYBOARDHEIGHT; k++)
 		{
 			int auxindex = 0;
@@ -485,6 +488,7 @@ void WorkingModeDisplay(TFT_eSPI &tft, BleKeyboard &bleKeyboard, USBHIDKeyboard 
 	digitalWrite(COD1, nums0_15[KeyMenuEnterCol][1]);
 	digitalWrite(COD2, nums0_15[KeyMenuEnterCol][2]);
 	digitalWrite(COD3, nums0_15[KeyMenuEnterCol][3]);
+	delayMicroseconds(10); // Short delay for signal stabilization
 	SwicthFastState = !(digitalRead(ESwitch[KeyMenuEnterRow]));
 	if (SwicthFastState && !KeysPressedConfigLast[ArrEnter] && (millis() - KeysPressedConfigDebounce[ArrEnter]) > TiempoDebounce)
 	{
@@ -505,6 +509,7 @@ void WorkingModeDisplay(TFT_eSPI &tft, BleKeyboard &bleKeyboard, USBHIDKeyboard 
 	digitalWrite(COD1, nums0_15[KeyMenuEscCol][1]);
 	digitalWrite(COD2, nums0_15[KeyMenuEscCol][2]);
 	digitalWrite(COD3, nums0_15[KeyMenuEscCol][3]);
+	delayMicroseconds(10); // Short delay for signal stabilization
 	SwicthFastState = !(digitalRead(ESwitch[KeyMenuEscRow]));
 	if (SwicthFastState && !KeysPressedConfigLast[ArrEsc] && (millis() - KeysPressedConfigDebounce[ArrEsc]) > TiempoDebounce)
 	{

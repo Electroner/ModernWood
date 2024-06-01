@@ -214,6 +214,11 @@ const uint8_t _asciimap[128] =
     0              // DEL
 };
 
+#define SHIFT 0x80
+#define ALT_GR 0xc0
+#define ISO_KEY 0x64
+#define ISO_REPLACEMENT 0x32
+
 size_t USBHIDKeyboard::pressRaw(uint8_t k) 
 {
     uint8_t i;
@@ -272,24 +277,51 @@ size_t USBHIDKeyboard::releaseRaw(uint8_t k)
 // to the persistent key report and sends the report.  Because of the way 
 // USB HID works, the host acts like the key remains pressed until we 
 // call release(), releaseAll(), or otherwise clear the report and resend.
-size_t USBHIDKeyboard::press(uint8_t k) 
+size_t USBHIDKeyboard::press(uint8_t k)
 {
-    if (k >= 0x88) {         // it's a non-printing key (not a modifier)
-        k = k - 0x88;
-    } else if (k >= 0x80) {  // it's a modifier key
-        _keyReport.modifiers |= (1<<(k-0x80));
-        k = 0;
-    } else {                // it's a printing key
-        k = _asciimap[k];
-        if (!k) {
-            return 0;
-        }
-        if (k & 0x80) {                     // it's a capital letter or other character reached with shift
-            _keyReport.modifiers |= 0x02;   // the left shift modifier
-            k &= 0x7F;
-        }
-    }
-    return pressRaw(k);
+	uint8_t i;
+	if (k >= 136) {			// it's a non-printing key (not a modifier)
+		k = k - 136;
+	} else if (k >= 128) {	// it's a modifier key
+		_keyReport.modifiers |= (1<<(k-128));
+		k = 0;
+	} else {				// it's a printing key
+		k = pgm_read_byte(_asciimap + k);
+		if (!k) {
+			setWriteError();
+			return 0;
+		}
+		if ((k & ALT_GR) == ALT_GR) {
+			_keyReport.modifiers |= 0x40;   // AltGr = right Alt
+			k &= 0x3F;
+		} else if ((k & SHIFT) == SHIFT) {
+			_keyReport.modifiers |= 0x02;	// the left shift modifier
+			k &= 0x7F;
+		}
+		if (k == ISO_REPLACEMENT) {
+			k = ISO_KEY;
+		}
+	}
+
+	// Add k to the key report only if it's not already present
+	// and if there is an empty slot.
+	if (_keyReport.keys[0] != k && _keyReport.keys[1] != k &&
+		_keyReport.keys[2] != k && _keyReport.keys[3] != k &&
+		_keyReport.keys[4] != k && _keyReport.keys[5] != k) {
+
+		for (i=0; i<6; i++) {
+			if (_keyReport.keys[i] == 0x00) {
+				_keyReport.keys[i] = k;
+				break;
+			}
+		}
+		if (i == 6) {
+			setWriteError();
+			return 0;
+		}
+	}
+	sendReport(&_keyReport);
+	return 1;
 }
 
 // release() takes the specified key out of the persistent key report and
@@ -297,23 +329,41 @@ size_t USBHIDKeyboard::press(uint8_t k)
 // it shouldn't be repeated any more.
 size_t USBHIDKeyboard::release(uint8_t k) 
 {
-    if (k >= 0x88) {         // it's a non-printing key (not a modifier)
-        k = k - 0x88;
-    } else if (k >= 0x80) {  // it's a modifier key
-        _keyReport.modifiers &= ~(1<<(k-0x80));
-        k = 0;
-    } else {                // it's a printing key
-        k = _asciimap[k];
-        if (!k) {
-            return 0;
-        }
-        if (k & 0x80) {                         // it's a capital letter or other character reached with shift
-            _keyReport.modifiers &= ~(0x02);    // the left shift modifier
-            k &= 0x7F;
-        }
-    }
-    return releaseRaw(k);
+	uint8_t i;
+	if (k >= 136) {			// it's a non-printing key (not a modifier)
+		k = k - 136;
+	} else if (k >= 128) {	// it's a modifier key
+		_keyReport.modifiers &= ~(1<<(k-128));
+		k = 0;
+	} else {				// it's a printing key
+		k = pgm_read_byte(_asciimap + k);
+		if (!k) {
+			return 0;
+		}
+		if ((k & ALT_GR) == ALT_GR) {
+			_keyReport.modifiers &= ~(0x40);   // AltGr = right Alt
+			k &= 0x3F;
+		} else if ((k & SHIFT) == SHIFT) {
+			_keyReport.modifiers &= ~(0x02);	// the left shift modifier
+			k &= 0x7F;
+		}
+		if (k == ISO_REPLACEMENT) {
+			k = ISO_KEY;
+		}
+	}
+
+	// Test the key report to see if k is present.  Clear it if it exists.
+	// Check all positions in case the key is present more than once (which it shouldn't be)
+	for (i=0; i<6; i++) {
+		if (0 != k && _keyReport.keys[i] == k) {
+			_keyReport.keys[i] = 0x00;
+		}
+	}
+
+	sendReport(&_keyReport);
+	return 1;
 }
+
 
 void USBHIDKeyboard::releaseAll(void)
 {
