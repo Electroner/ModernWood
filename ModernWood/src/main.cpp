@@ -76,9 +76,11 @@ void setup()
     LedsColor.CalculateRGB(); // Color is in int format from the EEPROM
     RgbLED.begin();
     float brightness = (*SubMenuBrightnessVar[_BrightnessLeds] / 100.0f);
-    RgbLED.setPixelColor(0, (int)(LedsColor.r * brightness),
-                         (int)(LedsColor.g * brightness),
-                         (int)(LedsColor.b * brightness));
+    for(int i = 0; i < NUMBER_OF_LEDS; i++) {
+        RgbLED.setPixelColor(i, (int)(LedsColor.r * brightness),
+                                (int)(LedsColor.g * brightness),
+                                (int)(LedsColor.b * brightness));
+    }
     if (*SubMenuLedsVar[_EnableLeds] == 0)
     {
         RgbLED.clear();
@@ -195,6 +197,13 @@ void loop()
     }
     Keyboard.begin();
     USB.begin();
+
+    //Release all keys
+    Keyboard.releaseAll();
+    if (bleKeyboard.isConnected())
+    {
+        bleKeyboard.releaseAll();
+    }
 
 #ifdef DEBUG
     Serial.println("USB and BLE Keyboards Started");

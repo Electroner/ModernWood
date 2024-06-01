@@ -58,7 +58,7 @@ void loadUserConfiguration(int Menu, int Option, bool OpenConfig = true)
 		break;
 
 	case 4:
-		*SubMenuConnectionVar[Option] = configurationModernWood.getInt(SubMenuConnectionKeys[Option].c_str(), *SubMenuConnectionVar[Option]);
+		// No configuration to load
 		break;
 
 	case 5:
@@ -113,7 +113,7 @@ void saveUserConfiguration(int Menu, int Option, bool OpenConfig = true)
 		configurationModernWood.putInt(SubMenuEnergyKeys[Option].c_str(), *SubMenuEnergyVar[Option]);
 		break;
 	case 4:
-		configurationModernWood.putInt(SubMenuConnectionKeys[Option].c_str(), *SubMenuConnectionVar[Option]);
+		// No configuration to save
 		break;
 	case 5:
 		// No configuration to save
@@ -255,9 +255,11 @@ void wakeupHandler()
 
 	// Turn on the RGB LEDs
 	float brightness = (*SubMenuBrightnessVar[_BrightnessLeds] / 100.0f);
-	RgbLED.setPixelColor(0, (int)(LedsColor.r * brightness),
-						 (int)(LedsColor.g * brightness),
-						 (int)(LedsColor.b * brightness));
+	for(int i = 0; i < NUMBER_OF_LEDS; i++) {
+        RgbLED.setPixelColor(i, (int)(LedsColor.r * brightness),
+                                (int)(LedsColor.g * brightness),
+                                (int)(LedsColor.b * brightness));
+    }
 	if (*SubMenuLedsVar[_EnableLeds] == 0)
 	{
 		RgbLED.clear();
@@ -400,7 +402,7 @@ void WorkingModeKeyboard(TFT_eSPI &tft, BleKeyboard &bleKeyboard, USBHIDKeyboard
 			}
 		}
 	}
-	else if (!isUSBConnected && !isUSBPreferred)
+	else if (!isUSBPreferred)
 	{
 		for (int i = 0; i < KEYBOARDWIDTH; i++)
 		{
@@ -1252,7 +1254,7 @@ void ApplyChanges(int Menu, int SubMenu)
 		float brightness = (*SubMenuBrightnessVar[_BrightnessLeds] / 100.0f);
 		for (int i = 0; i < NUMBER_OF_LEDS; i++)
 		{
-			RgbLED.setPixelColor(0, (int)(LedsColor.r * brightness),
+			RgbLED.setPixelColor(i, (int)(LedsColor.r * brightness),
 								 (int)(LedsColor.g * brightness),
 								 (int)(LedsColor.b * brightness));
 		}
