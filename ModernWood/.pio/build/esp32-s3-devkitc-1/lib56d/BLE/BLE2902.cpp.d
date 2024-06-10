@@ -1,6 +1,6 @@
 .pio/build/esp32-s3-devkitc-1/lib56d/BLE/BLE2902.cpp.o: \
  C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/libraries/BLE/src/BLE2902.cpp \
- C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/qio_qspi/include/sdkconfig.h \
+ C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/dio_qspi/include/sdkconfig.h \
  C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/libraries/BLE/src/BLE2902.h \
  C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/libraries/BLE/src/BLEDescriptor.h \
  C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/libraries/BLE/src/BLEUUID.h \

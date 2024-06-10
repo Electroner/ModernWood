@@ -1,6 +1,6 @@
 .pio/build/esp32-s3-devkitc-1/lib56d/BLE/BLEHIDDevice.cpp.o: \
  C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/libraries/BLE/src/BLEHIDDevice.cpp \
- C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/qio_qspi/include/sdkconfig.h \
+ C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/dio_qspi/include/sdkconfig.h \
  C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/libraries/BLE/src/BLEHIDDevice.h \
  C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/libraries/BLE/src/BLECharacteristic.h \
  C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/libraries/BLE/src/BLEUUID.h \

@@ -2,7 +2,7 @@
  .pio/libdeps/esp32-s3-devkitc-1/NimBLE-Arduino/src/nimble/nimble/host/src/ble_hs_mqueue.c \
  .pio/libdeps/esp32-s3-devkitc-1/NimBLE-Arduino/src/nimble/nimble/host/src/ble_hs_priv.h \
  C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/newlib/platform_include/assert.h \
- C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/qio_qspi/include/sdkconfig.h \
+ C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/dio_qspi/include/sdkconfig.h \
  .pio/libdeps/esp32-s3-devkitc-1/NimBLE-Arduino/src/nimble/nimble/host/src/ble_att_cmd_priv.h \
  .pio/libdeps/esp32-s3-devkitc-1/NimBLE-Arduino/src/nimble/porting/nimble/include/os/os_mbuf.h \
  .pio/libdeps/esp32-s3-devkitc-1/NimBLE-Arduino/src/nimble/porting/nimble/include/os/os.h \

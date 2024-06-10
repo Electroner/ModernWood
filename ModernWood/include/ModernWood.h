@@ -10,6 +10,7 @@
 #include <TFT_eSPI.h>
 // For wifi disable
 #include <WiFi.h>
+#include "esp_bt_main.h"
 #include <Adafruit_NeoPixel.h>
 
 #include <Keys.h>
@@ -97,7 +98,8 @@ void wakeupHandler();
 extern int BLEEnabled;
 extern int isBLEPreferred;
 extern int isUSBPreferred;
-extern bool connectionChanged;
+extern bool connectionChanged; // For changing the display when the connection changes
+extern bool isBluetoothOn;
 
 extern bool volatile isUSBConnected;
 extern bool volatile isBLEConnected;

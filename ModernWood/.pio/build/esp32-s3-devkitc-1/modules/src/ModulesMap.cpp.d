@@ -385,6 +385,7 @@
  C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/libraries/WiFi/src/WiFiUdp.h \
  C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/Udp.h \
  C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/cores/esp32/cbuf.h \
+ C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/bt/host/bluedroid/api/include/api/esp_bt_main.h \
  .pio/libdeps/esp32-s3-devkitc-1/Adafruit\ NeoPixel/Adafruit_NeoPixel.h \
  include/Keys.h include/Images.h include/Extra.h include/customRGB.h \
  C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/libraries/Preferences/src/Preferences.h \

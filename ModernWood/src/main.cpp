@@ -31,9 +31,6 @@ void setup()
     Serial.println("ModernWood Keyboard");
 #endif
 
-    // Disable Bluetooth Function
-    // btStop();
-
     // Battery
 #ifdef BATTERY_CHECK
     // Create a timer object using hw_timer_t
@@ -194,6 +191,10 @@ void loop()
     if (BLEEnabled)
     {
         bleKeyboard.begin();
+        isBluetoothOn = true;
+#ifdef DEBUG
+        Serial.println("BLE Keyboard Started");
+#endif
     }
     Keyboard.begin();
     USB.begin();
@@ -206,7 +207,6 @@ void loop()
     }
 
 #ifdef DEBUG
-    Serial.println("USB and BLE Keyboards Started");
     unsigned int loop_counter = 0;
     unsigned int last_loop_time = millis();
     unsigned int secs = 0;
@@ -580,23 +580,6 @@ void loop()
                         printMenuOptionNumber(tft, i, false);
                     }
 
-                    // Function to set configuration of the keyboard (check BLEEnabled)
-                    if (!BLEEnabled && btStarted())
-                    {
-#ifdef DEBUG
-                        Serial.println("BLE Keyboard Stopped");
-#endif
-                        btStop();
-                    }
-                    else if (BLEEnabled && !btStarted())
-                    {
-#ifdef DEBUG
-                        Serial.println("BLE Keyboard Started");
-#endif
-                        bleKeyboard.begin();
-                        btStart();
-                    }
-
                     // Here in the back to the Keyboard Mode we save the configuration if changed has been made
                     // Save the changes in the EEPROM opening the configuration descriptor
                     if (ChangedConfig)
@@ -615,6 +598,31 @@ void loop()
                         }
 
                         ChangedConfig = false;
+                    }
+
+                    // Function to set configuration of the keyboard (check BLEEnabled)
+                    if (!BLEEnabled && isBluetoothOn)
+                    {
+#ifdef DEBUG
+                        Serial.println("BLE Keyboard Stopped FN 1");
+#endif
+                        bleKeyboard.end();
+                        //TURN OFF THE BLUETOOTH
+                        btStop();
+                        isBluetoothOn = false;
+                    }
+                    else if (BLEEnabled && !isBluetoothOn)
+                    {
+#ifdef DEBUG
+                        Serial.println("BLE Keyboard Started FN 1");
+#endif
+                        btStart();
+                        bleKeyboard.begin();
+                        isBluetoothOn = true;
+
+                        // Restart Esp32S3
+                        // TODO: Try other way to start the BLE without restart
+                        ESP.restart();
                     }
                 }
                 WorkingModeKeyboard(tft, bleKeyboard, Keyboard, isBLEConnected, isUSBConnected);
@@ -660,23 +668,6 @@ void loop()
                     InMenu = true;
                     // Print the option selected
                     printMenuOptionNumber(tft, option_selected, true);
-
-                    // Function to set configuration of the keyboard (check BLEEnabled)
-                    if (!BLEEnabled && btStarted())
-                    {
-#ifdef DEBUG
-                        Serial.println("BLE Keyboard Stopped");
-#endif
-                        btStop();
-                    }
-                    else if (BLEEnabled && !btStarted())
-                    {
-#ifdef DEBUG
-                        Serial.println("BLE Keyboard Started");
-#endif
-                        bleKeyboard.begin();
-                        btStart();
-                    }
                 }
                 WorkingModeDisplay(tft, bleKeyboard, Keyboard, isBLEConnected, isUSBConnected);
             }

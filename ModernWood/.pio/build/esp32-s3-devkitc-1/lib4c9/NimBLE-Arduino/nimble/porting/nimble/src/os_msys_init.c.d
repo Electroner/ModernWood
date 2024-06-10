@@ -1,7 +1,7 @@
 .pio/build/esp32-s3-devkitc-1/lib4c9/NimBLE-Arduino/nimble/porting/nimble/src/os_msys_init.c.o: \
  .pio/libdeps/esp32-s3-devkitc-1/NimBLE-Arduino/src/nimble/porting/nimble/src/os_msys_init.c \
  C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/include/newlib/platform_include/assert.h \
- C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/qio_qspi/include/sdkconfig.h \
+ C:/Users/Clm/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32s3/dio_qspi/include/sdkconfig.h \
  .pio/libdeps/esp32-s3-devkitc-1/NimBLE-Arduino/src/nimble/porting/nimble/src/../include/os/os.h \
  .pio/libdeps/esp32-s3-devkitc-1/NimBLE-Arduino/src/nimble/porting/nimble/src/../include/os/../syscfg/syscfg.h \
  .pio/libdeps/esp32-s3-devkitc-1/NimBLE-Arduino/src/nimble/esp_port/port/include/esp_nimble_cfg.h \
