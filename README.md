@@ -11,8 +11,27 @@ Este además dispone de una pantalla donde se encontraran todas las configuracio
 
 ## Imagenes
 
-![TECLADO](https://github.com/Electroner/ModernWood/tree/main/Images/Product/01.jpg)
+![01](https://github.com/Electroner/ModernWood/tree/main/Images/Product/01.jpg)
 
+![02](https://github.com/Electroner/ModernWood/tree/main/Images/Product/02.jpg)
+
+![03](https://github.com/Electroner/ModernWood/tree/main/Images/Product/03.jpg)
+
+![04](https://github.com/Electroner/ModernWood/tree/main/Images/Product/04.jpg)
+
+![05](https://github.com/Electroner/ModernWood/tree/main/Images/Product/05.jpg)
+
+![06](https://github.com/Electroner/ModernWood/tree/main/Images/Product/06.jpg)
+
+![07](https://github.com/Electroner/ModernWood/tree/main/Images/Product/07.jpg)
+
+![08](https://github.com/Electroner/ModernWood/tree/main/Images/Product/08.jpg)
+
+![09](https://github.com/Electroner/ModernWood/tree/main/Images/Product/09.jpg)
+
+![10](https://github.com/Electroner/ModernWood/tree/main/Images/Product/10.jpg)
+
+![11](https://github.com/Electroner/ModernWood/tree/main/Images/Product/11.jpg)
 
 ![TECLADO](https://github.com/Electroner/ModernWood/blob/main/Images/ModernLogo.png)
 
