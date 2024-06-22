@@ -1,0 +1,4 @@
+negro -- 2
+rojo -- 1
+verde -- 3
+blanco/amarillo -- 4

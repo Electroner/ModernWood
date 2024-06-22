@@ -113,7 +113,7 @@ void saveUserConfiguration(int Menu, int Option, bool OpenConfig = true)
 		configurationModernWood.putInt(SubMenuEnergyKeys[Option].c_str(), *SubMenuEnergyVar[Option]);
 		break;
 	case 4:
-		// No configuration to save
+		configurationModernWood.putInt(SubMenuEnergyKeys[Option].c_str(), *SubMenuEnergyVar[Option]);
 		break;
 	case 5:
 		// No configuration to save
@@ -280,7 +280,7 @@ int BLEEnabled = 1; // 1 if BLE is enabled 0 if not
 int isBLEPreferred = 0;
 int isUSBPreferred = 1;
 bool connectionChanged = false;
-bool isBluetoothOn = true; // To know if the bluetooth is on or off
+bool isBluetoothOn = false; // To know if the bluetooth is on or off
 
 bool volatile isUSBConnected = true;
 bool volatile isBLEConnected = false;
@@ -289,14 +289,12 @@ bool volatile isBLEConnected = false;
 void IRAM_ATTR USBConnected()
 {
 	isUSBConnected = true;
-	isBLEConnected = false;
 }
 
 // Set the USB and BLE connected flags when Pin <PIN_USB_CONNECTED> is triggered FALLING
 void IRAM_ATTR USBDisconnected()
 {
 	isUSBConnected = false;
-	isBLEConnected = true;
 }
 
 // ################################################## DISPLAY ##################################################

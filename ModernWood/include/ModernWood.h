@@ -10,8 +10,10 @@
 #include <TFT_eSPI.h>
 // For wifi disable
 #include <WiFi.h>
+#include "esp_bt.h"
 #include "esp_bt_main.h"
 #include <Adafruit_NeoPixel.h>
+#include <NimBLEDevice.h>
 
 #include <Keys.h>
 #include <Images.h>

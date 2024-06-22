@@ -13,7 +13,8 @@
         "string_view": "cpp",
         "initializer_list": "cpp",
         "memory": "cpp",
-        "system_error": "cpp"
+        "system_error": "cpp",
+        "esp32-hal-bt.h": "c"
     },
     "idf.portWin": "COM4"
 }

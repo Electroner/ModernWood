@@ -236,6 +236,10 @@ void loop()
             secs++;
             Serial.print("Seconds: ");
             Serial.println(secs);
+
+            //Show bluetooth status
+            Serial.print("BLE Connected: ");
+            Serial.println(bleKeyboard.isConnected());
         }
 
         // Read from serial
@@ -512,6 +516,17 @@ void loop()
             // Display OFF
             analogWrite(BLK_SCREEN, LOW);
             displayChanged = false;
+        }
+
+        if(bleKeyboard.isConnected() && !isBLEConnected)
+        {
+            isBLEConnected = true;
+            connectionChanged = true;
+        }
+        else if(!bleKeyboard.isConnected() && isBLEConnected)
+        {
+            isBLEConnected = false;
+            connectionChanged = true;
         }
 
         if(Sleeping && goingToSleep && displayChanged)
