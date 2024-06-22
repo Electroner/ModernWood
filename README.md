@@ -15,27 +15,27 @@ Este además dispone de una pantalla donde se encontraran todas las configuracio
 
 ---------------------------------------------------------------------------------------------
 
-![01](https://github.com/Electroner/ModernWood/tree/main/Images/Product/01.jpg)
+![01](https://github.com/Electroner/ModernWood/blob/main/Images/Product/01.jpg?raw=true)
 
-![02](https://github.com/Electroner/ModernWood/tree/main/Images/Product/02.jpg)
+![02](https://github.com/Electroner/ModernWood/blob/main/Images/Product/02.jpg?raw=true)
 
-![03](https://github.com/Electroner/ModernWood/tree/main/Images/Product/03.jpg)
+![03](https://github.com/Electroner/ModernWood/blob/main/Images/Product/03.jpg?raw=true)
 
-![04](https://github.com/Electroner/ModernWood/tree/main/Images/Product/04.jpg)
+![04](https://github.com/Electroner/ModernWood/blob/main/Images/Product/04.jpg?raw=true)
 
-![05](https://github.com/Electroner/ModernWood/tree/main/Images/Product/05.jpg)
+![05](https://github.com/Electroner/ModernWood/blob/main/Images/Product/05.jpg?raw=true)
 
-![06](https://github.com/Electroner/ModernWood/tree/main/Images/Product/06.jpg)
+![06](https://github.com/Electroner/ModernWood/blob/main/Images/Product/06.jpg?raw=true)
 
-![07](https://github.com/Electroner/ModernWood/tree/main/Images/Product/07.jpg)
+![07](https://github.com/Electroner/ModernWood/blob/main/Images/Product/07.jpg?raw=true)
 
-![08](https://github.com/Electroner/ModernWood/tree/main/Images/Product/08.jpg)
+![08](https://github.com/Electroner/ModernWood/blob/main/Images/Product/08.jpg?raw=true)
 
-![09](https://github.com/Electroner/ModernWood/tree/main/Images/Product/09.jpg)
+![09](https://github.com/Electroner/ModernWood/blob/main/Images/Product/09.jpg?raw=true)
 
-![10](https://github.com/Electroner/ModernWood/tree/main/Images/Product/10.jpg)
+![10](https://github.com/Electroner/ModernWood/blob/main/Images/Product/10.jpg?raw=true)
 
-![11](https://github.com/Electroner/ModernWood/tree/main/Images/Product/11.jpg)
+![11](https://github.com/Electroner/ModernWood/blob/main/Images/Product/11.jpg?raw=true)
 
 ---------------------------------------------------------------------------------------------
 
