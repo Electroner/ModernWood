@@ -11,6 +11,10 @@ Este además dispone de una pantalla donde se encontraran todas las configuracio
 
 ## Imagenes
 
+![TECLADO](https://github.com/Electroner/ModernWood/blob/main/Images/ModernLogo.png)
+
+---------------------------------------------------------------------------------------------
+
 ![01](https://github.com/Electroner/ModernWood/tree/main/Images/Product/01.jpg)
 
 ![02](https://github.com/Electroner/ModernWood/tree/main/Images/Product/02.jpg)
@@ -32,8 +36,6 @@ Este además dispone de una pantalla donde se encontraran todas las configuracio
 ![10](https://github.com/Electroner/ModernWood/tree/main/Images/Product/10.jpg)
 
 ![11](https://github.com/Electroner/ModernWood/tree/main/Images/Product/11.jpg)
-
-![TECLADO](https://github.com/Electroner/ModernWood/blob/main/Images/ModernLogo.png)
 
 Vista Previa de la PCB:
 
