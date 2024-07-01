@@ -113,7 +113,7 @@ void saveUserConfiguration(int Menu, int Option, bool OpenConfig = true)
 		configurationModernWood.putInt(SubMenuEnergyKeys[Option].c_str(), *SubMenuEnergyVar[Option]);
 		break;
 	case 4:
-		configurationModernWood.putInt(SubMenuEnergyKeys[Option].c_str(), *SubMenuEnergyVar[Option]);
+		//configurationModernWood.putInt(SubMenuEnergyKeys[Option].c_str(), *SubMenuEnergyVar[Option]);
 		break;
 	case 5:
 		// No configuration to save
@@ -276,7 +276,7 @@ void wakeupHandler()
 
 // ################################################## USB HID ##################################################
 
-int BLEEnabled = 1; // 1 if BLE is enabled 0 if not
+int BLEEnabled = 0; // 1 if BLE is enabled 0 if not
 int isBLEPreferred = 0;
 int isUSBPreferred = 1;
 bool connectionChanged = false;
