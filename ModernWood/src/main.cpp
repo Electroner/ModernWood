@@ -256,33 +256,32 @@ void loop()
         // Q -> MODO ESPECIAL
         switch (c)
         {
-        case 'Q':
+        case '1':
             WorkingAsKeyboard = !WorkingAsKeyboard;
             interrupted_FN = true;
             break;
 
-        case 'E':
+        case '0':
             MenuPressed[ArrEsc] = true;
             break;
 
-        case ' ':
+        case '5':
             MenuPressed[ArrEnter] = true;
             break;
 
-        case 'W':
+        case '8':
             MenuPressed[ArrUp] = true;
             break;
 
-        case 'S':
-            MenuPressed[ArrDown] = true;
+        case '2':
             MenuPressed[ArrDown] = true;
             break;
 
-        case 'A':
+        case '4':
             MenuPressed[ArrLeft] = true;
             break;
 
-        case 'D':
+        case '6':
             MenuPressed[ArrRight] = true;
             break;
 
@@ -306,6 +305,21 @@ void loop()
             connectionChanged = true;
             isBLEConnected = !isBLEConnected;
             break;
+
+        case '5':
+            bleKeyboard.write
+
+        case ' ':
+            bleKeyboard.write(KEY_ESPACIO);
+
+        case 'A':
+            bleKeyboard.write(KEY_A);
+
+        case 'B':
+            bleKeyboard.write(KEY_B);
+
+        case 'C':
+            bleKeyboard.write(KEY_C);
 
         default:
             break;
@@ -504,14 +518,15 @@ void loop()
             connectionChanged = false;
         }
 
+        // TODO: Review WorkingAsKeyboard logic in the next lines
         // Display logic to update the display on/off and brightness
         if (*SubMenuConfigVar[_EnableDisplayOption] && displayChanged && !Sleeping)
         {
             // Set the brightness of the screen (ON)
-            analogWrite(BLK_SCREEN, *SubMenuBrightnessVar[_BrightnessDisplay] * 2.55);
+            analogWrite(BLK_SCREEN, (int)(*SubMenuBrightnessVar[_BrightnessDisplay] * 2.55));
             displayChanged = false;
         }
-        else if (displayChanged && !Sleeping)
+        else if (displayChanged && !Sleeping && WorkingAsKeyboard)
         {
             // Display OFF
             analogWrite(BLK_SCREEN, LOW);

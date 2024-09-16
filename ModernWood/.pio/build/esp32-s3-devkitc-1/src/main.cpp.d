@@ -396,4 +396,5 @@
  .pio/libdeps/esp32-s3-devkitc-1/NimBLE-Arduino/src/NimBLERemoteDescriptor.h \
  include/Keys.h include/Images.h include/Extra.h include/customRGB.h \
  C:/Users/Clm/.platformio/packages/framework-arduinoespressif32@3.20006.221224/libraries/Preferences/src/Preferences.h \
- modules/include/ModulesMap.h modules/include/Base.h
+ modules/include/ModulesMap.h modules/include/Base.h \
+ C:/Users/Clm/.platformio/packages/framework-arduinoespressif32@3.20006.221224/tools/sdk/esp32s3/include/driver/esp32s3/include/driver/temp_sensor.h
