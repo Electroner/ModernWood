@@ -1,4 +1,4 @@
-# ModernWood keyboard ![Generic badge](https://img.shields.io/badge/Version-1.0-brightgreen.svg) ![Generic badge](https://img.shields.io/github/last-commit/Electroner/ModernWood)
+# ModernWood keyboard ![Generic badge](https://img.shields.io/badge/Version-1.1-brightgreen.svg) ![Generic badge](https://img.shields.io/github/last-commit/Electroner/ModernWood)
 
 
 En este repositorio encontrarás desde los datasheet de cada parte que he usado hasta los archivos originales del AutoCAD, con todos los archivos descargados deberías ser capaz de poder crear y manufacturar este teclado sin ningún problema.
